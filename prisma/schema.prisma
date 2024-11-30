@@ -8,19 +8,11 @@ generator client {
   seed    = "../scripts/seed.ts"
 }
 
-// USER
-
-enum CategoryType {
-  COURSE
-  BLOG
-}
 
 enum UserRole {
   ADMIN
-  TEACHER
   USER
 }
-
 
 model Account {
   id                 String  @id @default(cuid())
@@ -94,19 +86,27 @@ model TwoFactorConfirmation {
   @@unique([userId])
 }
 
-// COURSE
-
-
-
-
-
-// BLOG
-
 // USER
 
 // ENUM 
 
 // VOITURE
+
+model Car {
+  id                String      @id @default(cuid()) // Identifiant unique
+  name              String?   // Nom de la voiture (ex: Toyota Corolla)
+  model             String?   // Modèle de la voiture (ex: 2020)
+  pricePerDay       Float?   // Prix de la location par jour
+  imageUrl          String?   // URL de l'image de la voiture
+  description       String?   // Description de la voiture
+  availability      Boolean  @default(true) // Indique si la voiture est disponible
+  fuelType          String?   // Type de carburant (ex: Diesel, Essence)
+  seats             Int?      // Nombre de sièges disponibles dans la voiture
+  transmission      String?   // Type de transmission (ex: Manuelle, Automatique)
+  isPublished       Boolean   @default(false) // "draft" or "published"
+  createdAt         DateTime @default(now()) // Date de création
+  updatedAt         DateTime @updatedAt // Date de la dernière mise à jour
+}
 
 // RESERVATION
 

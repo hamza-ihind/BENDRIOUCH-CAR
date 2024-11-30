@@ -107,115 +107,35 @@ const Navbar: React.FC = () => {
       : "/student/home";
 
   return (
-    <header className="flex h-16 w-full shrink-0 items-center px-32 max-lg:px-8 z-50 backdrop-blur-[25px] fixed justify-between border-b border-solid border-zinc-800">
+    <header className="flex h-16 w-full shrink-0 items-center px-32 max-lg:px-8 z-50 backdrop-blur-[25px] fixed justify-between border-b border-solid border-gray-800">
       <SidebarTrigger className="xl:hidden" />
 
       <div className="w-[150px] max-xl:hidden">
         <Link href="/">
-          <Image
-            src="/logo-dark.png"
-            alt="logo"
-            width={120}
-            height={20}
-            className="mr-8"
-          />
+          <Image height={130} width={130} alt="logo" src="/logoipsum.svg" />
         </Link>
       </div>
       <div className="flex w-full justify-start ml-8">
         <NavigationMenu className="max-xl:hidden">
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Académie</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                  <li className="row-span-3">
-                    <NavigationMenuLink asChild>
-                      <a
-                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                        href="/"
-                      >
-                        <Image
-                          src="/logo-black.svg"
-                          alt="logo"
-                          width={82}
-                          height={48}
-                        />
-                        <div className="mb-2 mt-4 text-lg font-medium">
-                          ALEPHNULL
-                        </div>
-                        <p className="text-sm leading-tight text-muted-foreground">
-                          Apprendre sans limites. Evoluer sans frontières.
-                        </p>
-                      </a>
-                    </NavigationMenuLink>
-                  </li>
-                  <ListItem href="/#about" title="Présentation ALEPHNULL">
-                    Découvrez ALEPHNULL et ses buts
-                  </ListItem>
-                  <ListItem href="/equipe" title="Notre Équipe">
-                    Rencontrez notre équipe et découvrez leur expertise.
-                  </ListItem>
-                  <ListItem href="/pricing" title="Nos Tarifs">
-                    Consultez les options de tarification et choisissez celle
-                    qui vous convient.
-                  </ListItem>
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>Espace Pratique</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                  {pratique.map((component) => (
-                    <ListItem
-                      key={component.title}
-                      title={component.title}
-                      href={component.href}
-                    >
-                      {component.description}
-                    </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>Microlearning</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                  {microLearning.map((component) => (
-                    <ListItem
-                      key={component.title}
-                      title={component.title}
-                      href={component.href}
-                    >
-                      {component.description}
-                    </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/Alephblog" passHref>
+              <Link href="/" passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Alephblog
+                  Accueil
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/Alephcom" passHref>
+              <Link href="/#ABOUT" passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Communités
+                  A propos
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link
-                href={dashboardLink}
-                onClick={() => toast({ description: "Hello there" })}
-                passHref
-              >
+              <Link href="/catalogue" passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Dashboard
+                  Catalogue
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>

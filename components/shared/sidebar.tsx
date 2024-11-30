@@ -32,72 +32,6 @@ interface ComponentItem {
   href: string;
   description: string;
 }
-const pratique: ComponentItem[] = [
-  {
-    title: "Espace Travaux Dirigés",
-    href: "/Pratique/TD",
-    description: "Exercices pour chaque module.",
-  },
-  {
-    title: "Espace Examens et Devoirs",
-    href: "/Pratique/DS",
-    description: "Exemples d'examens disponibles.",
-  },
-  {
-    title: "Espace Quizzes et Questionnaires",
-    href: "/Pratique/Quiz",
-    description: "Suivi de progression des tâches.",
-  },
-];
-
-const microLearning: ComponentItem[] = [
-  {
-    title: "Fiches Mémo",
-    href: "/cheats",
-    description: "Fiches de révision rapide et concise.",
-  },
-  {
-    title: "Cartes Mentales",
-    href: "/mindmaps",
-    description: "Représentations graphiques des concepts clés.",
-  },
-  {
-    title: "Boîte à Outils",
-    href: "/astuces",
-    description: "Conseils et astuces pratiques en mathématiques et physique.",
-  },
-];
-
-const resources: ComponentItem[] = [
-  {
-    title: "Nos Cours",
-    href: "/courses",
-    description: "Cours complets pour mieux apprendre.",
-  },
-  {
-    title: "Nos Articles",
-    href: "/blogs",
-    description: "Articles pour approfondir vos connaissances.",
-  },
-];
-
-const academie: ComponentItem[] = [
-  {
-    title: "ALEPHNULL",
-    href: "/",
-    description: "Plateforme de formation et de ressources.",
-  },
-  {
-    title: "Notre équipe",
-    href: "/team",
-    description: "Découvrez les membres de notre équipe.",
-  },
-  {
-    title: "Nos tarifs",
-    href: "/pricing",
-    description: "Consultez nos plans et abonnements.",
-  },
-];
 
 interface ListItemProps extends React.ComponentPropsWithoutRef<"a"> {
   title: string;
@@ -125,110 +59,32 @@ const ListItem: React.FC<ListItemProps> = ({ title, children, ...props }) => {
 
 export function AppSidebar() {
   return (
-    <Sidebar className="md:hidden">
-      <SidebarContent className="py-4 px-2">
+    <Sidebar className="md:hidden border-gray-800 z-50 backdrop-blur-3xl">
+      <SidebarContent className="py-4 px-2 border-gray-800">
         <SidebarGroup>
           <SidebarGroupLabel>
             <Image height={130} width={130} alt="logo" src="/logoipsum.svg" />
           </SidebarGroupLabel>
           <SidebarGroupContent className="mt-8">
             <SidebarMenu>
-              {/* Académie */}
-              <Collapsible className="group/collapsible">
-                <SidebarMenuItem>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton className="flex justify-between">
-                      <p className="text-base font-medium">Académie</p>
-                      <ChevronDown />
-                    </SidebarMenuButton>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      {academie.map((component) => (
-                        <ListItem
-                          key={component.title}
-                          title={component.title}
-                          href={component.href}
-                        >
-                          {component.description}
-                        </ListItem>
-                      ))}
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
-                </SidebarMenuItem>
-              </Collapsible>
-              {/* Ressources */}
-              <Collapsible className="group/collapsible">
-                <SidebarMenuItem>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton className="flex justify-between">
-                      <p className="text-base font-medium">Nos Ressources</p>
-                      <ChevronDown />
-                    </SidebarMenuButton>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      {resources.map((component) => (
-                        <ListItem
-                          key={component.title}
-                          title={component.title}
-                          href={component.href}
-                        >
-                          {component.description}
-                        </ListItem>
-                      ))}
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
-                </SidebarMenuItem>
-              </Collapsible>
-              {/* ESPACE PRATIQUE */}
-              <Collapsible className="group/collapsible">
-                <SidebarMenuItem>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton className="flex justify-between">
-                      <p className="text-base font-medium">Espace Pratique</p>
-                      <ChevronDown />
-                    </SidebarMenuButton>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      {pratique.map((component) => (
-                        <ListItem
-                          key={component.title}
-                          title={component.title}
-                          href={component.href}
-                        >
-                          {component.description}
-                        </ListItem>
-                      ))}
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
-                </SidebarMenuItem>
-              </Collapsible>
-              {/* MICROLEARNING */}
-              <Collapsible className="group/collapsible">
-                <SidebarMenuItem>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton className="flex justify-between">
-                      <p className="text-base font-medium">Microlearning</p>
-                      <ChevronDown />
-                    </SidebarMenuButton>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      {microLearning.map((component) => (
-                        <ListItem
-                          key={component.title}
-                          title={component.title}
-                          href={component.href}
-                        >
-                          {component.description}
-                        </ListItem>
-                      ))}
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
-                </SidebarMenuItem>
-              </Collapsible>
+              {/* Accueil */}
+              <SidebarMenuItem>
+                <SidebarMenuButton className="flex justify-between">
+                  <ListItem title="Acceuil" href="/" />
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              {/* A propos */}
+              <SidebarMenuItem>
+                <SidebarMenuButton className="flex justify-between">
+                  <ListItem title="A propos" href="/#ABOUT" />
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              {/*  */}
+              <SidebarMenuItem>
+                <SidebarMenuButton className="flex justify-between">
+                  <ListItem title="Catalogue" href="/catalogue" />
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
