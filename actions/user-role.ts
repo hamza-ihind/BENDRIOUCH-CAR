@@ -13,10 +13,10 @@ const DashboardRedirect = async () => {
   const userRole = session.user.role;
 
   // Redirect based on role
-  if (userRole === "ADMIN" || userRole === "TEACHER") {
-    return "/admin-dashboard";
+  if (userRole === "ADMIN") {
+    return "/admin";
   } else if (userRole === "USER") {
-    return "/student-dashboard";
+    return "/user";
   }
 };
 

@@ -36,17 +36,20 @@ model Account {
 
 model User {
   id                    String        @id @default(cuid())
-  username              String?
-  bio                   String?
-  phone                 String?
   firstName             String?
   lastName              String?
+  password              String?
+  phone                 String?
+  image                 String?
+  permis                String?
+  passport              String?
+  city                  String?
+  country               String?
+  birthday              DateTime?
   email                 String?       @unique
   emailVerified         DateTime?
-  image                 String?
-  password              String?
-  role                  UserRole      @default(USER)
   isOnboarded           Boolean       @default(false)
+  role                  UserRole      @default(USER)
   accounts              Account[]
   isTwoFactorEnabled    Boolean       @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
@@ -93,22 +96,18 @@ model TwoFactorConfirmation {
 // VOITURE
 
 model Car {
-  id                String      @id @default(cuid()) // Identifiant unique
-  name              String?   // Nom de la voiture (ex: Toyota Corolla)
-  model             String?   // Modèle de la voiture (ex: 2020)
-  pricePerDay       Float?   // Prix de la location par jour
-  imageUrl          String?   // URL de l'image de la voiture
-  description       String?   // Description de la voiture
-  availability      Boolean  @default(true) // Indique si la voiture est disponible
-  fuelType          String?   // Type de carburant (ex: Diesel, Essence)
-  seats             Int?      // Nombre de sièges disponibles dans la voiture
-  transmission      String?   // Type de transmission (ex: Manuelle, Automatique)
-  isPublished       Boolean   @default(false) // "draft" or "published"
-  createdAt         DateTime @default(now()) // Date de création
-  updatedAt         DateTime @updatedAt // Date de la dernière mise à jour
+  id                String      @id @default(cuid()) 
+  name              String?  
+  model             String? 
+  pricePerDay       Float?  
+  imageUrl          String?  
+  description       String?  
+  availability      Boolean     @default(true) 
+  fuelType          String?   
+  seats             String?      
+  transmission      String?   
+  isPublished       Boolean     @default(false)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
 }
 
-// RESERVATION
-
-// ACCOUNT
-// TOKEN - VERIFICATION - NEWPASSWORD - FORGETPASSWORD

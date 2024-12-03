@@ -59,7 +59,7 @@ const ListItem: React.FC<ListItemProps> = ({ title, children, ...props }) => {
 
 export function AppSidebar() {
   return (
-    <Sidebar className="md:hidden border-gray-800 z-50 backdrop-blur-3xl">
+    <Sidebar className="md:hidden border-gray-800 z-50 backdrop-blur-2xl bg-white">
       <SidebarContent className="py-4 px-2 border-gray-800">
         <SidebarGroup>
           <SidebarGroupLabel>

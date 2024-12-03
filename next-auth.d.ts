@@ -12,11 +12,12 @@ declare module "next-auth" {
       role: UserRole;
       firstName?: string;
       lastName?: string;
-      username?: string;
       phone?: string;
-      bio?: string;
       image?: string;
       email?: string;
+      birthday?: Date;
+      city?: string;
+      country?: string;
     };
   }
 
@@ -25,11 +26,12 @@ declare module "next-auth" {
     role?: UserRole;
     firstName?: string;
     lastName?: string;
-    username?: string;
     phone?: string;
-    bio?: string;
     image?: string;
     email?: string;
+    birthday?: Date;
+    city?: string;
+    country?: string;
   }
 }
 

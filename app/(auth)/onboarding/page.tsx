@@ -6,7 +6,7 @@ const page = async () => {
   const session = await auth();
 
   return (
-    <main className="w-full flex justify-evenly items-center mb-20">
+    <main className="w-full flex justify-center mt-32">
       <OnboardingForm />
     </main>
   );

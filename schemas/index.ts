@@ -34,9 +34,10 @@ export const OnboardingSchema = z.object({
   image: z.string().url().nonempty(),
   firstName: z.string().min(3),
   lastName: z.string().min(3),
-  username: z.string().min(3).max(30),
   phone: z.string().regex(phoneRegex, "Invalid Number!"),
-  bio: z.string().min(3).max(500),
+  city: z.string().min(2).max(50),
+  country: z.string().min(2).max(50),
+  birthday: z.date(),
 });
 
 export const PasswordSchema = z

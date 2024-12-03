@@ -18,49 +18,11 @@ export const ourFileRouter = {
     .middleware(() => handleAuth())
     .onUploadComplete(() => {}),
 
-  blogMedia: f(["image", "video", "audio"])
+  carImage: f(["image"])
     .middleware(() => handleAuth())
     .onUploadComplete(({ file }) => {
       return { url: file.url, name: file.name, size: file.size };
     }),
-
-  blogContent: f(["text"])
-    .middleware(() => handleAuth())
-    .onUploadComplete(({ file }) => {
-      return { url: file.url, name: file.name, size: file.size };
-    }),
-
-  blogImage: f({
-    image: { maxFileSize: "16MB", maxFileCount: 1 },
-  })
-    .middleware(() => handleAuth())
-    .onUploadComplete(() => {}),
-
-  courseImage: f({
-    image: { maxFileSize: "16MB", maxFileCount: 1 },
-  })
-    .middleware(() => handleAuth())
-    .onUploadComplete(() => {}),
-
-  courseAttachment: f([
-    "text",
-    "image",
-    "video",
-    "audio",
-    "pdf",
-    "application/msword",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  ])
-    .middleware(() => handleAuth())
-    .onUploadComplete(({ file }) => {
-      return { url: file.url, name: file.name, size: file.size };
-    }),
-
-  chapterVideo: f({
-    video: { maxFileCount: 1, maxFileSize: "512GB" },
-  })
-    .middleware(() => handleAuth())
-    .onUploadComplete(() => {}),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

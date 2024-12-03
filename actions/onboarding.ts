@@ -12,7 +12,7 @@ export const onboard = async (values: z.infer<typeof OnboardingSchema>) => {
     return { error: "Invalid fields!" };
   }
 
-  const { email, image, firstName, lastName, username, phone, bio } =
+  const { email, image, firstName, lastName, phone, city, country, birthday } =
     validatedFields.data;
 
   const existingUser = await getUserByEmail(email);
@@ -23,15 +23,17 @@ export const onboard = async (values: z.infer<typeof OnboardingSchema>) => {
 
   await db.user.update({
     where: {
-      id: existingUser?.id,
+      id: existingUser.id,
     },
     data: {
-      username,
       firstName,
       lastName,
       image,
       phone,
-      bio,
+      city,
+      country,
+      birthday,
+      isOnboarded: true,
     },
   });
 

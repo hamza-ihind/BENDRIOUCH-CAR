@@ -100,14 +100,8 @@ interface ListItemProps extends React.ComponentPropsWithoutRef<"a"> {
 const Navbar: React.FC = () => {
   const user = useCurrentUser();
 
-  // Determine the correct dashboard link
-  const dashboardLink =
-    user?.role === "ADMIN" || user?.role === "TEACHER"
-      ? "/teacher/home"
-      : "/student/home";
-
   return (
-    <header className="flex h-16 w-full shrink-0 items-center px-32 max-lg:px-8 z-50 backdrop-blur-[25px] fixed justify-between border-b border-solid border-gray-800">
+    <header className="flex h-16 w-full shrink-0 items-center px-32 max-lg:px-8 z-50 backdrop-blur-[25px] fixed justify-between border-b border-solid border-gray-800 bg-gray-200">
       <SidebarTrigger className="xl:hidden" />
 
       <div className="w-[150px] max-xl:hidden">
@@ -153,7 +147,7 @@ const Navbar: React.FC = () => {
         ) : (
           <div className="flex gap-4">
             <Link href="/sign-in" passHref>
-              <Button variant={"ghost"}>Se connecter</Button>
+              <Button variant={"outline"}>Se connecter</Button>
             </Link>
             <Link href="/sign-up" passHref>
               <Button variant={"default"}>S'inscrire</Button>

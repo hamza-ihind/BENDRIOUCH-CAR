@@ -57,25 +57,27 @@ export const {
       const userProfile = await prisma.user.findUnique({
         where: { email: session.user.email },
         select: {
-          bio: true,
           image: true,
           phone: true,
           role: true,
-          username: true,
           lastName: true,
           firstName: true,
+          birthday: true,
+          country: true,
+          city: true,
         },
       });
 
       session.user = {
         ...session.user,
-        bio: userProfile?.bio || undefined,
-        phone: userProfile?.phone || undefined,
-        role: userProfile?.role || "USER",
-        username: userProfile?.username || undefined,
         firstName: userProfile?.firstName || undefined,
         lastName: userProfile?.lastName || undefined,
         image: userProfile?.image || undefined,
+        role: userProfile?.role || "USER",
+        phone: userProfile?.phone || undefined,
+        city: userProfile?.city || undefined,
+        country: userProfile?.country || undefined,
+        birthday: userProfile?.birthday || undefined,
       };
 
       return session;

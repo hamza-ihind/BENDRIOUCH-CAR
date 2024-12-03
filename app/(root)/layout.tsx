@@ -21,10 +21,8 @@ export default async function RootLayout({
   return (
     <SidebarProvider defaultOpen={false}>
       <AppSidebar />
-      <main>
-        <Navbar />
-        {children}
-      </main>
+      <Navbar />
+      <main className="p-32">{children}</main>
     </SidebarProvider>
   );
 }
