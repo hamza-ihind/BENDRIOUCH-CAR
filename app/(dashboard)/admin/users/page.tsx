@@ -17,23 +17,18 @@ const page = async () => {
   const userId = session?.user.id;
 
   if (!userId) {
-    return redirect("/");
+    return redirect("/"); // Rediriger si l'utilisateur n'est pas connecté
   }
 
-  const users = await db.user.findMany();
+  const users = await db.user.findMany(); // Récupère tous les utilisateurs
 
   return (
-    <div className="w-full z-20 flex flex-col p-12">
+    <div className="w-full z-20 flex flex-col p-16 max-md:px-4 max-md:py-28">
       <DashboardPageTitle
         title="Gestion des utilisateurs"
-        description="Ravi de vous revoir! Gérez vos cours et suivez vos performances
-          facilement."
+        description="Bienvenue ! Gérez vos utilisateurs et suivez leurs performances facilement."
       />
       <Separator />
-      <div className="flex items-center gap-x-4 mb-8">
-        <IconBadge icon={GraduationCap} />
-        <h2 className="big-text">Gestion des étudiants</h2>
-      </div>
       <UsersTable columns={UsersColumns} data={users} />
     </div>
   );

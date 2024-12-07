@@ -14,6 +14,8 @@ declare module "next-auth" {
       lastName?: string;
       phone?: string;
       image?: string;
+      permis?: string;
+      passport?: string;
       email?: string;
       birthday?: Date;
       city?: string;
@@ -28,6 +30,8 @@ declare module "next-auth" {
     lastName?: string;
     phone?: string;
     image?: string;
+    permis?: string;
+    passport?: string;
     email?: string;
     birthday?: Date;
     city?: string;

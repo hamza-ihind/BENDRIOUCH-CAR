@@ -23,7 +23,7 @@ export const ImageForm = ({ initialData, carId }: ImageFormProps) => {
   const handleImageUpload = async (url: string) => {
     try {
       await axios.patch(`/api/cars/${carId}`, { imageUrl: url });
-      toast.success("Image de voiture mise à jour");
+      toast.success("Image de la voiture mise à jour");
       setImageUrl(url);
       setIsEditing(false);
       router.refresh();
@@ -35,7 +35,7 @@ export const ImageForm = ({ initialData, carId }: ImageFormProps) => {
   const handleDeleteImage = async () => {
     try {
       await axios.patch(`/api/cars/${carId}`, { imageUrl: "" });
-      toast.success("Image de voiture supprimée");
+      toast.success("Image de la voiture supprimée");
       setImageUrl("");
       setIsEditing(true);
     } catch {
@@ -49,7 +49,7 @@ export const ImageForm = ({ initialData, carId }: ImageFormProps) => {
         <div>
           <div className="relative aspect-video mt-4">
             <Image
-              alt="Car Image"
+              alt="Image de la voiture"
               fill
               className="object-cover rounded-md"
               src={imageUrl}

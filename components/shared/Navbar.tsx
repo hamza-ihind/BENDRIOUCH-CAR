@@ -101,7 +101,7 @@ const Navbar: React.FC = () => {
   const user = useCurrentUser();
 
   return (
-    <header className="flex h-16 w-full shrink-0 items-center px-32 max-lg:px-8 z-50 backdrop-blur-[25px] fixed justify-between border-b border-solid border-gray-800 bg-gray-200">
+    <header className="flex h-16 w-full shrink-0 items-center px-48 max-lg:px-8 z-50 backdrop-blur-[25px] fixed justify-between border-b border-solid border-gray-800 bg-gray-200">
       <SidebarTrigger className="xl:hidden" />
 
       <div className="w-[150px] max-xl:hidden">

@@ -60,17 +60,17 @@ export function DataTable<TData, TValue>({
     <div className="w-full">
       <div className="flex items-center py-4 gap-16 justify-between">
         <Input
-          placeholder="Filtrer les cours..."
+          placeholder="Filtrer les voitures..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
-        <Link href="/teacher/create-course">
+        <Link href="/admin/create-car">
           <Button>
             <Plus className="h-4 w-4 mr-2" />
-            Nouveau cours
+            Nouvelle voiture
           </Button>
         </Link>
       </div>

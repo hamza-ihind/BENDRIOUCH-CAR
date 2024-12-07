@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   availability: z.boolean({
-    required_error: "Please select the availability status.",
+    required_error: "Veuillez sélectionner le statut de disponibilité.",
   }),
 });
 
@@ -45,10 +45,10 @@ export function AvailabilityForm({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/cars/${carId}`, values);
-      toast.success("Car availability updated");
+      toast.success("Disponibilité de la voiture mise à jour");
       router.refresh();
     } catch {
-      toast.error("An error occurred!");
+      toast.error("Une erreur s'est produite !");
     }
   };
 
@@ -64,7 +64,7 @@ export function AvailabilityForm({
             name="availability"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xl">Availability</FormLabel>
+                <FormLabel className="text-xl">Disponibilité</FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={(value) => field.onChange(value === "true")}
@@ -75,14 +75,14 @@ export function AvailabilityForm({
                       <FormControl>
                         <RadioGroupItem value="true" />
                       </FormControl>
-                      <FormLabel className="font-normal">Available</FormLabel>
+                      <FormLabel className="font-normal">Disponible</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
                         <RadioGroupItem value="false" />
                       </FormControl>
                       <FormLabel className="font-normal">
-                        Not Available
+                        Non disponible
                       </FormLabel>
                     </FormItem>
                   </RadioGroup>

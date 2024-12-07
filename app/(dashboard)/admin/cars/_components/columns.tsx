@@ -24,7 +24,7 @@ export const columns: ColumnDef<Car>[] = [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Name
+        Nom du Voiture
         <ChevronsUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -38,7 +38,7 @@ export const columns: ColumnDef<Car>[] = [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Model
+        Modèle
         <ChevronsUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -52,7 +52,7 @@ export const columns: ColumnDef<Car>[] = [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Price per Day
+        Prix par jour
         <ChevronsUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -71,7 +71,7 @@ export const columns: ColumnDef<Car>[] = [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Availability
+        Disponibilité
         <ChevronsUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -87,7 +87,7 @@ export const columns: ColumnDef<Car>[] = [
               : "text-red-400 ring-red-500/20"
           )}
         >
-          {isAvailable ? "Available" : "Not Available"}
+          {isAvailable ? "Disponible" : "Pas disponible"}
         </Badge>
       );
     },
@@ -100,7 +100,7 @@ export const columns: ColumnDef<Car>[] = [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Fuel Type
+        Carburant
         <ChevronsUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -113,7 +113,7 @@ export const columns: ColumnDef<Car>[] = [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Seats
+        Sièges
         <ChevronsUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -139,7 +139,7 @@ export const columns: ColumnDef<Car>[] = [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Published
+        Publiée?
         <ChevronsUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -155,7 +155,7 @@ export const columns: ColumnDef<Car>[] = [
               : "text-gray-400 ring-gray-500/20"
           )}
         >
-          {isPublished ? "Published" : "Draft"}
+          {isPublished ? "Publiée" : "Brouillon"}
         </Badge>
       );
     },
@@ -168,7 +168,7 @@ export const columns: ColumnDef<Car>[] = [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Created At
+        Crée à
         <ChevronsUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -197,10 +197,10 @@ export const columns: ColumnDef<Car>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <Link href={`/cars/${id}`}>
+            <Link href={`/admin/cars/${id}`}>
               <DropdownMenuItem>
                 <Pencil className="h-4 w-4 mr-2" />
-                Edit
+                Modifier
               </DropdownMenuItem>
             </Link>
           </DropdownMenuContent>

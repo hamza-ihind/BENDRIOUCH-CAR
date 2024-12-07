@@ -1,5 +1,3 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,11 +14,11 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Car } from "@prisma/client";
 import axios from "axios";
-import { useRouter, redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   transmission: z.enum(["Automatic", "Manual"], {
-    required_error: "Please select a transmission type.",
+    required_error: "Veuillez sélectionner un type de transmission.",
   }),
 });
 
@@ -38,17 +36,20 @@ export function TransmissionForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      transmission: initialData?.transmission || "Manual",
+      transmission: initialData?.transmission as
+        | "Automatic"
+        | "Manual"
+        | undefined, // Cast explicite
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/cars/${carId}`, values);
-      toast.success("Voiture mise à jour");
+      toast.success("Voiture mise à jour avec succès");
       router.refresh();
     } catch {
-      toast.error("Une erreur s'est produite !");
+      toast.error("Une erreur est survenue !");
     }
   };
 
@@ -75,13 +76,13 @@ export function TransmissionForm({
                       <FormControl>
                         <RadioGroupItem value="Automatic" />
                       </FormControl>
-                      <FormLabel className="font-normal">Automatic</FormLabel>
+                      <FormLabel className="font-normal">Automatique</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
                         <RadioGroupItem value="Manual" />
                       </FormControl>
-                      <FormLabel className="font-normal">Manual</FormLabel>
+                      <FormLabel className="font-normal">Manuelle</FormLabel>
                     </FormItem>
                   </RadioGroup>
                 </FormControl>

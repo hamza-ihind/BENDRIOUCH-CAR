@@ -68,12 +68,12 @@ export const DescriptionForm = ({
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormLabel className="text-xl">
-                  Description du voiture
+                  Description de la voiture
                 </FormLabel>
                 <FormControl>
                   <Textarea
                     disabled={isSubmitting}
-                    placeholder="e.g., 'Cette voiture est un modèle sportif...'"
+                    placeholder="ex. 'Cette voiture est un modèle sportif...'"
                     {...field}
                   />
                 </FormControl>

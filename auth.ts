@@ -64,6 +64,8 @@ export const {
           firstName: true,
           birthday: true,
           country: true,
+          permis: true,
+          passport: true,
           city: true,
         },
       });
@@ -73,6 +75,8 @@ export const {
         firstName: userProfile?.firstName || undefined,
         lastName: userProfile?.lastName || undefined,
         image: userProfile?.image || undefined,
+        permis: userProfile?.permis || undefined,
+        passport: userProfile?.passport || undefined,
         role: userProfile?.role || "USER",
         phone: userProfile?.phone || undefined,
         city: userProfile?.city || undefined,

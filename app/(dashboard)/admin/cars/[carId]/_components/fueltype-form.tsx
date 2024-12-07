@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   fuelType: z.enum(["Essence", "Diesel"], {
-    required_error: "Please select a fuel type.",
+    required_error: "Veuillez sélectionner un type de carburant.",
   }),
 });
 
@@ -35,7 +35,7 @@ export function FuelTypeForm({ carId, initialData }: FuelTypeFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fuelType: initialData?.fuelType || undefined,
+      fuelType: initialData?.fuelType as "Essence" | "Diesel" | undefined,
     },
   });
 

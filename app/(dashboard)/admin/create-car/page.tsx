@@ -49,8 +49,8 @@ const page = () => {
   };
 
   return (
-    <div className="w-full h-[100vh] justify-center items-center max-xl:items-start z-20 flex flex-col">
-      <div>
+    <div className="w-full h-[100vh] justify-center items-center max-xl:items-start z-20 flex flex-col max-md:px-4">
+      <div className="flex items-start flex-col">
         <h1 className="text-6xl font-bold dark:text-white text-black max-xl:text-5xl">
           Nommez votre voiture
         </h1>

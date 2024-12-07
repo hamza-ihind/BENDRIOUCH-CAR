@@ -46,7 +46,7 @@ export const columns: ColumnDef<User>[] = [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Étudiant
+        Utilisateur
         <ChevronsUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -121,6 +121,7 @@ export const columns: ColumnDef<User>[] = [
     cell: ({ row }) => {
       const { id } = row.original;
 
+      // ADD DELETE FUNCTION
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

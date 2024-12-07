@@ -11,7 +11,7 @@ const CarsList = ({ cars }: { cars: Car[] }) => {
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {cars.map((car) => (
         <CarCard
-          key={car.id} // Ensure a unique key for each car card
+          key={car.id}
           name={car.name || "Unnamed Car"}
           model={car.model || "Unknown Model"}
           pricePerDay={car.pricePerDay || 0}
@@ -19,7 +19,7 @@ const CarsList = ({ cars }: { cars: Car[] }) => {
           fuelType={car.fuelType || "N/A"}
           transmission={car.transmission || "N/A"}
           availability={car.availability}
-          imageUrl={car.imageUrl || "/default-image.png"} // Provide a fallback image URL
+          imageUrl={car.imageUrl || "/default-image.png"}
         />
       ))}
     </div>

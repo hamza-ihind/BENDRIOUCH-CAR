@@ -13,6 +13,8 @@ export function useCurrentUser() {
     phone: session.user?.phone,
     email: session.user?.email,
     image: session.user?.image,
+    permis: session.user?.permis,
+    passport: session.user?.passport,
     birthday: session.user?.birthday,
     country: session.user?.country,
     city: session.user?.city,

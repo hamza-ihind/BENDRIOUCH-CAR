@@ -45,10 +45,10 @@ export const PriceForm = ({ initialData, carId }: PriceFormProps) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/cars/${carId}`, values);
-      toast.success("Prix de la voiture mis à jour");
+      toast.success("Le prix de location de la voiture a été mis à jour");
       router.refresh();
     } catch {
-      toast.error("Une erreur s'est produite!");
+      toast.error("Une erreur est survenue !");
     }
   };
 

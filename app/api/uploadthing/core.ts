@@ -18,7 +18,19 @@ export const ourFileRouter = {
     .middleware(() => handleAuth())
     .onUploadComplete(() => {}),
 
-  carImage: f(["image"])
+  carImage: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
+    .middleware(() => handleAuth())
+    .onUploadComplete(({ file }) => {
+      return { url: file.url, name: file.name, size: file.size };
+    }),
+
+  permis: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
+    .middleware(() => handleAuth())
+    .onUploadComplete(({ file }) => {
+      return { url: file.url, name: file.name, size: file.size };
+    }),
+
+  passport: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
     .middleware(() => handleAuth())
     .onUploadComplete(({ file }) => {
       return { url: file.url, name: file.name, size: file.size };

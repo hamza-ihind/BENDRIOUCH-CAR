@@ -104,10 +104,28 @@ model Car {
   description       String?  
   availability      Boolean     @default(true) 
   fuelType          String?   
-  seats             String?      
+  seats             Float?      
   transmission      String?   
   isPublished       Boolean     @default(false)
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
 }
 
+model Reservation {
+  id              String   @id @default(cuid())
+  flightNumber    String?
+  startDate       DateTime
+  endDate         DateTime
+  status          ReservationStatus @default(PENDING)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  userId          String
+  carId           String?
+  @@map("reservations")
+}
+
+enum ReservationStatus {
+  PENDING
+  CANCELLED
+  CONFIRMED
+}

@@ -20,12 +20,12 @@ import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   seats: z
-    .string()
+    .number()
     .min(1, {
-      message: "Please provide a valid number of seats (at least 1).",
+      message: "Veuillez fournir un nombre valide de sièges (au moins 1).",
     })
     .max(100, {
-      message: "Seats should not exceed 100.",
+      message: "Le nombre de sièges ne doit pas dépasser 100.",
     }),
 });
 
@@ -40,7 +40,7 @@ export function SeatsForm({ carId, initialData }: SeatsFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      seats: initialData?.seats || "",
+      seats: initialData?.seats || 0,
     },
   });
 
@@ -49,10 +49,10 @@ export function SeatsForm({ carId, initialData }: SeatsFormProps) {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/cars/${carId}`, values);
-      toast.success("Car seats updated");
+      toast.success("Le nombre de sièges de la voiture a été mis à jour");
       router.refresh();
     } catch {
-      toast.error("An error occurred!");
+      toast.error("Une erreur est survenue !");
     }
   };
 
@@ -68,7 +68,7 @@ export function SeatsForm({ carId, initialData }: SeatsFormProps) {
             name="seats"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="text-xl">Sièges du voiture</FormLabel>
+                <FormLabel className="text-xl">Sièges de la voiture</FormLabel>
                 <FormControl>
                   <Input disabled={isSubmitting} placeholder="9" {...field} />
                 </FormControl>

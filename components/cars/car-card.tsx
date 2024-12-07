@@ -5,14 +5,14 @@ import { Separator } from "../ui/separator";
 import { Antenna, Armchair, Fuel } from "lucide-react";
 
 interface CarProps {
-  name: String;
-  model: String;
-  pricePerDay: Number;
-  imageUrl: String;
-  availability: Boolean;
-  fuelType: String;
-  seats: Number;
-  transmission: String;
+  name: string;
+  model: string;
+  pricePerDay: number;
+  imageUrl: string;
+  availability: boolean;
+  fuelType: string;
+  seats: number;
+  transmission: string;
 }
 
 const CarCard = ({
@@ -25,7 +25,9 @@ const CarCard = ({
   transmission,
   imageUrl,
 }: CarProps) => {
-  const stringavailable = availability ? "available now" : "not available";
+  const stringavailable = availability
+    ? "Disponible maintenant"
+    : "Pas disponible";
 
   return (
     <div className="w-full border border-color p-4 rounded-xl">
@@ -67,7 +69,7 @@ const CarCard = ({
         </div>
         <div className="flex gap-2 text-black dark:text-white text-base items-center">
           <Armchair className="h-5 w-5 text-blue-600" />
-          {String(seats)}
+          {seats}
         </div>
         <div className="flex gap-2 text-black dark:text-white text-base items-center">
           <Antenna className="h-5 w-5 text-blue-600" />

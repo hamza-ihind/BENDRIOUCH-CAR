@@ -29,9 +29,9 @@ export const RegisterSchema = z.object({
     .max(20, { message: "Le mot de passe est trop long!" }),
 });
 
-export const OnboardingSchema = z.object({
+export const PersonalInfoSchema = z.object({
+  image: z.string(),
   email: z.string().email(),
-  image: z.string().url().nonempty(),
   firstName: z.string().min(3),
   lastName: z.string().min(3),
   phone: z.string().regex(phoneRegex, "Invalid Number!"),

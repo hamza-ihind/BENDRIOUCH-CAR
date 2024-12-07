@@ -1,9 +1,8 @@
 "use client";
 
-import { onboard } from "@/actions/onboarding";
 import { useUploadThing } from "@/lib/uploadthing";
 import { cn, isBase64Image } from "@/lib/utils";
-import { OnboardingSchema } from "@/schemas";
+import { PersonalInfoSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, usePathname } from "next/navigation";
 import React, { useEffect, useState, useTransition } from "react";
@@ -39,8 +38,13 @@ import { z } from "zod";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
+import { User } from "@prisma/client";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-const PersonalInfoForm = ({ user }: { user: any }) => {
+import { useCurrentUser } from "@/hooks/use-current-user";
+
+const PersonalInfoForm = ({ currentUser }: { currentUser: any }) => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
@@ -52,17 +56,19 @@ const PersonalInfoForm = ({ user }: { user: any }) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const form = useForm<z.infer<typeof OnboardingSchema>>({
-    resolver: zodResolver(OnboardingSchema),
+  const user = useCurrentUser();
+
+  const form = useForm<z.infer<typeof PersonalInfoSchema>>({
+    resolver: zodResolver(PersonalInfoSchema),
     defaultValues: {
-      email: user?.email || "",
-      image: user?.image || "",
-      firstName: user?.firstName || "",
-      lastName: user?.lastName || "",
-      phone: user?.phone || "",
-      country: user?.country || "",
-      city: user?.city || "",
-      birthday: user?.birthday || Date.now(),
+      image: currentUser?.image || "",
+      firstName: currentUser?.firstName || "",
+      lastName: currentUser?.lastName || "",
+      email: currentUser?.email || "",
+      phone: currentUser?.phone || "",
+      city: currentUser?.city || "",
+      country: currentUser?.country || "",
+      birthday: currentUser?.birthday || new Date(),
     },
   });
 
@@ -77,7 +83,6 @@ const PersonalInfoForm = ({ user }: { user: any }) => {
       .catch((err) => console.error(err));
   }, []);
 
-  // Update cities when country is selected
   useEffect(() => {
     if (selectedCountry && countriesAndCities[selectedCountry]) {
       setCities(countriesAndCities[selectedCountry]);
@@ -86,25 +91,16 @@ const PersonalInfoForm = ({ user }: { user: any }) => {
     }
   }, [selectedCountry, countriesAndCities]);
 
-  const onSubmit = async (values: z.infer<typeof OnboardingSchema>) => {
-    const blob = values.image;
-    const hasImageChanged = isBase64Image(blob);
-    // if (hasImageChanged) {
-    //   const imgRes = await startUpload(files);
-    //   if (imgRes && imgRes[0].fileUrl) {
-    //     values.image = imgRes[0].fileUrl;
-    //   }
-    // }
-    startTransition(() => {
-      onboard(values)
-        .then((data) => {
-          setError(data.error);
-          setSuccess(data.success);
-        })
-        .catch(() => setError("something went wrong!"));
-    });
+  const { isSubmitting, isValid } = form.formState;
 
-    router.refresh();
+  const onSubmit = async (values: z.infer<typeof PersonalInfoSchema>) => {
+    try {
+      await axios.patch(`/api/users`, values);
+      toast.success("Informations mise à jour");
+      router.refresh();
+    } catch {
+      toast.error("Une erreur s'est produite !");
+    }
   };
 
   return (
@@ -114,177 +110,170 @@ const PersonalInfoForm = ({ user }: { user: any }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full flex flex-col space-y-6"
         >
-          <div className="W-full space-y-8">
-            <FormField
-              control={form.control}
-              name="image"
-              render={({ field }) => (
-                <ProfileImage
-                  value={field.value}
-                  onChange={(e) => handleImage(e, field.onChange)}
-                />
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="firstName"
-              render={({ field }) => (
-                <FormItem className="mt-8 w-full grid grid-cols-[1fr_3fr] space-x-12 max-xl:grid-cols-1 max-xl:space-x-0 max-xl:space-y-4 items-center">
-                  <FormLabel>Prénom</FormLabel>
-                  <FormControl className="w-auto">
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="Votre prénom..."
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <FormField
+            control={form.control}
+            name="firstName"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel className="text-xl">Prénom</FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isSubmitting}
+                    placeholder="Votre prénom..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name="lastName"
-              render={({ field }) => (
-                <FormItem className="mt-8 w-full grid grid-cols-[1fr_3fr] space-x-12 max-xl:grid-cols-1 max-xl:space-x-0 max-xl:space-y-4 items-center">
-                  <FormLabel>Nom</FormLabel>
-                  <FormControl className="w-auto">
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="Votre nom..."
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem className="mt-8 w-full grid grid-cols-[1fr_3fr] space-x-12 max-xl:grid-cols-1 max-xl:space-x-0 max-xl:space-y-4 items-center">
-                  <FormLabel>Email</FormLabel>
-                  <FormControl className="w-auto">
-                    <Input {...field} disabled />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem className="mt-8 w-full grid grid-cols-[1fr_3fr] space-x-12 max-xl:grid-cols-1 max-xl:space-x-0 max-xl:space-y-4 items-center">
-                  <FormLabel>Numéro de téléphone</FormLabel>
-                  <FormControl className="w-auto">
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="Votre numéro de téléphone..."
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="country"
-              render={({ field }) => (
-                <FormItem className="mt-8 w-full grid grid-cols-[1fr_3fr] space-x-12 max-xl:grid-cols-1 max-xl:space-x-0 max-xl:space-y-4 items-center">
-                  <FormLabel>Pays</FormLabel>
-                  <Select
-                    onValueChange={(value) => {
-                      field.onChange(value);
-                      setSelectedCountry(value); // Set selected country
-                    }}
-                    defaultValue={field.value}
-                  >
-                    <FormControl className="w-auto">
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selectionnez un pays" />
-                      </SelectTrigger>
+          <FormField
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel className="text-xl">Nom</FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isSubmitting}
+                    placeholder="Votre nom..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel className="text-xl">Email</FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isSubmitting}
+                    placeholder="Votre Email"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel className="text-xl">Téléphone</FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isSubmitting}
+                    placeholder="Votre téléphone..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="birthday"
+            render={({ field }) => (
+              <FormItem className="w-full flex flex-col">
+                <FormLabel className="text-xl">Date de naissance</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "pl-3 text-left font-normal",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, "PPP")
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
                     </FormControl>
-                    <SelectContent>
-                      {Object.keys(countriesAndCities).map((country) => (
-                        <SelectItem key={country} value={country}>
-                          {country}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </FormItem>
+            )}
+          />
 
-            {/* City Dropdown */}
-            <FormField
-              control={form.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem className="mt-8 w-full grid grid-cols-[1fr_3fr] space-x-12 max-xl:grid-cols-1 max-xl:space-x-0 max-xl:space-y-4 items-center">
-                  <FormLabel>Ville</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    disabled={cities.length === 0}
-                  >
-                    <FormControl className="w-auto">
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selectionnez une ville" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {cities.map((city, index) => (
-                        <SelectItem key={index} value={city}>
-                          {city}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="birthday"
-              render={({ field }) => (
-                <FormItem className="mt-8 w-full grid grid-cols-[1fr_3fr] space-x-12 max-xl:grid-cols-1 max-xl:space-x-0 max-xl:space-y-4 items-center">
-                  <FormLabel>Date de naissance</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl className="w-auto">
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </FormItem>
-              )}
-            />
-          </div>
+          <FormField
+            control={form.control}
+            name="country"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel className="text-xl">Pays</FormLabel>
+                <Select
+                  onValueChange={(value) => {
+                    field.onChange(value);
+                    setSelectedCountry(value);
+                  }}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selectionnez un pays" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {Object.keys(countriesAndCities).map((country) => (
+                      <SelectItem key={country} value={country}>
+                        {country}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="city"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel className="text-xl">Ville</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  disabled={cities.length === 0}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selectionnez une ville" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {cities.map((city, index) => (
+                      <SelectItem key={index} value={city}>
+                        {city}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+
           <FormError message={error} />
           <FormSuccess message={success} />
           <Button type="submit" className="w-fit self-end justify-self-end">

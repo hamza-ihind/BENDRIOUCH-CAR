@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   model: z.string().min(1, {
-    message: "Please provide a model name.",
+    message: "Veuillez fournir un nom de modèle.",
   }),
 });
 
@@ -63,11 +63,11 @@ export function ModelForm({ carId, initialData }: ModelFormProps) {
             name="model"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="text-xl">Modèle du voiture</FormLabel>
+                <FormLabel className="text-xl">Modèle de la voiture</FormLabel>
                 <FormControl>
                   <Input
                     disabled={isSubmitting}
-                    placeholder="e.g., ALFA ROMEO"
+                    placeholder="Ex: ALFA ROMEO"
                     {...field}
                   />
                 </FormControl>

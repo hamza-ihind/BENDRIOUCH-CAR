@@ -20,10 +20,10 @@ const CarsPage = async () => {
   const cars = await db.car.findMany({});
 
   return (
-    <div className="w-full z-20 flex flex-col p-12">
+    <div className="w-full z-20 flex flex-col p-12 max-md:px-4 max-md:py-28">
       <DashboardPageTitle
-        title="Mes Voitures"
-        description="Voici la liste de vos voitures"
+        title="Vos Voitures"
+        description="Découvrez toutes vos voitures enregistrées ici"
       />
       <Separator />
       <DataTable columns={columns} data={cars} />

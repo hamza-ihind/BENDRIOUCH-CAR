@@ -65,7 +65,7 @@ const CarIdPage = async ({ params }: { params: { carId: string } }) => {
 
   return (
     <>
-      <div className="w-full z-20 flex flex-col p-12">
+      <div className="w-full z-20 flex flex-col p-12 max-md:px-4 max-md:py-28">
         <Link
           href={`/admin/cars`}
           className="flex items-center text-sm hover:opacity-75 transition mb-6"
