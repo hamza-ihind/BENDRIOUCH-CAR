@@ -26,6 +26,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -58,22 +59,14 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      {/* <div className="flex items-center py-4 justify-between">
-        <Input
-          placeholder="Filter courses..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        <Link href="/teacher/create-course">
+      <div className="flex items-center py-4 justify-between">
+        <Link href="/user/create-reservation">
           <Button>
             <Plus className="h-4 w-4 mr-2" />
-            Nouveau cours
+            Nouvelle Reservation
           </Button>
         </Link>
-      </div> */}
+      </div>
       <div className="rounded-md">
         <Table>
           <TableHeader>

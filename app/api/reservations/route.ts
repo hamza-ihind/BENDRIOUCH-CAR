@@ -14,11 +14,18 @@ export async function POST(req: Request) {
     const values = await req.json();
     const { carId, flightNumber, startDate, endDate } = values;
 
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      return new NextResponse("Invalid date format", { status: 400 });
+    }
+
     const reservation = await db.reservation.create({
       data: {
         flightNumber,
-        startDate: new Date(startDate),
-        endDate: new Date(endDate),
+        startDate: start,
+        endDate: end,
         userId,
         carId,
         status: "PENDING",
@@ -56,8 +63,17 @@ export async function PATCH(req: Request) {
       return new NextResponse("Forbidden", { status: 403 });
     }
 
-    // Handle different actions (Update, Confirm, Cancel)
+    // Ensure valid date format for update
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      return new NextResponse("Invalid date format", { status: 400 });
+    }
+
     let reservation;
+
+    // Handle different actions (Update, Confirm, Cancel)
     if (action === "CONFIRM" || action === "CANCEL") {
       reservation = await db.reservation.update({
         where: { id: reservationId },
@@ -71,8 +87,8 @@ export async function PATCH(req: Request) {
         where: { id: reservationId },
         data: {
           flightNumber,
-          startDate: new Date(startDate),
-          endDate: new Date(endDate),
+          startDate: start,
+          endDate: end,
         },
       });
     }

@@ -19,14 +19,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
-  seats: z
-    .number()
-    .min(1, {
-      message: "Veuillez fournir un nombre valide de sièges (au moins 1).",
-    })
-    .max(100, {
-      message: "Le nombre de sièges ne doit pas dépasser 100.",
-    }),
+  seats: z.number(),
 });
 
 interface SeatsFormProps {
@@ -70,7 +63,12 @@ export function SeatsForm({ carId, initialData }: SeatsFormProps) {
               <FormItem className="w-full">
                 <FormLabel className="text-xl">Sièges de la voiture</FormLabel>
                 <FormControl>
-                  <Input disabled={isSubmitting} placeholder="9" {...field} />
+                  <Input
+                    type="number"
+                    disabled={isSubmitting}
+                    placeholder="9"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -3,10 +3,9 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
-
 import {
   Form,
   FormControl,
@@ -19,31 +18,75 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { db } from "@/lib/db";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { Reservation } from "@prisma/client";
 
 const formSchema = z.object({
-  flightNumber: z.string().min(1, {
-    message: "Le numéro de vol est requis",
-  }),
-  startDate: z.string().min(1, {
-    message: "La date de début est requise",
-  }),
-  endDate: z.string().min(1, {
-    message: "La date de fin est requise",
-  }),
+  flightNumber: z.string().min(1, { message: "Le numéro de vol est requis" }),
+
+  // Use z.date() to handle dates properly
+  startDate: z
+    .date()
+    .refine((date) => date instanceof Date && !isNaN(date.getTime()), {
+      message: "La date de début est requise",
+    }),
+
+  endDate: z
+    .date()
+    .refine((date) => date instanceof Date && !isNaN(date.getTime()), {
+      message: "La date de fin est requise",
+    }),
+
+  carId: z.string().min(1, { message: "Veuillez choisir une voiture" }),
 });
 
 const ReservationPage = () => {
   const router = useRouter();
-
+  const searchParams = useSearchParams();
   const [selectedCar, setSelectedCar] = useState<string | null>(null);
+  const [reservation, setReservation] = useState<Reservation | null>(null);
+  const user = useCurrentUser();
+
+  // Get carId from URL query parameters
+  useEffect(() => {
+    const carId = searchParams.get("carId");
+    if (carId) {
+      setSelectedCar(carId);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    const fetchReservation = async () => {
+      const reservation = await db.reservation.findFirst({
+        include: {
+          user: true,
+          car: true,
+        },
+      });
+      setReservation(reservation);
+    };
+
+    fetchReservation();
+  }, [user?.id]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      flightNumber: "",
-      startDate: "",
-      endDate: "",
+      flightNumber: reservation?.flightNumber || "",
+      startDate: reservation?.startDate || new Date(),
+      endDate: reservation?.endDate || new Date(),
+      carId: selectedCar || reservation?.carId || "",
     },
   });
 
@@ -51,9 +94,10 @@ const ReservationPage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await axios.post("/api/reservations", values);
-      toast.success("Réservation effectuée avec succès");
-    } catch (error) {
+      await axios.patch(`/api/reservations`, values);
+      toast.success("Informations mise à jour");
+      router.refresh();
+    } catch {
       toast.error("Une erreur s'est produite !");
     }
   };
@@ -100,15 +144,35 @@ const ReservationPage = () => {
             control={form.control}
             name="startDate"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Date de début</FormLabel>
-                <FormControl>
-                  <Input disabled={isSubmitting} type="date" {...field} />
-                </FormControl>
-                <FormDescription>
-                  Choisissez la date de début de la location.
-                </FormDescription>
-                <FormMessage />
+              <FormItem className="w-full flex flex-col">
+                <FormLabel className="text-xl">Date de début</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "pl-3 text-left font-normal",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, "PPP")
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                    />
+                  </PopoverContent>
+                </Popover>
               </FormItem>
             )}
           />
@@ -118,13 +182,73 @@ const ReservationPage = () => {
             control={form.control}
             name="endDate"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Date de fin</FormLabel>
-                <FormControl>
-                  <Input disabled={isSubmitting} type="date" {...field} />
-                </FormControl>
+              <FormItem className="w-full flex flex-col">
+                <FormLabel className="text-xl">Date de fin</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "pl-3 text-left font-normal",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, "PPP")
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </FormItem>
+            )}
+          />
+
+          {/* Car Selection Field */}
+          <FormField
+            control={form.control}
+            name="carId"
+            render={({ field }) => (
+              <FormItem className="w-full flex flex-col">
+                <FormLabel>Voiture sélectionnée</FormLabel>
+                <div className="flex items-center space-x-2">
+                  <FormControl className="flex-1">
+                    <Input
+                      readOnly
+                      {...field}
+                      value={
+                        selectedCar ||
+                        field.value ||
+                        "Aucune voiture sélectionnée"
+                      }
+                      placeholder="Cliquez pour choisir une voiture"
+                      disabled={isSubmitting}
+                    />
+                  </FormControl>
+
+                  <Button
+                    variant="outline"
+                    type="button"
+                    onClick={handleSelectCar}
+                    disabled={isSubmitting}
+                    className="whitespace-nowrap"
+                  >
+                    Choisir une voiture
+                  </Button>
+                </div>
                 <FormDescription>
-                  Choisissez la date de fin de la location.
+                  Cliquez sur le bouton pour sélectionner une voiture.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -137,10 +261,7 @@ const ReservationPage = () => {
                 Annuler
               </Button>
             </Link>
-            <Button type="button" onClick={handleSelectCar}>
-              Choisir une voiture
-            </Button>
-            <Button type="submit" disabled={!isValid || isSubmitting}>
+            <Button type="submit" disabled={isSubmitting}>
               Continuer
             </Button>
           </div>

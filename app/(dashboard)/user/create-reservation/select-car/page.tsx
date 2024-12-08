@@ -5,7 +5,6 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Car } from "@prisma/client";
-import { getCars } from "@/actions/get-cars";
 import CarCard from "@/components/cars/car-card";
 
 const SelectCarPage = () => {

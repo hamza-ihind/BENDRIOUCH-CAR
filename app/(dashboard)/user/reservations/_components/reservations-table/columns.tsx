@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "@prisma/client";
+import { Reservation } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { ChevronsUpDown, Pencil, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,8 +14,9 @@ import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<Reservation>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -46,32 +47,14 @@ export const columns: ColumnDef<User>[] = [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Étudiant
+        Clé de réservation
         <ChevronsUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
     cell: ({ row }) => {
-      const { firstName, lastName } = row.original; // Access the actual fields
-      return (
-        <div className="flex flex-col items-start">
-          {`${firstName || ""} ${lastName || ""}`}
-        </div>
-      );
+      const { id } = row.original;
+      return <div className="flex flex-col items-start">{id}</div>;
     },
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => (
-      <Button
-        className="px-0"
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Email
-        <ChevronsUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
-    cell: ({ row }) => <div>{row.getValue("email")}</div>,
   },
   {
     accessorKey: "phone",
