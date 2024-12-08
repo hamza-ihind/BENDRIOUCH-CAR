@@ -27,6 +27,7 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
+    const { data } = await req.json();
     const cars = await db.car.findMany({
       orderBy: {
         createdAt: "desc",
