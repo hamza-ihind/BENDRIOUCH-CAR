@@ -27,7 +27,6 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    const { data } = await req.json();
     const cars = await db.car.findMany({
       orderBy: {
         createdAt: "desc",
@@ -36,6 +35,6 @@ export async function GET(req: Request) {
     return NextResponse.json(cars);
   } catch (error) {
     console.error("[GET_CARS]", error);
-    return [];
+    return new NextResponse("Internal Error", { status: 500 });
   }
 }
