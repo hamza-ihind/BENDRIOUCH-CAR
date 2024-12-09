@@ -19,8 +19,8 @@ import { usePathname } from "next/navigation";
 const studentRoutes = [
   {
     icon: Layout,
-    label: "Page d'accueil",
-    href: "/home",
+    label: "Reservations",
+    href: "/user/reservations",
   },
   {
     icon: Car,

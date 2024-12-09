@@ -24,3 +24,17 @@ export async function POST(req: Request) {
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
+
+export async function GET(req: Request) {
+  try {
+    const cars = await db.car.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return NextResponse.json(cars);
+  } catch (error) {
+    console.error("[GET_CARS]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}

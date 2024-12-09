@@ -99,6 +99,9 @@ interface ListItemProps extends React.ComponentPropsWithoutRef<"a"> {
 
 const Navbar: React.FC = () => {
   const user = useCurrentUser();
+  const role = user?.role;
+
+  const targetRoute = role === "ADMIN" ? "/admin/cars" : "/user/reservations";
 
   return (
     <header className="flex h-16 w-full shrink-0 items-center px-48 max-lg:px-8 z-50 backdrop-blur-[25px] fixed justify-between border-b border-solid border-gray-800 bg-gray-200">
@@ -133,17 +136,24 @@ const Navbar: React.FC = () => {
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link href={targetRoute} passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Tableau de bord
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
       </div>
       <NavigationMenu className="flex gap-4">
         {user ? (
-          <div className="flex gap-4">
+          <>
             <UserButton />
             <Button variant={"outline"} size="icon" onClick={() => logout()}>
               <LogOut className="w-5 h-5" />
             </Button>
-          </div>
+          </>
         ) : (
           <div className="flex gap-4">
             <Link href="/sign-in" passHref>

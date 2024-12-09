@@ -2,6 +2,8 @@ import React from "react";
 import Logo from "./logo";
 import { SidebarRoutes } from "./sidebar-routes";
 import AccountCard from "@/components/auth/account-card";
+import { ArrowBigLeft, ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 const sidebar = () => {
   return (
@@ -14,6 +16,12 @@ const sidebar = () => {
           <SidebarRoutes />
         </div>
       </div>
+      <Link href={"/"}>
+        <div className="flex gap-2 items-center p-6 hover:underline cursor-pointer text-sm">
+          <ArrowLeft className="h-4 w-4" />
+          Retour à la page principale
+        </div>
+      </Link>
     </div>
   );
 };
