@@ -1,44 +1,196 @@
+"use client";
+
 import React from "react";
+import { Badge } from "../ui/badge";
+import { CardWrapper } from "../auth/CardWrapper";
+
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "../ui/calendar";
+
+export const HeroSchema = z.object({
+  startDate: z.date(),
+  endDate: z.date(),
+  flightNumber: z
+    .string()
+    .min(1, { message: "Veuillez saisir votre numéro de vol" }),
+});
 
 const Hero: React.FC = () => {
+  const router = useRouter();
+
+  const form = useForm<z.infer<typeof HeroSchema>>({
+    resolver: zodResolver(HeroSchema),
+    defaultValues: {
+      startDate: new Date(),
+      endDate: new Date(),
+      flightNumber: "",
+    },
+  });
+
+  const { isSubmitting, isValid } = form.formState;
+
+  const onSubmit = async (values: z.infer<typeof HeroSchema>) => {
+    try {
+      const response = await axios.post(`/api/reservations`, values);
+      const reservationId = response.data.id;
+      toast.success("Informations mise à jour");
+      router.push(`/user/reservations/${reservationId}`);
+    } catch {
+      toast.error("Une erreur s'est produite !");
+    }
+  };
+
   return (
-    <section className="bg-white dark:bg-gray-900 h-[100vh]">
-      <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
-        <a
-          href="#"
-          className="inline-flex justify-between items-center py-1 px-1 pr-4 mb-7 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
-          role="alert"
-        >
-          <span className="text-xs bg-primary-600 rounded-full text-white px-4 py-1.5 mr-3">
-            Nouveau
-          </span>
-          <span className="text-sm font-medium text-black">
-            Découvrez nos nouvelles offres de location de voitures
-          </span>
-        </a>
-        <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-black md:text-5xl lg:text-6xl dark:text-white">
-          Louez une voiture et explorez le monde
-        </h1>
-        <p className="mb-8 text-lg font-normal text-black lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
-          Découvrez une large gamme de véhicules adaptés à vos besoins.
-          Conduisez en toute liberté et confort où que vous soyez.
+    <div className="bg-white dark:bg-gray-900 h-full flex items-center justify-between gap-24">
+      <div className="flex flex-col gap-4 flex-1">
+        <Badge variant={"secondary"} className="w-fit">
+          Location des voitures chez becndriouch Cars
+        </Badge>
+        <h1 className="text-6xl font-bold">Cherchez votre voiture préféré</h1>
+        <p className="text-gray-500 text-base w-[75%]">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam,
+          commodi illum reprehenderit ratione sapiente exercitationem tenetur,
+          saepe autem modi aperiam doloremque, magnam sit vitae rerum aut
+          repellendus voluptate qui voluptatibus.
         </p>
-        <div className="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
-          <a
-            href="#"
-            className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
-          >
-            En savoir plus
-          </a>
-          <a
-            href="#"
-            className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-black rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
-          >
-            Voir la vidéo
-          </a>
-        </div>
       </div>
-    </section>
+
+      <CardWrapper
+        headerTitle="Reservation"
+        headerLabel="Réserver votre voiture aujourd'hui"
+        backButtonHref="/cars"
+        backButtonLabel="Voir des voitures ?"
+        className="flex-1 h-fit min-w-[550px]"
+      >
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <div className="flex gap-4">
+              <FormField
+                control={form.control}
+                name="startDate"
+                render={({ field }) => (
+                  <FormItem className="w-full flex flex-col">
+                    <FormLabel className="text-base">
+                      Date de retraite
+                    </FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="endDate"
+                render={({ field }) => (
+                  <FormItem className="w-full flex flex-col">
+                    <FormLabel className="text-base">Date de retour</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="flightNumber"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel className="text-base">Numéro de vol</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={isSubmitting}
+                      placeholder="Numéro de vol"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button type="submit" className="w-full self-end justify-self-end">
+              Confirmer
+            </Button>
+          </form>
+        </Form>
+      </CardWrapper>
+    </div>
   );
 };
 

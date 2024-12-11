@@ -57,44 +57,99 @@ export const columns: ColumnDef<Reservation>[] = [
     },
   },
   {
-    accessorKey: "phone",
+    accessorKey: "flightNumber",
     header: ({ column }) => (
       <Button
         className="px-0"
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Téléphone
-        <ChevronsUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
-    cell: ({ row }) => <div>{row.getValue("phone")}</div>,
-  },
-  {
-    accessorKey: "isOnboarded",
-    header: ({ column }) => (
-      <Button
-        className="px-0"
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Onboarded
+        Numéro de vol
         <ChevronsUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
     cell: ({ row }) => {
-      const isOnboarded = row.getValue("isOnboarded") || false;
+      const { flightNumber } = row.original; // Access the actual fields
+      return <div className="text-gray-500">{flightNumber}</div>;
+    },
+  },
+  {
+    accessorKey: "startDate",
+    header: ({ column }) => (
+      <Button
+        className="px-0"
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Date de départ
+        <ChevronsUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const startDate = String(row.getValue("startDate"));
+      const formattedDate = new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }).format(new Date(startDate));
+
+      return <div className="text-gray-500">{formattedDate}</div>;
+    },
+  },
+  {
+    accessorKey: "endDate",
+    header: ({ column }) => (
+      <Button
+        className="px-0"
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Date de fin
+        <ChevronsUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const endDate = String(row.getValue("endDate"));
+      const formattedDate = new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }).format(new Date(endDate));
+
+      return <div className="text-gray-500">{formattedDate}</div>;
+    },
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => (
+      <Button
+        className="px-0"
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Status
+        <ChevronsUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const isStatus = row.getValue("status");
       return (
         <Badge
           variant="outline"
           className={cn(
             "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium",
-            isOnboarded
-              ? "text-green-400 bg-green-500/20"
-              : "text-gray-400 bg-gray-500/20"
+            isStatus === "PENDING"
+              ? "text-gray-500 bg-gray-500/20" // Pending color
+              : isStatus === "CANCELLED"
+              ? "text-red-600 bg-red-300/80" // Cancelled color (red)
+              : "text-green-600 bg-green-400/80" // Confirmed color (green)
           )}
         >
-          {isOnboarded ? "Onboarded" : "Not Onboarded"}
+          {isStatus === "PENDING"
+            ? "En attente"
+            : isStatus === "CANCELLED"
+            ? "Annulée"
+            : "Confirmée"}
         </Badge>
       );
     },

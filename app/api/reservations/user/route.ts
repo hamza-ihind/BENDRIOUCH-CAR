@@ -51,14 +51,12 @@ export async function PATCH(req: Request) {
     const values = await req.json();
     const { reservationId, action } = values;
 
-    // Check if reservationId and action are provided
     if (!reservationId || !action) {
       return new NextResponse("Reservation ID and action are required", {
         status: 400,
       });
     }
 
-    // Fetch the reservation to check if it exists and can be updated
     const reservation = await db.reservation.findUnique({
       where: { id: reservationId },
     });
@@ -69,7 +67,6 @@ export async function PATCH(req: Request) {
 
     let updatedReservation;
 
-    // Handle different actions (Confirm, Cancel, or Reset to Pending)
     if (action === "CONFIRM" || action === "CANCEL") {
       if (
         reservation.status === "CONFIRMED" ||

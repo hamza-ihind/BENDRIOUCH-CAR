@@ -2,7 +2,15 @@
 
 import { Reservation } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { ChevronsUpDown, Pencil, MoreHorizontal } from "lucide-react";
+import {
+  ChevronsUpDown,
+  Pencil,
+  MoreHorizontal,
+  RefreshCcw,
+  CheckCircle,
+  XCircle,
+  Trash,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,6 +22,9 @@ import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export const columns: ColumnDef<Reservation>[] = [
   {
@@ -131,18 +142,24 @@ export const columns: ColumnDef<Reservation>[] = [
       </Button>
     ),
     cell: ({ row }) => {
-      const isPending = row.getValue("status");
+      const isStatus = row.getValue("status");
       return (
         <Badge
           variant="outline"
           className={cn(
             "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium",
-            isPending === "PENDING"
-              ? "text-gray-500 bg-gray-500/20"
-              : "text-green-600 bg-green-400/80"
+            isStatus === "PENDING"
+              ? "text-gray-500 bg-gray-500/20" // Pending color
+              : isStatus === "CANCELLED"
+              ? "text-red-600 bg-red-300/80" // Cancelled color (red)
+              : "text-green-600 bg-green-400/80" // Confirmed color (green)
           )}
         >
-          {isPending === "PENDING" ? "En attente" : "Confirmée"}
+          {isStatus === "PENDING"
+            ? "En attente"
+            : isStatus === "CANCELLED"
+            ? "Annulée"
+            : "Confirmée"}
         </Badge>
       );
     },
@@ -150,24 +167,94 @@ export const columns: ColumnDef<Reservation>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const { id } = row.original;
+      const { id, status } = row.original;
+      const router = useRouter();
 
-      // ADD DELETE FUNCTION
+      // Handle Confirm action
+      const handleConfirm = async () => {
+        try {
+          await axios.patch(`/api/reservations/admin/${id}/confirm`);
+          toast.success("Réservation confirmée");
+          router.refresh();
+        } catch (error) {
+          toast.error("Erreur lors de la confirmation de la réservation.");
+        }
+      };
+
+      // Handle Cancel action
+      const handleCancel = async () => {
+        try {
+          await axios.patch(`/api/reservations/admin/${id}/cancel`);
+          toast.success("Réservation annulée");
+          router.refresh();
+        } catch (error) {
+          toast.error("Erreur lors de l'annulation de la réservation.");
+        }
+      };
+
+      // Handle Undo Confirm to Pending
+      const handlePending = async () => {
+        try {
+          await axios.patch(`/api/reservations/admin/${id}/pending`);
+          toast.success("Statut de la réservation rétabli à PENDING");
+          router.refresh();
+        } catch (error) {
+          toast.error("Erreur lors du rétablissement du statut.");
+        }
+      };
+
+      const handleDelete = async () => {
+        try {
+          await axios.patch(`/api/reservations/admin/${id}/delete`);
+          toast.success("Reservation supprimée");
+          router.refresh();
+        } catch (error) {
+          toast.error("Erreur lors du Suppression du réservation.");
+        }
+      };
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-4 w-8 p-0">
               <MoreHorizontal className="h-4 w-4" />
-              <span className="sr-only">Open menu</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <Link href={`/admin/reservations/${id}`}>
-              <DropdownMenuItem>
-                <Pencil className="h-4 w-4 mr-2" />
-                Modifier
-              </DropdownMenuItem>
-            </Link>
+            {/* If status is PENDING, show Confirm and Cancel options */}
+            {status === "PENDING" ? (
+              <>
+                <DropdownMenuItem onClick={handleConfirm}>
+                  <CheckCircle className="mr-2" /> Confirmer
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleCancel}>
+                  <XCircle className="mr-2" /> Annuler
+                </DropdownMenuItem>
+              </>
+            ) : status === "CANCELLED" ? (
+              // If status is CANCELLED, allow Confirm, Delete, and Pending options
+              <>
+                <DropdownMenuItem onClick={handleConfirm}>
+                  <CheckCircle className="mr-2" /> Confirmer
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleDelete}>
+                  <Trash className="mr-2" /> Supprimer
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handlePending}>
+                  <RefreshCcw className="mr-2" /> Pas confirmer
+                </DropdownMenuItem>
+              </>
+            ) : status === "CONFIRMED" ? (
+              // If status is CONFIRMED, allow Cancel and Pending options
+              <>
+                <DropdownMenuItem onClick={handleCancel}>
+                  <XCircle className="mr-2" /> Annuler
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handlePending}>
+                  <RefreshCcw className="mr-2" /> Pas confirmer
+                </DropdownMenuItem>
+              </>
+            ) : null}
           </DropdownMenuContent>
         </DropdownMenu>
       );

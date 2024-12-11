@@ -13,8 +13,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Alephnull",
-  description: "My startup",
+  title: "Bendriouch Cars",
+  description: "Location des voitures",
 };
 
 export default async function RootLayout({

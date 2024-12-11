@@ -17,7 +17,7 @@ const page = async () => {
   const cars = await db.car.findMany({});
 
   return (
-    <div className="w-full z-20 flex flex-col p-12">
+    <div className="w-full z-20 flex flex-col p-16">
       <DashboardPageTitle
         title="Voitures de Bendriouch CARS"
         description="Ravi de vous revoir! Gérez vos cours et suivez vos performances

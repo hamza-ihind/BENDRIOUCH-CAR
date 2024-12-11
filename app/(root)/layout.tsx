@@ -16,13 +16,14 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
-
   return (
     <SidebarProvider defaultOpen={false}>
       <AppSidebar />
-      <Navbar />
-      <main className="p-48 w-full">{children}</main>
+      <div className="w-full flex flex-col">
+        <Navbar />
+        <main className="p-48 w-full">{children}</main>
+        <Footer />
+      </div>
     </SidebarProvider>
   );
 }
