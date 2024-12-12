@@ -97,6 +97,23 @@ export const columns: ColumnDef<Reservation>[] = [
     },
   },
   {
+    accessorKey: "startPlace",
+    header: ({ column }) => (
+      <Button
+        className="px-0"
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Lieu de retraite
+        <ChevronsUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const { startPlace } = row.original;
+      return <div className="text-gray-500">{startPlace}</div>;
+    },
+  },
+  {
     accessorKey: "endDate",
     header: ({ column }) => (
       <Button
@@ -117,6 +134,23 @@ export const columns: ColumnDef<Reservation>[] = [
       }).format(new Date(endDate));
 
       return <div className="text-gray-500">{formattedDate}</div>;
+    },
+  },
+  {
+    accessorKey: "endPlace",
+    header: ({ column }) => (
+      <Button
+        className="px-0"
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Lieu de retour
+        <ChevronsUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const { endPlace } = row.original;
+      return <div className="text-gray-500">{endPlace}</div>;
     },
   },
   {
@@ -168,7 +202,7 @@ export const columns: ColumnDef<Reservation>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <Link href={`/teacher/courses/${id}`}>
+            <Link href={`/user/reservations/${id}`}>
               <DropdownMenuItem>
                 <Pencil className="h-4 w-4 mr-2" />
                 Modifier

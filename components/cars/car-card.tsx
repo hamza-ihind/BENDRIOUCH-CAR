@@ -39,10 +39,10 @@ const CarCard = ({
       <div className="py-4">
         <Image
           alt="image"
-          src="/assets/car.jpg"
+          src={imageUrl}
           width={720}
           height={720}
-          className="w-full"
+          className="w-96 h-40 object-cover"
         />
       </div>
       <div className="w-full flex justify-between">

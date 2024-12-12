@@ -1,6 +1,6 @@
 "use client";
 
-import { Reservation } from "@prisma/client";
+import { Car, Reservation } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import {
   ChevronsUpDown,
@@ -25,6 +25,7 @@ import { cn } from "@/lib/utils";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export const columns: ColumnDef<Reservation>[] = [
   {
@@ -107,6 +108,23 @@ export const columns: ColumnDef<Reservation>[] = [
     },
   },
   {
+    accessorKey: "startPlace",
+    header: ({ column }) => (
+      <Button
+        className="px-0"
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Lieu de retraite
+        <ChevronsUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const { startPlace } = row.original;
+      return <div className="text-gray-500">{startPlace}</div>;
+    },
+  },
+  {
     accessorKey: "endDate",
     header: ({ column }) => (
       <Button
@@ -127,6 +145,60 @@ export const columns: ColumnDef<Reservation>[] = [
       }).format(new Date(endDate));
 
       return <div className="text-gray-500">{formattedDate}</div>;
+    },
+  },
+  {
+    accessorKey: "endPlace",
+    header: ({ column }) => (
+      <Button
+        className="px-0"
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Lieu de retour
+        <ChevronsUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const { endPlace } = row.original;
+      return <div className="text-gray-500">{endPlace}</div>;
+    },
+  },
+  {
+    accessorKey: "carId",
+    header: ({ column }) => (
+      <Button
+        className="px-0"
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Voiture
+        <ChevronsUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const [cars, setCars] = useState<Car[]>([]);
+
+      useEffect(() => {
+        const fetchCars = async () => {
+          try {
+            const response = await axios.get("/api/cars");
+            setCars(response.data);
+          } catch (error) {
+            console.error("Error fetching cars:", error);
+          }
+        };
+
+        fetchCars();
+      }, []);
+
+      const { carId } = row.original;
+      const car = cars.find((car) => car.id === carId);
+      return (
+        <div className="text-gray-500">
+          {car ? car.name : "No car selected"}
+        </div>
+      );
     },
   },
   {

@@ -13,7 +13,7 @@ import {
 import { TitleForm } from "./_components/title-form";
 import { DescriptionForm } from "./_components/description-form";
 import { ImageForm } from "./_components/image-form";
-import { PriceForm } from "./_components/price-form ";
+import { PriceForm } from "./_components/price-form";
 import { Actions } from "./_components/actions";
 import { Spotlight } from "@/components/ui/spotlight";
 import { Separator } from "@/components/ui/separator";

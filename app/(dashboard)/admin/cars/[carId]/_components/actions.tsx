@@ -43,7 +43,7 @@ export const Actions = ({ disabled, carId, isPublished }: ActionsProps) => {
       await axios.delete(`/api/cars/${carId}`);
       toast.success("Voiture supprimée");
       router.refresh();
-      router.push(`/cars`);
+      router.push(`/admin/cars`);
     } catch (error) {
       toast.error("Une erreur s'est produite!");
     } finally {

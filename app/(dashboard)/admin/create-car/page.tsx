@@ -41,7 +41,7 @@ const page = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const response = await axios.post("/api/cars", values);
-      router.push(`/cars/${response.data.id}`);
+      router.push(`/admin/cars/${response.data.id}`);
       toast.success("Voiture ajoutée avec succès");
     } catch {
       toast.error("Une erreur s'est produite !");

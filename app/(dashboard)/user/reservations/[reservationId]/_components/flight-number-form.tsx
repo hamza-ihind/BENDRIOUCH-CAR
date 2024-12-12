@@ -1,10 +1,12 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { toast } from "react-hot-toast";
-import { Button } from "@/components/ui/button";
+import * as z from "zod";
+import axios from "axios";
+import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+
 import {
   Form,
   FormControl,
@@ -14,28 +16,30 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Car } from "@prisma/client";
-import axios from "axios";
-import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Reservation } from "@prisma/client";
 
-const formSchema = z.object({
-  seats: z.coerce
-    .number()
-    .min(0, { message: "Le nombre des sièges est requis" }),
-});
-
-interface SeatsFormProps {
-  carId: string;
-  initialData: Car;
+interface FlightNumberFormProps {
+  initialData: Reservation;
+  reservationId: string;
 }
 
-export function SeatsForm({ carId, initialData }: SeatsFormProps) {
+const formSchema = z.object({
+  flightNumber: z.string().min(1, {
+    message: "Le numéro de vol est requis !",
+  }),
+});
+
+export const FlightNumberForm = ({
+  initialData,
+  reservationId,
+}: FlightNumberFormProps) => {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      seats: initialData?.seats || 0,
+      flightNumber: initialData?.flightNumber || "",
     },
   });
 
@@ -43,11 +47,11 @@ export function SeatsForm({ carId, initialData }: SeatsFormProps) {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/cars/${carId}`, values);
-      toast.success("Le nombre de sièges de la voiture a été mis à jour");
+      await axios.patch(`/api/reservations/user/${reservationId}`, values);
+      toast.success("Numéro de vol mis à jour");
       router.refresh();
     } catch {
-      toast.error("Une erreur est survenue !");
+      toast.error("Une erreur s'est produite !");
     }
   };
 
@@ -60,15 +64,14 @@ export function SeatsForm({ carId, initialData }: SeatsFormProps) {
         >
           <FormField
             control={form.control}
-            name="seats"
+            name="flightNumber"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="text-xl">Sièges de la voiture</FormLabel>
+                <FormLabel className="text-xl">Numéro de vol</FormLabel>
                 <FormControl>
                   <Input
-                    type="number"
                     disabled={isSubmitting}
-                    placeholder="9"
+                    placeholder="e.g., AB123"
                     {...field}
                   />
                 </FormControl>
@@ -76,11 +79,13 @@ export function SeatsForm({ carId, initialData }: SeatsFormProps) {
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={!isValid || isSubmitting}>
-            Enregistrer
-          </Button>
+          <div className="flex items-center">
+            <Button type="submit" disabled={!isValid || isSubmitting}>
+              Enregistrer
+            </Button>
+          </div>
         </form>
       </Form>
     </div>
   );
-}
+};

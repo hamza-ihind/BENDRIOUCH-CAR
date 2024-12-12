@@ -24,6 +24,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -36,7 +43,6 @@ import { CarSelectModal } from "./_components/select-car-modal";
 const formSchema = z.object({
   flightNumber: z.string().min(1, { message: "Le numéro de vol est requis" }),
 
-  // Use z.date() to handle dates properly
   startDate: z
     .date()
     .refine((date) => date instanceof Date && !isNaN(date.getTime()), {
@@ -49,6 +55,9 @@ const formSchema = z.object({
       message: "La date de fin est requise",
     }),
 
+  startPlace: z.string(),
+  endPlace: z.string(),
+
   carId: z.string().min(1, { message: "Veuillez choisir une voiture" }),
 });
 
@@ -57,6 +66,7 @@ const ReservationPage = () => {
   const searchParams = useSearchParams();
   const [selectedCar, setSelectedCar] = useState<string | null>(null);
   const [reservation, setReservation] = useState<Reservation | null>(null);
+  const [citiesInMorocco, setCitiesInMorocco] = useState<string[]>([]);
   const [cars, setCars] = useState<Car[]>([]);
   const user = useCurrentUser();
 
@@ -98,12 +108,29 @@ const ReservationPage = () => {
     fetchCars();
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(
+        "https://raw.githubusercontent.com/russ666/all-countries-and-cities-json/refs/heads/master/countries.json"
+      )
+      .then((response) => {
+        const countriesAndCities = response.data;
+        const moroccoCities = countriesAndCities["Morocco"];
+        setCitiesInMorocco(moroccoCities || []);
+      })
+      .catch((error) => {
+        console.error("Error fetching country and city data:", error);
+      });
+  }, []);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       flightNumber: reservation?.flightNumber || "",
       startDate: reservation?.startDate || new Date(),
       endDate: reservation?.endDate || new Date(),
+      startPlace: reservation?.startPlace || "",
+      endPlace: reservation?.endPlace || "",
       carId: selectedCar || reservation?.carId || "",
     },
   });
@@ -112,7 +139,7 @@ const ReservationPage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post(`/api/reservations`, values);
+      await axios.post(`/api/reservations/user`, values);
       toast.success("Informations mise à jour");
       router.refresh();
     } catch {
@@ -229,25 +256,63 @@ const ReservationPage = () => {
             )}
           />
 
-          {/* <FormField
+          {/* Start Place (City) Select */}
+          <FormField
             control={form.control}
-            name="carId"
+            name="startPlace"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Voiture</FormLabel>
-                <FormControl>
-                  <CarSelectModal
-                    cars={cars}
-                    onClose={() => setIsCarSelectModalOpen(false)}
-                    onCarSelect={handleCarSelected}
-                  />
-                </FormControl>
-                <FormDescription>Entrez votre numéro de vol.</FormDescription>
-                <FormMessage />
+              <FormItem className="w-full">
+                <FormLabel className="text-xl">Ville de départ</FormLabel>
+                <Select
+                  onValueChange={(value) => field.onChange(value)}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Sélectionnez une ville" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {citiesInMorocco.map((city, index) => (
+                      <SelectItem key={index} value={city}>
+                        {city}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </FormItem>
             )}
-          /> */}
+          />
 
+          {/* End Place (City) Select */}
+          <FormField
+            control={form.control}
+            name="endPlace"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel className="text-xl">Ville d'arrivée</FormLabel>
+                <Select
+                  onValueChange={(value) => field.onChange(value)}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Sélectionnez une ville" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {citiesInMorocco.map((city, index) => (
+                      <SelectItem key={index} value={city}>
+                        {city}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+
+          {/* Car Select Field */}
           <FormField
             control={form.control}
             name="carId"
