@@ -83,9 +83,9 @@ model TwoFactorToken {
 }
 
 model TwoFactorConfirmation {
-  id            String        @id @default(cuid())
+  id            String              @id @default(cuid())
   userId        String
-  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User                @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId])
 }
@@ -97,36 +97,38 @@ model TwoFactorConfirmation {
 // VOITURE
 
 model Car {
-  id                String      @id @default(cuid()) 
+  id                String          @id @default(cuid()) 
   name              String?  
   model             String? 
   pricePerDay       Float?  
   imageUrl          String?  
   description       String?  
-  availability      Boolean     @default(true) 
+  availability      Boolean         @default(true) 
   fuelType          String?   
   seats             Float?      
   transmission      String?   
-  isPublished       Boolean     @default(false)
-  createdAt         DateTime    @default(now())
+  isPublished       Boolean         @default(false)
+  createdAt         DateTime        @default(now())
   reservations      Reservation[]
-  updatedAt         DateTime    @updatedAt
+  updatedAt         DateTime        @updatedAt
 }
 
 model Reservation {
-  id              String   @id @default(cuid())
+  id              String            @id @default(cuid())
   flightNumber    String?
   startDate       DateTime
   endDate         DateTime
+  startPlace      String?
+  endPlace        String?
   status          ReservationStatus @default(PENDING)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  isPublished     Boolean   @default(false)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  isPublished     Boolean           @default(false)
   userId          String
   carId           String?
   
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade) // Relation with User
-  car             Car?     @relation(fields: [carId], references: [id]) // Relation with Car (optional)
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  car             Car?     @relation(fields: [carId], references: [id])
 
   @@map("reservations")
 }

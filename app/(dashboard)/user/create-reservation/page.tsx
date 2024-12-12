@@ -30,7 +30,8 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { db } from "@/lib/db";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import { Reservation } from "@prisma/client";
+import { Car, Reservation } from "@prisma/client";
+import { CarSelectModal } from "./_components/select-car-modal";
 
 const formSchema = z.object({
   flightNumber: z.string().min(1, { message: "Le numéro de vol est requis" }),
@@ -56,9 +57,17 @@ const ReservationPage = () => {
   const searchParams = useSearchParams();
   const [selectedCar, setSelectedCar] = useState<string | null>(null);
   const [reservation, setReservation] = useState<Reservation | null>(null);
+  const [cars, setCars] = useState<Car[]>([]);
   const user = useCurrentUser();
 
-  // Get carId from URL query parameters
+  const [isCarSelectModalOpen, setIsCarSelectModalOpen] = useState(false);
+
+  const handleCarSelected = (carId: string) => {
+    form.setValue("carId", carId);
+    setSelectedCar(carId);
+    setIsCarSelectModalOpen(false);
+  };
+
   useEffect(() => {
     const carId = searchParams.get("carId");
     if (carId) {
@@ -80,6 +89,15 @@ const ReservationPage = () => {
     fetchReservation();
   }, [user?.id]);
 
+  useEffect(() => {
+    const fetchCars = async () => {
+      const { data } = await axios.get("/api/cars");
+      setCars(data);
+    };
+
+    fetchCars();
+  }, []);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -94,16 +112,12 @@ const ReservationPage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/reservations`, values);
+      await axios.post(`/api/reservations`, values);
       toast.success("Informations mise à jour");
       router.refresh();
     } catch {
       toast.error("Une erreur s'est produite !");
     }
-  };
-
-  const handleSelectCar = () => {
-    router.push("/user/create-reservation/select-car");
   };
 
   return (
@@ -215,7 +229,25 @@ const ReservationPage = () => {
             )}
           />
 
-          {/* Car Selection Field */}
+          {/* <FormField
+            control={form.control}
+            name="carId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Voiture</FormLabel>
+                <FormControl>
+                  <CarSelectModal
+                    cars={cars}
+                    onClose={() => setIsCarSelectModalOpen(false)}
+                    onCarSelect={handleCarSelected}
+                  />
+                </FormControl>
+                <FormDescription>Entrez votre numéro de vol.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          /> */}
+
           <FormField
             control={form.control}
             name="carId"
@@ -237,15 +269,11 @@ const ReservationPage = () => {
                     />
                   </FormControl>
 
-                  <Button
-                    variant="outline"
-                    type="button"
-                    onClick={handleSelectCar}
-                    disabled={isSubmitting}
-                    className="whitespace-nowrap"
-                  >
-                    Choisir une voiture
-                  </Button>
+                  <CarSelectModal
+                    cars={cars}
+                    onClose={() => setIsCarSelectModalOpen(false)}
+                    onCarSelect={handleCarSelected}
+                  />
                 </div>
                 <FormDescription>
                   Cliquez sur le bouton pour sélectionner une voiture.

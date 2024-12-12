@@ -205,7 +205,7 @@ export const columns: ColumnDef<Reservation>[] = [
 
       const handleDelete = async () => {
         try {
-          await axios.patch(`/api/reservations/admin/${id}/delete`);
+          await axios.delete(`/api/reservations/admin/${id}/delete`);
           toast.success("Reservation supprimée");
           router.refresh();
         } catch (error) {

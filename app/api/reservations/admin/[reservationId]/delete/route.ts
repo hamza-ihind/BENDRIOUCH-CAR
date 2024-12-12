@@ -14,30 +14,25 @@ export async function DELETE(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    // Fetch the reservation based on reservationId and userId
     const reservation = await db.reservation.findUnique({
       where: {
         id: params.reservationId,
-        userId,
       },
     });
 
     if (!reservation) {
-      return new NextResponse("Reservation not found", { status: 404 });
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    // Delete the reservation
-    await db.reservation.delete({
+    const deletedReservation = await db.reservation.delete({
       where: {
         id: params.reservationId,
       },
     });
 
-    return new NextResponse("Reservation deleted successfully", {
-      status: 200,
-    });
+    return NextResponse.json(deletedReservation);
   } catch (error) {
-    console.log("[RESERVATION_DELETE_ERROR]: ", error);
+    console.log("[RESERVATION_ID_DELETE]: ", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
