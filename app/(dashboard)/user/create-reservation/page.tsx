@@ -330,7 +330,7 @@ const ReservationPage = () => {
                         "Aucune voiture sélectionnée"
                       }
                       placeholder="Cliquez pour choisir une voiture"
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || !isValid}
                     />
                   </FormControl>
 

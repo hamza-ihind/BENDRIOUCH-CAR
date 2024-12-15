@@ -74,7 +74,6 @@ const LoginForm = () => {
       headerLabel="Bon retour! Vous nous avez manqué."
       backButtonHref="/sign-up"
       backButtonLabel="Vous n'avez pas encore de compte ?"
-      showSocial
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

@@ -20,6 +20,7 @@ declare module "next-auth" {
       birthday?: Date;
       city?: string;
       country?: string;
+      isOnboarded?: boolean;
     };
   }
 
@@ -36,6 +37,7 @@ declare module "next-auth" {
     birthday?: Date;
     city?: string;
     country?: string;
+    isOnboarded?: boolean;
   }
 }
 

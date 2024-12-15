@@ -17,8 +17,8 @@ export default function RootLayout({
     <>
       <SidebarProvider defaultOpen={false}>
         <AppSidebar />
-        <Navbar />
-        <div className="w-full flex flex-col justify-between h-full">
+        <div className="w-full flex flex-col justify-between h-[100vh]">
+          <Navbar />
           <main className="h-full flex-col justify-between mb-20">
             <div className="w-full z-20 max-md:px-4 ">{children}</div>
           </main>

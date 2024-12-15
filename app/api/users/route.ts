@@ -48,6 +48,7 @@ export async function PATCH(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    // Get data from request
     const values = await req.json();
 
     const {
@@ -74,17 +75,31 @@ export async function PATCH(req: Request) {
       ...(birthday && { birthday: new Date(birthday) }),
     };
 
+    // Check if all required fields are filled
+    const isOnboarded =
+      firstName &&
+      lastName &&
+      phone &&
+      permis &&
+      passport &&
+      city &&
+      country &&
+      birthday;
+
+    // Update the user with the onboarded status
     const user = await db.user.update({
       where: {
         id: userId,
       },
-      data: updateData,
+      data: {
+        ...updateData,
+        isOnboarded, // Set onboarded status based on filled fields
+      },
     });
 
     return NextResponse.json({
       ...user,
-      // Optionally exclude sensitive fields
-      password: undefined,
+      password: undefined, // Optionally exclude sensitive fields
     });
   } catch (error) {
     console.log("[USER_ID_PATCH_ERROR]: ", error);

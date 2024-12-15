@@ -21,7 +21,7 @@ export default async function RootLayout({
       <AppSidebar />
       <div className="w-full flex flex-col">
         <Navbar />
-        <main className="p-48 w-full">{children}</main>
+        <main className="relative p-48 w-full">{children}</main>
         <Footer />
       </div>
     </SidebarProvider>

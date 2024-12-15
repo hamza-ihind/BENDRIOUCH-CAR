@@ -12,7 +12,8 @@ export async function POST(req: Request) {
     }
 
     const values = await req.json();
-    const { flightNumber, startDate, endDate, carId } = values;
+    const { flightNumber, startDate, endDate, carId, startPlace, endPlace } =
+      values;
 
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -26,6 +27,8 @@ export async function POST(req: Request) {
         flightNumber,
         startDate: start,
         endDate: end,
+        startPlace,
+        endPlace,
         userId,
         carId,
         status: "PENDING", // Status is initially PENDING

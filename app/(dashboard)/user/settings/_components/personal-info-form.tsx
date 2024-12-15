@@ -112,6 +112,16 @@ const PersonalInfoForm = ({ currentUser }: { currentUser: any }) => {
         >
           <FormField
             control={form.control}
+            name="image"
+            render={({ field }) => (
+              <ProfileImage
+                value={field.value}
+                onChange={(e) => handleImage(e, field.onChange)}
+              />
+            )}
+          />
+          <FormField
+            control={form.control}
             name="firstName"
             render={({ field }) => (
               <FormItem className="w-full">

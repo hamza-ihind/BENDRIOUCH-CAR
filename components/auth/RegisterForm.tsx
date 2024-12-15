@@ -53,7 +53,6 @@ const RegisterForm = () => {
       headerLabel="Bienvenue à bord ! Votre aventure commence ici."
       backButtonHref="/sign-in"
       backButtonLabel="Vous avez déjà un compte ?"
-      showSocial
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

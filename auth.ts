@@ -67,6 +67,7 @@ export const {
           permis: true,
           passport: true,
           city: true,
+          isOnboarded: true,
         },
       });
 
@@ -82,6 +83,7 @@ export const {
         city: userProfile?.city || undefined,
         country: userProfile?.country || undefined,
         birthday: userProfile?.birthday || undefined,
+        isOnboarded: userProfile?.isOnboarded || false,
       };
 
       return session;

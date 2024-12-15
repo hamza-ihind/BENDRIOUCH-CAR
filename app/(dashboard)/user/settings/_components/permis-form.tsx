@@ -6,9 +6,8 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { ImageIcon, Trash2, Edit } from "lucide-react";
 import Image from "next/image";
-import { User } from "@prisma/client";
-import { FileUpload } from "@/components/shared/file-upload";
 import { Button } from "@/components/ui/button";
+import { FileUpload } from "@/components/shared/file-upload";
 
 export const PermisForm = ({ currentUser }: { currentUser: any }) => {
   const router = useRouter();
@@ -17,7 +16,7 @@ export const PermisForm = ({ currentUser }: { currentUser: any }) => {
 
   const handleImageUpload = async (url: string) => {
     try {
-      await axios.patch(`/api/users`, { permis: url });
+      await axios.patch("/api/users", { permis: url });
       toast.success("Permis de conduite mise à jour");
       setPermis(url);
       setIsEditing(false);
@@ -29,10 +28,15 @@ export const PermisForm = ({ currentUser }: { currentUser: any }) => {
 
   const handleDeleteImage = async () => {
     try {
-      await axios.patch(`/api/users`, { permis: "" });
+      // Send PATCH request with empty permis value
+      await axios.patch("/api/users", { permis: "" });
+
+      // Optionally: If you have cloud storage (e.g., AWS S3), you can also delete it from there.
+
       toast.success("Permis de conduite supprimée");
-      setPermis("");
+      setPermis(""); // Update local state to remove the image from UI
       setIsEditing(true);
+      router.refresh(); // Refresh to update UI
     } catch {
       toast.error("Une erreur s'est produite");
     }

@@ -34,6 +34,7 @@ export default {
               firstName: user.firstName ?? undefined,
               lastName: user.lastName ?? undefined,
               emailVerified: user.emailVerified ?? undefined,
+              isOnboarded: user.isOnboarded ?? false,
               isTwoFactorEnabled: user.isTwoFactorEnabled,
             };
           }

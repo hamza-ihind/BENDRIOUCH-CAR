@@ -18,5 +18,6 @@ export function useCurrentUser() {
     birthday: session.user?.birthday,
     country: session.user?.country,
     city: session.user?.city,
+    isOnboarded: session.user?.isOnboarded,
   };
 }
