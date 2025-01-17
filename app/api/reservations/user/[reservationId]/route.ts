@@ -2,6 +2,33 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 
+export async function GET(
+  req: Request,
+  { params }: { params: { reservationId: string } }
+) {
+  const { reservationId } = params;
+
+  try {
+    const reservation = await db.reservation.findUnique({
+      where: { id: reservationId },
+    });
+
+    if (!reservation) {
+      return NextResponse.json(
+        { error: "Reservation not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(reservation);
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to fetch reservation" },
+      { status: 500 }
+    );
+  }
+}
+
 export async function PATCH(
   req: Request,
   { params }: { params: { reservationId: string } }

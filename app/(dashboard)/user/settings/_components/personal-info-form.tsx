@@ -1,10 +1,10 @@
 "use client";
 
 import { useUploadThing } from "@/lib/uploadthing";
-import { cn, isBase64Image } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { PersonalInfoSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState, useTransition } from "react";
 import {
   Popover,
@@ -23,7 +23,6 @@ import {
 import { FormError } from "@/components/uicomps/form-error";
 import { FormSuccess } from "@/components/uicomps/form-success";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import ProfileImage from "@/components/auth/profile-image";
 import { useImageUpload } from "@/hooks/use-image-upload";
@@ -34,27 +33,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { z } from "zod";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
-import { User } from "@prisma/client";
 import axios from "axios";
 import toast from "react-hot-toast";
-
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { z } from "zod";
 
 const PersonalInfoForm = ({ currentUser }: { currentUser: any }) => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
   const { handleImage, files } = useImageUpload();
-  const { startUpload } = useUploadThing("media");
   const [countriesAndCities, setCountriesAndCities] = useState<any>({});
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [cities, setCities] = useState<string[]>([]);
   const router = useRouter();
-  const pathname = usePathname();
 
   const user = useCurrentUser();
 
@@ -98,8 +93,9 @@ const PersonalInfoForm = ({ currentUser }: { currentUser: any }) => {
       await axios.patch(`/api/users`, values);
       toast.success("Informations mise à jour");
       router.refresh();
-    } catch {
+    } catch (err) {
       toast.error("Une erreur s'est produite !");
+      console.error(err);
     }
   };
 
@@ -120,6 +116,7 @@ const PersonalInfoForm = ({ currentUser }: { currentUser: any }) => {
               />
             )}
           />
+
           <FormField
             control={form.control}
             name="firstName"
@@ -155,6 +152,7 @@ const PersonalInfoForm = ({ currentUser }: { currentUser: any }) => {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="email"
@@ -172,6 +170,7 @@ const PersonalInfoForm = ({ currentUser }: { currentUser: any }) => {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="phone"
@@ -189,6 +188,7 @@ const PersonalInfoForm = ({ currentUser }: { currentUser: any }) => {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="birthday"
@@ -286,6 +286,7 @@ const PersonalInfoForm = ({ currentUser }: { currentUser: any }) => {
 
           <FormError message={error} />
           <FormSuccess message={success} />
+
           <Button type="submit" className="w-fit self-end justify-self-end">
             Confirmer
           </Button>

@@ -6,8 +6,11 @@
 export const publicRoutes = [
   "/",
   "/api/auth/providers",
+  "/astuces",
+  "/new-verification",
   "/api/uploadthing",
   "/api/webhook",
+  "/settinggs",
 ];
 
 /**
@@ -22,6 +25,7 @@ export const authRoutes = [
   "/error",
   "/reset",
   "/new-password",
+  "/new-verification",
 ];
 
 /**
@@ -35,4 +39,4 @@ export const apiAuthPrefix = "/api/auth";
  * The default redirect path after logging in
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT = "/";
+export const DEFAULT_LOGIN_REDIRECT = "/user/reservations";

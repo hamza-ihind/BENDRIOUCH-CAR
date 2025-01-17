@@ -66,7 +66,7 @@ export const EndDateForm = ({
   };
 
   return (
-    <div className="w-[720px] max-md:w-full">
+    <div className="w-full">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

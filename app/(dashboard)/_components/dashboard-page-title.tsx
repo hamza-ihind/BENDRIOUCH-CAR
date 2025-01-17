@@ -7,7 +7,7 @@ interface DashboardTitleProps {
 
 const DashboardPageTitle = ({ title, description }: DashboardTitleProps) => {
   return (
-    <div className="flex flex-col items-start gap-1">
+    <div className="flex flex-col items-start gap-2">
       <h1 className="text-black dark:text-white text-5xl font-bold max-lg:text-4xl">
         {title}
       </h1>

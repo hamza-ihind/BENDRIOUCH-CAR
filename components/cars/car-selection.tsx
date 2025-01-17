@@ -3,6 +3,7 @@ import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { Separator } from "../ui/separator";
 import { Antenna, Armchair, Fuel } from "lucide-react";
+import { Car } from "@prisma/client";
 
 interface CarProps {
   name: string;
@@ -13,10 +14,11 @@ interface CarProps {
   fuelType: string;
   seats: number;
   transmission: string;
+  selectedCar?: Car; // Add this prop
   onReserve: () => void; // Add this prop
 }
 
-const CarCard = ({
+const CarSelection = ({
   name,
   model,
   pricePerDay,
@@ -25,7 +27,8 @@ const CarCard = ({
   seats,
   transmission,
   imageUrl,
-  onReserve, // Add this prop
+  selectedCar,
+  onReserve,
 }: CarProps) => {
   const stringavailable = availability
     ? "Disponible maintenant"
@@ -80,12 +83,16 @@ const CarCard = ({
       </div>
       <button
         onClick={onReserve}
-        className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg"
+        className={`mt-2 px-4 py-2 rounded ${
+          selectedCar?.name === name
+            ? "bg-yellow-500 text-black"
+            : "bg-gray-300 text-black"
+        }`}
       >
-        Réserver
+        {selectedCar?.name === name ? "Désélectionner" : "Sélectionner"}
       </button>
     </div>
   );
 };
 
-export default CarCard;
+export default CarSelection;

@@ -1,6 +1,9 @@
 -- CreateEnum
 CREATE TYPE "UserRole" AS ENUM ('ADMIN', 'USER');
 
+-- CreateEnum
+CREATE TYPE "ReservationStatus" AS ENUM ('PENDING', 'CANCELLED', 'CONFIRMED');
+
 -- CreateTable
 CREATE TABLE "accounts" (
     "id" TEXT NOT NULL,
@@ -89,13 +92,31 @@ CREATE TABLE "Car" (
     "description" TEXT,
     "availability" BOOLEAN NOT NULL DEFAULT true,
     "fuelType" TEXT,
-    "seats" TEXT,
+    "seats" DOUBLE PRECISION,
     "transmission" TEXT,
     "isPublished" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Car_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "reservations" (
+    "id" TEXT NOT NULL,
+    "flightNumber" TEXT,
+    "startDate" TIMESTAMP(3) NOT NULL,
+    "endDate" TIMESTAMP(3) NOT NULL,
+    "startPlace" TEXT,
+    "endPlace" TEXT,
+    "status" "ReservationStatus" NOT NULL DEFAULT 'PENDING',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "isPublished" BOOLEAN NOT NULL DEFAULT false,
+    "userId" TEXT NOT NULL,
+    "carId" TEXT,
+
+    CONSTRAINT "reservations_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -130,3 +151,9 @@ ALTER TABLE "accounts" ADD CONSTRAINT "accounts_user_id_fkey" FOREIGN KEY ("user
 
 -- AddForeignKey
 ALTER TABLE "TwoFactorConfirmation" ADD CONSTRAINT "TwoFactorConfirmation_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "reservations" ADD CONSTRAINT "reservations_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "reservations" ADD CONSTRAINT "reservations_carId_fkey" FOREIGN KEY ("carId") REFERENCES "Car"("id") ON DELETE SET NULL ON UPDATE CASCADE;

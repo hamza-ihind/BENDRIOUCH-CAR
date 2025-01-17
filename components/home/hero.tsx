@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { Badge } from "../ui/badge";
 import { CardWrapper } from "../auth/CardWrapper";
-
 import {
   Form,
   FormControl,
@@ -38,20 +37,21 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import Image from "next/image";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
+// Adjusted schema to make flightNumber optional
 export const HeroSchema = z.object({
   startDate: z.date(),
   endDate: z.date(),
   startPlace: z.string(),
   endPlace: z.string(),
-  flightNumber: z
-    .string()
-    .min(1, { message: "Veuillez saisir votre numéro de vol" }),
+  flightNumber: z.string().optional(),
 });
 
 const Hero: React.FC = () => {
   const router = useRouter();
   const [citiesInMorocco, setCitiesInMorocco] = useState<string[]>([]);
+  const user = useCurrentUser();
 
   const form = useForm<z.infer<typeof HeroSchema>>({
     resolver: zodResolver(HeroSchema),
@@ -83,9 +83,15 @@ const Hero: React.FC = () => {
 
   const onSubmit = async (values: z.infer<typeof HeroSchema>) => {
     try {
+      if (!user) {
+        // Redirect to sign-in page if not authenticated
+        router.push(`/signin?redirect=/user/reservations`);
+        return;
+      }
+
       const response = await axios.post(`/api/reservations`, values);
       const reservationId = response.data.id;
-      toast.success("Informations mise à jour");
+
       router.push(`/user/reservations/${reservationId}`);
     } catch {
       toast.error("Une erreur s'est produite !");
@@ -94,40 +100,26 @@ const Hero: React.FC = () => {
 
   return (
     <div className="w-full h-full flex flex-col items-center gap-6">
-      {/* <div className="-z-1 w-full">
-        <Image
-          src={"/hero.webp"}
-          alt="hero"
-          width={720}
-          height={720}
-          objectFit="cover"
-          className="absolute left-0 brightness-30 contrast-75"
-        />
-      </div> */}
-
       <div className="w-full flex justify-between">
         <div className="flex flex-col gap-4 items-start text-left">
           <Badge variant={"secondary"} className="w-fit">
-            Location des voitures chez becndriouch Cars
+            Location de voitures chez Bendriouch Cars
           </Badge>
           <h1 className="text-6xl font-bold">
             Cherchez votre voiture préférée
           </h1>
           <p className="text-left text-gray-500 text-base w-[75%]">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam,
-            commodi illum reprehenderit ratione sapiente exercitationem tenetur,
-            saepe autem modi aperiam doloremque, magnam sit vitae rerum aut
-            repellendus voluptate qui voluptatibus.
+            Choisissez votre voiture préférée et réservez-la directement en
+            ligne. Remplissez les informations ci-dessous pour commencer votre
+            réservation.
           </p>
         </div>
-
-        {/* Text Section */}
 
         {/* Form Section */}
         <div className="flex justify-end w-full">
           <CardWrapper
             headerTitle="Réservation"
-            headerLabel="Réserver votre voiture aujourd'hui"
+            headerLabel="Réservez votre voiture aujourd'hui"
             backButtonHref="/cars"
             backButtonLabel="Voir des voitures ?"
             className="flex-1 h-fit min-w-[550px]"
@@ -144,7 +136,7 @@ const Hero: React.FC = () => {
                     render={({ field }) => (
                       <FormItem className="w-full flex flex-col">
                         <FormLabel className="text-base">
-                          Date de retraite
+                          Date de départ
                         </FormLabel>
                         <Popover>
                           <PopoverTrigger asChild>
@@ -159,7 +151,7 @@ const Hero: React.FC = () => {
                                 {field.value ? (
                                   format(field.value, "PPP")
                                 ) : (
-                                  <span>Pick a date</span>
+                                  <span>Sélectionnez une date</span>
                                 )}
                                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                               </Button>
@@ -198,7 +190,7 @@ const Hero: React.FC = () => {
                                 {field.value ? (
                                   format(field.value, "PPP")
                                 ) : (
-                                  <span>Pick a date</span>
+                                  <span>Sélectionnez une date</span>
                                 )}
                                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                               </Button>
@@ -247,7 +239,6 @@ const Hero: React.FC = () => {
                     )}
                   />
 
-                  {/* End Place (City) Select */}
                   <FormField
                     control={form.control}
                     name="endPlace"
@@ -283,7 +274,9 @@ const Hero: React.FC = () => {
                   name="flightNumber"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel className="text-base">Numéro de vol</FormLabel>
+                      <FormLabel className="text-base">
+                        Numéro de vol (facultatif)
+                      </FormLabel>
                       <FormControl>
                         <Input
                           disabled={isSubmitting}
@@ -299,6 +292,7 @@ const Hero: React.FC = () => {
                 <Button
                   type="submit"
                   className="w-full self-end justify-self-end"
+                  disabled={isSubmitting || !isValid}
                 >
                   Confirmer
                 </Button>

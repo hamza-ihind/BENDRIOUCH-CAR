@@ -2,6 +2,18 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 
+export async function GET(req: Request) {
+  try {
+    const cars = await db.car.findMany();
+    return NextResponse.json(cars);
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to fetch cars" },
+      { status: 500 }
+    );
+  }
+}
+
 export async function DELETE(
   req: Request,
   { params }: { params: { carId: string } }

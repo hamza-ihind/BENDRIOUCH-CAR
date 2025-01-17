@@ -51,58 +51,39 @@ export async function PATCH(req: Request) {
     // Get data from request
     const values = await req.json();
 
-    const {
-      firstName,
-      lastName,
-      phone,
-      image,
-      permis,
-      passport,
-      city,
-      country,
-      birthday,
-    } = values;
+    const { firstName, lastName, phone, image, city, country, birthday } =
+      values;
 
-    const updateData: any = {
-      ...(firstName && { firstName }),
-      ...(lastName && { lastName }),
-      ...(phone && { phone }),
-      ...(image && { image }),
-      ...(permis && { permis }),
-      ...(passport && { passport }),
-      ...(city && { city }),
-      ...(country && { country }),
-      ...(birthday && { birthday: new Date(birthday) }),
-    };
-
-    // Check if all required fields are filled
     const isOnboarded =
-      firstName &&
-      lastName &&
-      phone &&
-      permis &&
-      passport &&
-      city &&
-      country &&
-      birthday;
+      !!firstName &&
+      !!lastName &&
+      !!phone &&
+      !!image &&
+      !!city &&
+      !!country &&
+      !!birthday;
 
-    // Update the user with the onboarded status
-    const user = await db.user.update({
-      where: {
-        id: userId,
-      },
+    // Update the user
+    const updatedUser = await db.user.update({
+      where: { id: userId },
       data: {
-        ...updateData,
-        isOnboarded, // Set onboarded status based on filled fields
+        firstName,
+        lastName,
+        phone,
+        image,
+        city,
+        country,
+        birthday: birthday ? new Date(birthday) : null,
+        isOnboarded,
       },
     });
 
     return NextResponse.json({
-      ...user,
-      password: undefined, // Optionally exclude sensitive fields
+      ...updatedUser,
+      password: undefined, // Exclude sensitive fields
     });
   } catch (error) {
-    console.log("[USER_ID_PATCH_ERROR]: ", error);
+    console.error("[USER_PATCH_ERROR]: ", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

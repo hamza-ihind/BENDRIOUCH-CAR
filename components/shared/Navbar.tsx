@@ -28,6 +28,7 @@ import UserButton from "../auth/user-button";
 import { useUserRole } from "@/hooks/use-user-role";
 import { toast } from "@/hooks/use-toast";
 import { SidebarTrigger } from "../ui/sidebar";
+import { useRouter } from "next/navigation";
 
 interface ComponentItem {
   title: string;
@@ -99,9 +100,15 @@ interface ListItemProps extends React.ComponentPropsWithoutRef<"a"> {
 
 const Navbar: React.FC = () => {
   const user = useCurrentUser();
-  const role = user?.role;
+  const router = useRouter();
 
-  const targetRoute = role === "ADMIN" ? "/admin/cars" : "/user/reservations";
+  const handleDashboardClick = () => {
+    if (user?.role === "ADMIN") {
+      router.push("/admin/reservations");
+    } else {
+      router.push("/user/reservations");
+    }
+  };
 
   return (
     <header className="flex h-16 w-full shrink-0 items-center px-48 max-lg:px-8 z-50 backdrop-blur-[50px] fixed justify-between border-b border-solid border-gray-800 ">
@@ -130,18 +137,14 @@ const Navbar: React.FC = () => {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/catalogue" passHref>
+              <Link href="/catalog" passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   Catalogue
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href={targetRoute} passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Tableau de bord
-                </NavigationMenuLink>
-              </Link>
+              <Button onClick={handleDashboardClick}>Tableau de bord</Button>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>

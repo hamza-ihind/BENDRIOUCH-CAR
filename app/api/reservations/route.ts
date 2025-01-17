@@ -15,11 +15,22 @@ export async function POST(req: Request) {
     const { flightNumber, startDate, endDate, carId, startPlace, endPlace } =
       values;
 
-    const start = new Date(startDate);
-    const end = new Date(endDate);
+    // Set default values for dates if not provided
+    const start = startDate ? new Date(startDate) : new Date();
+    const end = endDate
+      ? new Date(endDate)
+      : new Date(start.getTime() + 24 * 60 * 60 * 1000); // Default to one day after start date
 
+    // Validate date format
     if (isNaN(start.getTime()) || isNaN(end.getTime())) {
       return new NextResponse("Invalid date format", { status: 400 });
+    }
+
+    // Ensure start date is before end date
+    if (start >= end) {
+      return new NextResponse("Start date must be before end date", {
+        status: 400,
+      });
     }
 
     const reservation = await db.reservation.create({
@@ -31,7 +42,7 @@ export async function POST(req: Request) {
         endPlace,
         userId,
         carId,
-        status: "PENDING", // Status is initially PENDING
+        status: "PENDING",
       },
     });
 

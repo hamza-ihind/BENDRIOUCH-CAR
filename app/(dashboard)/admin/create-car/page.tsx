@@ -22,7 +22,7 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 
 const formSchema = z.object({
-  title: z.string().min(1, {
+  name: z.string().min(1, {
     message: "Le modèle de la voiture est requis",
   }),
 });
@@ -33,7 +33,7 @@ const page = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
+      name: "",
     },
   });
 
@@ -65,7 +65,7 @@ const page = () => {
         >
           <FormField
             control={form.control}
-            name="title"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Modèle de la voiture</FormLabel>

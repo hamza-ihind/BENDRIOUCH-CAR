@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Title from "@/components/shared/Title";
 import CarsList from "@/components/cars/cars-list";
-import { Car } from "lucide-react";
-import { getCars } from "@/actions/get-cars";
 import { db } from "@/lib/db";
+import axios from "axios";
+import { Car } from "@prisma/client";
+import { Car as Voiture } from "lucide-react";
 
 const Page = async () => {
   const cars = await db.car.findMany({});
@@ -11,9 +12,9 @@ const Page = async () => {
   return (
     <div>
       <Title
-        title="Notre Catalogue"
-        description="je suis une description"
-        icon={Car}
+        title="Découvrez Notre Catalogue de Voitures"
+        description="Explorez notre vaste sélection de voitures disponibles à la location. Que vous ayez besoin d'une voiture pour un voyage d'affaires, une escapade de week-end ou un déplacement quotidien, nous avons le véhicule parfait pour vous."
+        icon={Voiture}
       />
 
       <CarsList cars={cars} />

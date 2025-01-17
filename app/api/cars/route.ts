@@ -20,7 +20,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(car);
   } catch (error) {
-    console.log("[CARS]", error);
+    console.log("[CARS_CREATE]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
