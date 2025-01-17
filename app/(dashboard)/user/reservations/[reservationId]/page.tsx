@@ -110,7 +110,7 @@ const Page = ({ params }: { params: { reservationId: string } }) => {
               selectedCar={selectedCar}
               reservation={reservation}
               reservationId={params.reservationId}
-              handleCarSelect={(selectedCar) => handleCarSelect}
+              handleCarSelect={handleCarSelect}
             />
           )}
 

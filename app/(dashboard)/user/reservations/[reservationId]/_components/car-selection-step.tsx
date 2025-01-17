@@ -16,7 +16,7 @@ import CarSelection from "@/components/cars/car-selection";
 interface CarSelectionStepProps {
   cars: Car[];
   selectedCar?: Car;
-  handleCarSelect: (car: Car | undefined) => void;
+  handleCarSelect: (car: any) => void;
   reservation: Reservation;
   reservationId: string;
 }
