@@ -13,12 +13,14 @@ import DashboardPageTitle from "@/app/(dashboard)/_components/dashboard-page-tit
 import { ArrowLeft } from "lucide-react";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import CarSelectionStep from "./_components/car-selection-step";
+import { useRouter } from "next/navigation";
 
 const Page = ({ params }: { params: { reservationId: string } }) => {
   const [reservation, setReservation] = useState<Reservation>();
   const [cars, setCars] = useState<Car[]>([]);
   const [selectedCar, setSelectedCar] = useState<Car>();
   const [currentStep, setCurrentStep] = useState(1);
+  const router = useRouter();
   const user = useCurrentUser();
 
   useEffect(() => {
@@ -62,6 +64,7 @@ const Page = ({ params }: { params: { reservationId: string } }) => {
         }
       );
       console.log("Reservation successful:", response.data);
+      router.push(`/user/reservations`);
     } catch (error) {
       console.error("Error creating reservation:", error);
     }

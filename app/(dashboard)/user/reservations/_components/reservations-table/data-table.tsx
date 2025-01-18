@@ -27,6 +27,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -37,6 +39,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const router = useRouter();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -59,14 +62,12 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4 justify-between">
-        <Link href="/user/create-reservation">
-          <Button>
-            <Plus className="h-4 w-4 mr-2" />
-            Nouvelle Reservation
-          </Button>
-        </Link>
-      </div>
+      {/* <div className="flex items-center py-4 justify-between">
+        <Button>
+          <Plus className="h-4 w-4 mr-2" />
+          Nouvelle Reservation
+        </Button>
+      </div> */}
       <div className="rounded-md">
         <Table>
           <TableHeader>
@@ -110,7 +111,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Aucun cours.
+                  Aucune réservation.
                 </TableCell>
               </TableRow>
             )}

@@ -14,7 +14,11 @@ const page = async () => {
     return redirect("/");
   }
 
-  const reservations = await db.reservation.findMany();
+  const reservations = await db.reservation.findMany({
+    where: {
+      isPublished: true,
+    },
+  });
 
   return (
     <div className="w-full z-20 flex flex-col p-16 max-md:px-4 max-md:py-28">

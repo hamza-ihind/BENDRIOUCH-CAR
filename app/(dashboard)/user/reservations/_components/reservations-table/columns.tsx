@@ -2,7 +2,7 @@
 
 import { Reservation } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { ChevronsUpDown, Pencil, MoreHorizontal } from "lucide-react";
+import { ChevronsUpDown, Pencil, MoreHorizontal, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,7 +14,10 @@ import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 export const columns: ColumnDef<Reservation>[] = [
   {
@@ -40,23 +43,6 @@ export const columns: ColumnDef<Reservation>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "RESERVATION",
-    header: ({ column }) => (
-      <Button
-        className="px-0"
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Clé de réservation
-        <ChevronsUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
-    cell: ({ row }) => {
-      const { id } = row.original;
-      return <div className="flex flex-col items-start">{id}</div>;
-    },
-  },
-  {
     accessorKey: "flightNumber",
     header: ({ column }) => (
       <Button
@@ -70,7 +56,11 @@ export const columns: ColumnDef<Reservation>[] = [
     ),
     cell: ({ row }) => {
       const { flightNumber } = row.original; // Access the actual fields
-      return <div className="text-gray-500">{flightNumber}</div>;
+      return (
+        <div className="text-gray-500">
+          {flightNumber ? flightNumber : "pas saisie"}
+        </div>
+      );
     },
   },
   {
@@ -189,9 +179,50 @@ export const columns: ColumnDef<Reservation>[] = [
     },
   },
   {
+    accessorKey: "isPublished",
+    header: ({ column }) => (
+      <Button
+        className="px-0"
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Publiée?
+        <ChevronsUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const isPublished = row.getValue("isPublished");
+      return (
+        <Badge
+          variant="outline"
+          className={cn(
+            "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium",
+            isPublished === false
+              ? "text-red-600 bg-red-300/80" // false color (red)
+              : "text-green-600 bg-green-400/80" // true color (green)
+          )}
+        >
+          {isPublished === false ? "Unpubliée" : "Publiée"}
+        </Badge>
+      );
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       const { id } = row.original;
+
+      const router = useRouter();
+
+      const handleDelete = async () => {
+        try {
+          await axios.delete(`/api/reservations/user/${id}/delete`);
+          toast.success("Réservation supprimée avec succès");
+          router.refresh();
+        } catch (error) {
+          toast.error("Erreur lors de la suppression de la réservation");
+        }
+      };
 
       return (
         <DropdownMenu>
@@ -208,6 +239,10 @@ export const columns: ColumnDef<Reservation>[] = [
                 Modifier
               </DropdownMenuItem>
             </Link>
+            <DropdownMenuItem onClick={handleDelete}>
+              <Trash className="h-4 w-4 mr-2" />
+              Supprimer
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
