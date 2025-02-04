@@ -10,14 +10,18 @@ interface CarsFilterProps {
   onFilter: (criteria: {
     fuelType: string;
     transmission: string;
-    availability: boolean;
+    availability?: boolean;
     minPrice: number;
     maxPrice: number;
     model: string;
   }) => void;
+  hideAvailability?: boolean;
 }
 
-const CarsFilter: React.FC<CarsFilterProps> = ({ onFilter }) => {
+const CarsFilter: React.FC<CarsFilterProps> = ({
+  onFilter,
+  hideAvailability,
+}) => {
   const [fuelType, setFuelType] = useState("");
   const [transmission, setTransmission] = useState("");
   const [availability, setAvailability] = useState(true);

@@ -12,7 +12,7 @@ import { Separator } from "@/components/ui/separator";
 interface FilterCriteria {
   fuelType: string;
   transmission: string;
-  availability: boolean;
+  availability?: boolean;
   minPrice: number;
   maxPrice: number;
   model: string;
@@ -49,9 +49,7 @@ const Page = () => {
           ? car.transmission === filterCriteria.transmission
           : true;
         const matchesAvailability =
-          filterCriteria.availability !== true
-            ? car.availability === filterCriteria.availability
-            : true;
+          car.availability === filterCriteria.availability;
         const matchesMinPrice =
           filterCriteria.minPrice !== 0
             ? car.pricePerDay &&

@@ -29,7 +29,7 @@ const CarsList = ({ cars }: CarsListProps) => {
         carId: car.id,
       });
       const reservationId = response.data.id;
-      router.push(`/user/reservations/${reservationId}`);
+      router.push(`/user/reservations/${reservationId}?selectedCar=${car.id}`);
     } catch (error) {
       console.error("Error creating reservation:", error);
     }
@@ -40,6 +40,7 @@ const CarsList = ({ cars }: CarsListProps) => {
       {cars.map((car) => (
         <CarCard
           key={car.id}
+          id={car.id}
           name={car.name || "Unnamed Car"}
           model={car.model || "Unknown Model"}
           pricePerDay={car.pricePerDay || 0}

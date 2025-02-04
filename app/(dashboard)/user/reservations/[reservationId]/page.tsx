@@ -13,7 +13,7 @@ import DashboardPageTitle from "@/app/(dashboard)/_components/dashboard-page-tit
 import { ArrowLeft } from "lucide-react";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import CarSelectionStep from "./_components/car-selection-step";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const Page = ({ params }: { params: { reservationId: string } }) => {
   const [reservation, setReservation] = useState<Reservation>();
@@ -21,6 +21,7 @@ const Page = ({ params }: { params: { reservationId: string } }) => {
   const [selectedCar, setSelectedCar] = useState<Car>();
   const [currentStep, setCurrentStep] = useState(1);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const user = useCurrentUser();
 
   useEffect(() => {
@@ -33,13 +34,22 @@ const Page = ({ params }: { params: { reservationId: string } }) => {
 
         const carsResponse = await axios.get("/api/cars");
         setCars(carsResponse.data);
+
+        const selectedCarId = searchParams.get("selectedCar");
+        if (selectedCarId) {
+          const selectedCar = carsResponse.data.find(
+            (car: Car) => car.id === selectedCarId
+          );
+          setSelectedCar(selectedCar);
+          setCurrentStep(2); // Move to the next step
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [params.reservationId]);
+  }, [params.reservationId, searchParams]);
 
   const handleCarSelect = (car: Car) => {
     setSelectedCar(car); // Set the selected car ID

@@ -95,7 +95,7 @@ export const StartPlaceForm = ({
             name="startPlace"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="text-xl">Lieu de retraite</FormLabel>
+                <FormLabel className="text-base">Lieu de retraite</FormLabel>
                 <Select
                   onValueChange={(value) => field.onChange(value)}
                   defaultValue={field.value}

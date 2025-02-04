@@ -3,8 +3,10 @@ import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { Separator } from "../ui/separator";
 import { Antenna, Armchair, Fuel } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface CarProps {
+  id: string;
   name: string;
   model: string;
   pricePerDay: number;
@@ -18,6 +20,7 @@ interface CarProps {
 }
 
 const CarCard = ({
+  id,
   name,
   model,
   pricePerDay,
@@ -33,12 +36,14 @@ const CarCard = ({
     ? "Disponible maintenant"
     : "Pas disponible";
 
+  const badgeColor = availability
+    ? "bg-green-200 text-green-800 hover:bg-green-300"
+    : "bg-red-200 text-red-800 hover:bg-red-300";
+
   return (
     <div className="w-full h-fit border border-color p-4 rounded-xl">
       <div className="w-full flex items-start gap-4">
-        <Badge className="bg-green-200 text-green-800 hover:bg-green-300 text-xs">
-          {stringavailable}
-        </Badge>
+        <Badge className={`${badgeColor} text-xs`}>{stringavailable}</Badge>
       </div>
       <div className="py-4">
         <Image
@@ -83,12 +88,21 @@ const CarCard = ({
           {transmission}
         </div>
       </div>
-      <button
-        onClick={onReserve}
-        className="mt-4 w-full bg-yellow-400 text-black py-2 rounded-lg"
-      >
-        Réserver
-      </button>
+      {availability ? (
+        <button
+          onClick={onReserve}
+          className="mt-4 w-full bg-yellow-400 text-black py-2 rounded-lg"
+        >
+          Réserver
+        </button>
+      ) : (
+        <button
+          disabled
+          className="mt-4 w-full bg-gray-300 text-gray-600 py-2 rounded-lg cursor-not-allowed"
+        >
+          Déjà réservé
+        </button>
+      )}
     </div>
   );
 };

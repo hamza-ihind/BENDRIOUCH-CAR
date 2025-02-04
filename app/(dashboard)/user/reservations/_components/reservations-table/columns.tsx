@@ -2,7 +2,13 @@
 
 import { Reservation } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { ChevronsUpDown, Pencil, MoreHorizontal, Trash } from "lucide-react";
+import {
+  ChevronsUpDown,
+  Pencil,
+  MoreHorizontal,
+  Trash,
+  Globe,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -210,7 +216,7 @@ export const columns: ColumnDef<Reservation>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const { id } = row.original;
+      const { id, isPublished } = row.original;
 
       const router = useRouter();
 
@@ -221,6 +227,31 @@ export const columns: ColumnDef<Reservation>[] = [
           router.refresh();
         } catch (error) {
           toast.error("Erreur lors de la suppression de la réservation");
+        }
+      };
+
+      const handleTogglePublish = async () => {
+        try {
+          const response = await axios.patch(
+            `/api/reservations/user/${id}/publish`,
+            {
+              isPublished: !isPublished,
+            }
+          );
+
+          if (response.status === 200) {
+            toast.success(
+              `Réservation ${isPublished ? "unpubliée" : "publiée"} avec succès`
+            );
+            router.refresh();
+          }
+        } catch (error) {
+          console.error("Toggle publish error:", error);
+          toast.error(
+            `Erreur lors de la ${
+              isPublished ? "unpublication" : "publication"
+            } de la réservation`
+          );
         }
       };
 
@@ -242,6 +273,10 @@ export const columns: ColumnDef<Reservation>[] = [
             <DropdownMenuItem onClick={handleDelete}>
               <Trash className="h-4 w-4 mr-2" />
               Supprimer
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleTogglePublish}>
+              <Globe className="h-4 w-4 mr-2" />
+              {isPublished ? "Unpublier" : "Publier"}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

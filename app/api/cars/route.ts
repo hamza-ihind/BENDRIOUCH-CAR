@@ -27,14 +27,21 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
+    const session = await auth();
+
+    if (!session?.user) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
     const cars = await db.car.findMany({
-      orderBy: {
-        createdAt: "desc",
+      where: {
+        isPublished: true,
       },
     });
+
     return NextResponse.json(cars);
   } catch (error) {
-    console.error("[GET_CARS]", error);
+    console.log("[CARS_GET]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

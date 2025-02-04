@@ -1,20 +1,67 @@
+"use client";
+
 import React from "react";
 import { Separator } from "@/components/ui/separator";
 import DashboardPageTitle from "../../_components/dashboard-page-title";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 import CarsList from "@/components/cars/cars-list";
-import { db } from "@/lib/db";
+import { useEffect, useState } from "react";
+import { Car } from "@prisma/client";
+import axios from "axios";
+import CarsFilter from "@/app/(root)/catalog/_components/cars-filter";
 
-const page = async () => {
-  const session = await auth();
-  const userId = session?.user.id;
+const CarsPage = () => {
+  const [cars, setCars] = useState<Car[]>([]);
+  const [filteredCars, setFilteredCars] = useState<Car[]>([]);
 
-  if (!userId) {
-    return redirect("/");
-  }
+  useEffect(() => {
+    const fetchCars = async () => {
+      try {
+        const response = await axios.get("/api/cars");
+        setCars(response.data);
+        setFilteredCars(response.data);
+      } catch (error) {
+        console.error("Error fetching cars:", error);
+      }
+    };
 
-  const cars = await db.car.findMany({});
+    fetchCars();
+  }, []);
+
+  const handleFilter = (criteria: {
+    fuelType: string;
+    transmission: string;
+    availability: boolean;
+    minPrice: number;
+    maxPrice: number;
+    model: string;
+  }) => {
+    const filtered = cars.filter((car) => {
+      const fuelTypeMatch =
+        !criteria.fuelType || car.fuelType === criteria.fuelType;
+      const transmissionMatch =
+        !criteria.transmission || car.transmission === criteria.transmission;
+      const availabilityMatch = car.availability === criteria.availability;
+      const priceMatch =
+        (!criteria.minPrice ||
+          (car.pricePerDay !== null && car.pricePerDay >= criteria.minPrice)) &&
+        (!criteria.maxPrice ||
+          (car.pricePerDay !== null && car.pricePerDay <= criteria.maxPrice));
+      const modelMatch =
+        !criteria.model ||
+        (car.model !== null &&
+          car.model.toLowerCase().includes(criteria.model.toLowerCase()));
+
+      return (
+        fuelTypeMatch &&
+        transmissionMatch &&
+        availabilityMatch &&
+        priceMatch &&
+        modelMatch
+      );
+    });
+
+    setFilteredCars(filtered);
+  };
 
   return (
     <div className="w-full z-20 flex flex-col p-16">
@@ -24,9 +71,21 @@ const page = async () => {
           facilement."
       />
       <Separator />
-      <CarsList cars={cars} />
+      <div className="flex gap-8">
+        <CarsFilter
+          onFilter={(criteria) =>
+            handleFilter({
+              ...criteria,
+              availability: criteria.availability ?? false,
+            })
+          }
+        />
+        <div className="flex-1">
+          <CarsList cars={filteredCars} />
+        </div>
+      </div>
     </div>
   );
 };
 
-export default page;
+export default CarsPage;

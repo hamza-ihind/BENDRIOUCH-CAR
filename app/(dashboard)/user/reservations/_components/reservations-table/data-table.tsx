@@ -68,7 +68,7 @@ export function DataTable<TData, TValue>({
           Nouvelle Reservation
         </Button>
       </div> */}
-      <div className="rounded-md">
+      <div className="border rounded-md">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

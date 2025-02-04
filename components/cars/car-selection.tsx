@@ -35,7 +35,7 @@ const CarSelection = ({
     : "Pas disponible";
 
   return (
-    <div className="w-full border border-color p-4 rounded-xl">
+    <div className="w-full h-fit border border-color p-4 rounded-xl">
       <div className="w-full flex items-start gap-4">
         <Badge className="bg-green-200 text-green-800 hover:bg-green-300 text-xs">
           {availabilityText}

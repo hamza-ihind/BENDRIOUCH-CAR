@@ -12,16 +12,7 @@ import { PermisForm } from "./_components/permis-form";
 const page = () => {
   const user = useCurrentUser();
 
-  // Conditionally check if the user has completed all necessary fields
-  const isAllFieldsCompleted =
-    user?.firstName &&
-    user?.lastName &&
-    user?.phone &&
-    user?.permis &&
-    user?.passport &&
-    user?.city &&
-    user?.country &&
-    user?.birthday;
+  const isUserOnboarded = user?.isOnboarded;
 
   return (
     <div className="w-full z-20 flex flex-col p-16 max-md:px-4 max-md:py-28">
@@ -33,18 +24,18 @@ const page = () => {
       {/* Conditional Notice Section */}
       <div
         className={`mt-4 p-4 border rounded-md ${
-          isAllFieldsCompleted
+          isUserOnboarded
             ? "bg-green-100 border-green-300 text-green-800"
             : "bg-yellow-100 border-yellow-300 text-yellow-800"
         }`}
       >
         <h3 className="font-semibold text-lg">
-          {isAllFieldsCompleted
-            ? "Vous pouvez maintenant faire une réservation !"
+          {isUserOnboarded
+            ? "Vous êtes onboardé et pouvez maintenant faire une réservation !"
             : "Complétez vos informations pour réserver une voiture"}
         </h3>
         <p>
-          {isAllFieldsCompleted
+          {isUserOnboarded
             ? "Toutes vos informations sont à jour. Vous êtes prêt à effectuer une réservation de voiture."
             : "Afin de pouvoir effectuer une réservation, vous devez mettre à jour votre photo, votre permis de conduire, votre passeport et votre mot de passe. Assurez-vous que toutes les informations sont à jour pour valider votre réservation."}
         </p>
@@ -53,7 +44,7 @@ const page = () => {
       <Separator />
 
       {/* Personal Information Section */}
-      <div className="mt-8 w-full grid grid-cols-[1fr_3fr] space-x-24 max-2xl:grid-cols-1 max-2xl:space-x-0 max-2xl:space-y-4">
+      <div className="w-full grid grid-cols-[1fr_3fr] space-x-24 max-2xl:grid-cols-1 max-2xl:space-x-0 max-2xl:space-y-4">
         <SectionTitle
           title="Informations personnelles"
           description="Mettez à jour votre photo et vos informations personnelles"

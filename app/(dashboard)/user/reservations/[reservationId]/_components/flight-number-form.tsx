@@ -67,7 +67,7 @@ export const FlightNumberForm = ({
             name="flightNumber"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="text-xl">Numéro de vol</FormLabel>
+                <FormLabel className="text-base">Numéro de vol</FormLabel>
                 <FormControl>
                   <Input
                     disabled={isSubmitting}

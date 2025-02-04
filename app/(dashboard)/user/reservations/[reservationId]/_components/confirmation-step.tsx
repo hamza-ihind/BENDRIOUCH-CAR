@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   text: { fontSize: 12, marginBottom: 8, color: "#555" },
-  image: { width: 50, height: 50, borderRadius: 25, marginRight: 10 },
-  carImage: { width: 100, height: 50, borderRadius: 5, marginRight: 10 },
+  image: { width: 100, height: 100, borderRadius: 50, marginRight: 10 },
+  carImage: { width: 150, height: 100, borderRadius: 5, marginRight: 10 },
   footer: { marginTop: 20, textAlign: "center", fontSize: 10, color: "#888" },
   signatureSection: {
     flexDirection: "row",
@@ -53,6 +53,12 @@ const styles = StyleSheet.create({
     width: "40%",
     textAlign: "center",
     fontSize: 10,
+    marginTop: 10,
+  },
+  copyright: {
+    textAlign: "center",
+    fontSize: 10,
+    color: "#888",
     marginTop: 10,
   },
 });
@@ -135,6 +141,15 @@ const ReservationPDF = ({
             <Text style={styles.text}>
               Prix par jour: {selectedCar.pricePerDay || 0} DH / jour
             </Text>
+            <Text style={styles.text}>
+              Carburant: {selectedCar.fuelType || "Non spécifié"}
+            </Text>
+            <Text style={styles.text}>
+              Sièges: {selectedCar.seats || "Non spécifié"}
+            </Text>
+            <Text style={styles.text}>
+              Transmission: {selectedCar.transmission || "Non spécifié"}
+            </Text>
             <Text style={styles.text}>Prix total: {totalPrice} DH</Text>
           </View>
         </View>
@@ -143,7 +158,7 @@ const ReservationPDF = ({
         <Text style={styles.signatureLine}>Signature du propriétaire</Text>
         <Text style={styles.signatureLine}>Signature du client</Text>
       </View>
-      <Text style={styles.footer}>
+      <Text style={styles.copyright}>
         © 2023 Your Company Name. All rights reserved.
       </Text>
     </Page>
@@ -251,6 +266,17 @@ const ConfirmationStep = ({
             <p className="text-lg text-gray-700">
               <strong>Prix par jour:</strong> {selectedCar.pricePerDay || 0} DH
               / jour
+            </p>
+            <p className="text-lg text-gray-700">
+              <strong>Carburant:</strong>{" "}
+              {selectedCar.fuelType || "Non spécifié"}
+            </p>
+            <p className="text-lg text-gray-700">
+              <strong>Sièges:</strong> {selectedCar.seats || "Non spécifié"}
+            </p>
+            <p className="text-lg text-gray-700">
+              <strong>Transmission:</strong>{" "}
+              {selectedCar.transmission || "Non spécifié"}
             </p>
             <p className="text-lg text-gray-700">
               <strong>Prix total:</strong> {totalPrice} DH
