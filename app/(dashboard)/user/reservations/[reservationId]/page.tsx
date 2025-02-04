@@ -116,9 +116,7 @@ const Page = ({ params }: { params: { reservationId: string } }) => {
               handleCarSelect={handleCarSelect}
             />
           )}
-
           {currentStep === 2 && <PersonalInfoStep />}
-
           {currentStep === 3 && (
             <ConfirmationStep
               reservation={reservation}
@@ -126,7 +124,6 @@ const Page = ({ params }: { params: { reservationId: string } }) => {
               handleSubmitReservation={handleSubmitReservation}
             />
           )}
-
           {/* Navigation Buttons */}
           <NavigationButtons
             currentStep={currentStep}

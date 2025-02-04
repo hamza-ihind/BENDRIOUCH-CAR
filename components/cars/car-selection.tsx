@@ -14,8 +14,8 @@ interface CarProps {
   fuelType: string;
   seats: number;
   transmission: string;
-  selectedCar?: Car; // Add this prop
-  onReserve: () => void; // Add this prop
+  selectedCar?: Car;
+  onReserve: () => void;
 }
 
 const CarSelection = ({
@@ -30,7 +30,7 @@ const CarSelection = ({
   selectedCar,
   onReserve,
 }: CarProps) => {
-  const stringavailable = availability
+  const availabilityText = availability
     ? "Disponible maintenant"
     : "Pas disponible";
 
@@ -38,12 +38,12 @@ const CarSelection = ({
     <div className="w-full border border-color p-4 rounded-xl">
       <div className="w-full flex items-start gap-4">
         <Badge className="bg-green-200 text-green-800 hover:bg-green-300 text-xs">
-          {stringavailable}
+          {availabilityText}
         </Badge>
       </div>
       <div className="py-4">
         <Image
-          alt="image"
+          alt="Car image"
           src={imageUrl}
           width={720}
           height={720}
@@ -55,13 +55,13 @@ const CarSelection = ({
           <p className="text-black dark:text-white text-xl font-semibold">
             {name}
           </p>
-          <p className="text-gray-400 dark:text-white text-sm font-mormal">
+          <p className="text-gray-400 dark:text-white text-sm font-normal">
             {model}
           </p>
         </div>
         <div className="flex items-end gap-1 text-gray-400 text-sm">
           <span className="text-black dark:text-white text-base font-semibold">
-            {String(pricePerDay)} DH
+            {pricePerDay} DH
           </span>
           /jour
         </div>
@@ -83,7 +83,7 @@ const CarSelection = ({
       </div>
       <button
         onClick={onReserve}
-        className={`mt-2 px-4 py-2 rounded ${
+        className={`w-full mt-3 px-4 py-2 rounded-lg ${
           selectedCar?.name === name
             ? "bg-yellow-500 text-black"
             : "bg-gray-300 text-black"

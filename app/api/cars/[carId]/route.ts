@@ -2,15 +2,24 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 
-export async function GET(req: Request) {
+export async function GET(
+  req: Request,
+  { params }: { params: { carId: string } }
+) {
   try {
-    const cars = await db.car.findMany();
-    return NextResponse.json(cars);
+    const car = await db.car.findUnique({
+      where: {
+        id: params.carId,
+      },
+    });
+
+    if (!car) {
+      return new NextResponse("Not Found", { status: 404 });
+    }
+
+    return NextResponse.json(car);
   } catch (error) {
-    return NextResponse.json(
-      { error: "Failed to fetch cars" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch car" }, { status: 500 });
   }
 }
 

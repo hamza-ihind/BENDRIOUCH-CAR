@@ -12,9 +12,15 @@ interface CarsListProps {
 
 const CarsList = ({ cars }: CarsListProps) => {
   const router = useRouter();
-  // If no cars are passed, show an error message
+
   if (!cars || cars.length === 0) {
-    return <p className="text-center">No cars available at the moment.</p>;
+    return (
+      <div className="flex justify-center items-center h-full">
+        <p className="text-center text-gray-500 text-lg">
+          No cars available at the moment.
+        </p>
+      </div>
+    );
   }
 
   const handleReserveCar = async (car: Car) => {
@@ -30,7 +36,7 @@ const CarsList = ({ cars }: CarsListProps) => {
   };
 
   return (
-    <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {cars.map((car) => (
         <CarCard
           key={car.id}
@@ -42,6 +48,7 @@ const CarsList = ({ cars }: CarsListProps) => {
           transmission={car.transmission || "N/A"}
           availability={car.availability}
           imageUrl={car.imageUrl || "/default-image.png"}
+          description={car.description || "No description available"}
           onReserve={() => handleReserveCar(car)}
         />
       ))}

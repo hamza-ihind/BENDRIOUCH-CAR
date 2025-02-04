@@ -14,6 +14,7 @@ interface CarProps {
   seats: number;
   transmission: string;
   onReserve: () => void; // Add this prop
+  description: string; // Add this prop
 }
 
 const CarCard = ({
@@ -25,14 +26,15 @@ const CarCard = ({
   seats,
   transmission,
   imageUrl,
-  onReserve, // Add this prop
+  onReserve,
+  description,
 }: CarProps) => {
   const stringavailable = availability
     ? "Disponible maintenant"
     : "Pas disponible";
 
   return (
-    <div className="w-full border border-color p-4 rounded-xl">
+    <div className="w-full h-fit border border-color p-4 rounded-xl">
       <div className="w-full flex items-start gap-4">
         <Badge className="bg-green-200 text-green-800 hover:bg-green-300 text-xs">
           {stringavailable}
@@ -44,7 +46,7 @@ const CarCard = ({
           src={imageUrl}
           width={720}
           height={720}
-          className="w-96 h-40 object-cover"
+          className="w-full h-40 object-cover"
         />
       </div>
       <div className="w-full flex justify-between">
@@ -52,7 +54,7 @@ const CarCard = ({
           <p className="text-black dark:text-white text-xl font-semibold">
             {name}
           </p>
-          <p className="text-gray-400 dark:text-white text-sm font-mormal">
+          <p className="text-gray-400 dark:text-white text-sm font-normal">
             {model}
           </p>
         </div>
@@ -63,6 +65,9 @@ const CarCard = ({
           /jour
         </div>
       </div>
+      <p className="mt-2 text-gray-600 dark:text-gray-300 text-sm mb-4">
+        {description}
+      </p>
       <Separator className="my-4" />
       <div className="flex justify-between">
         <div className="flex gap-1 text-black dark:text-white text-sm items-center">
@@ -80,7 +85,7 @@ const CarCard = ({
       </div>
       <button
         onClick={onReserve}
-        className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg"
+        className="mt-4 w-full bg-yellow-400 text-black py-2 rounded-lg"
       >
         Réserver
       </button>

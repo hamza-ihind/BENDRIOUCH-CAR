@@ -38,9 +38,9 @@ const Approche = () => {
             {/* Item 1 */}
             <div className="flex gap-x-5 ms-1">
               {/* Icon */}
-              <div className="relative last:after:hidden after:absolute after:top-8 after:bottom-0 after:left-4 after:w-px after:bg-neutral-800">
+              <div className="relative last:after:hidden after:absolute after:top-8 after:bottom-0 after:left-4 after:w-px after:bg-neutral-800 dark:after:bg-neutral-400">
                 <div className="relative z-10 w-8 h-8 flex justify-center items-center">
-                  <span className="flex flex-shrink-0 justify-center items-center w-8 h-8 border border-neutral-800 text-yellow-400 font-semibold text-xs uppercase rounded-full">
+                  <span className="flex flex-shrink-0 justify-center items-center w-8 h-8 border border-neutral-800 dark:border-neutral-400 text-yellow-400 font-semibold text-xs uppercase rounded-full">
                     1
                   </span>
                 </div>
@@ -49,8 +49,8 @@ const Approche = () => {
 
               {/* Right Content */}
               <div className="grow pt-0.5 pb-8 sm:pb-12">
-                <p className="text-lg lg:text-xl text-neutral-800 font-normal">
-                  <span className="font-bold text-black">
+                <p className="text-lg lg:text-xl text-neutral-800 dark:text-neutral-200 font-normal">
+                  <span className="font-bold text-black dark:text-white">
                     Inscription ou connexion :
                   </span>{" "}
                   Créez un compte ou connectez-vous pour commencer votre
@@ -64,9 +64,9 @@ const Approche = () => {
             {/* Item 2 */}
             <div className="flex gap-x-5 ms-1">
               {/* Icon */}
-              <div className="relative last:after:hidden after:absolute after:top-8 after:bottom-0 after:left-4 after:w-px after:bg-neutral-800">
+              <div className="relative last:after:hidden after:absolute after:top-8 after:bottom-0 after:left-4 after:w-px after:bg-neutral-800 dark:after:bg-neutral-400">
                 <div className="relative z-10 w-8 h-8 flex justify-center items-center">
-                  <span className="flex flex-shrink-0 justify-center items-center w-8 h-8 border border-neutral-800 text-yellow-400 font-semibold text-xs uppercase rounded-full">
+                  <span className="flex flex-shrink-0 justify-center items-center w-8 h-8 border border-neutral-800 dark:border-neutral-400 text-yellow-400 font-semibold text-xs uppercase rounded-full">
                     2
                   </span>
                 </div>
@@ -75,8 +75,8 @@ const Approche = () => {
 
               {/* Right Content */}
               <div className="grow pt-0.5 pb-8 sm:pb-12">
-                <p className="text-lg lg:text-xl text-neutral-800 font-normal">
-                  <span className="font-bold text-black">
+                <p className="text-lg lg:text-xl text-neutral-800 dark:text-neutral-200 font-normal">
+                  <span className="font-bold text-black dark:text-white">
                     Commencez une réservation :
                   </span>{" "}
                   Choisissez la voiture de votre choix parmi notre flotte
@@ -90,9 +90,9 @@ const Approche = () => {
             {/* Item 3 */}
             <div className="flex gap-x-5 ms-1">
               {/* Icon */}
-              <div className="relative last:after:hidden after:absolute after:top-8 after:bottom-0 after:left-4 after:w-px after:bg-neutral-800">
+              <div className="relative last:after:hidden after:absolute after:top-8 after:bottom-0 after:left-4 after:w-px after:bg-neutral-800 dark:after:bg-neutral-400">
                 <div className="relative z-10 w-8 h-8 flex justify-center items-center">
-                  <span className="flex flex-shrink-0 justify-center items-center w-8 h-8 border border-neutral-800 text-yellow-400 font-semibold text-xs uppercase rounded-full">
+                  <span className="flex flex-shrink-0 justify-center items-center w-8 h-8 border border-neutral-800 dark:border-neutral-400 text-yellow-400 font-semibold text-xs uppercase rounded-full">
                     3
                   </span>
                 </div>
@@ -101,8 +101,8 @@ const Approche = () => {
 
               {/* Right Content */}
               <div className="grow pt-0.5 pb-8 sm:pb-12">
-                <p className="text-lg lg:text-xl text-neutral-800 font-normal">
-                  <span className="font-bold text-black">
+                <p className="text-lg lg:text-xl text-neutral-800 dark:text-neutral-200 font-normal">
+                  <span className="font-bold text-black dark:text-white">
                     Choisissez la voiture :
                   </span>{" "}
                   Sélectionnez le modèle, la taille et les options selon vos
@@ -116,9 +116,9 @@ const Approche = () => {
             {/* Item 4 */}
             <div className="flex gap-x-5 ms-1">
               {/* Icon */}
-              <div className="relative last:after:hidden after:absolute after:top-8 after:bottom-0 after:left-4 after:w-px after:bg-neutral-800">
+              <div className="relative last:after:hidden after:absolute after:top-8 after:bottom-0 after:left-4 after:w-px after:bg-neutral-800 dark:after:bg-neutral-400">
                 <div className="relative z-10 w-8 h-8 flex justify-center items-center">
-                  <span className="flex flex-shrink-0 justify-center items-center w-8 h-8 border border-neutral-800 text-yellow-400 font-semibold text-xs uppercase rounded-full">
+                  <span className="flex flex-shrink-0 justify-center items-center w-8 h-8 border border-neutral-800 dark:border-neutral-400 text-yellow-400 font-semibold text-xs uppercase rounded-full">
                     4
                   </span>
                 </div>
@@ -127,8 +127,8 @@ const Approche = () => {
 
               {/* Right Content */}
               <div className="grow pt-0.5 pb-8 sm:pb-12">
-                <p className="text-lg lg:text-xl text-neutral-800 font-normal">
-                  <span className="font-bold text-black">
+                <p className="text-lg lg:text-xl text-neutral-800 dark:text-neutral-200 font-normal">
+                  <span className="font-bold text-black dark:text-white">
                     Attendez la confirmation :
                   </span>{" "}
                   Un administrateur confirmera votre réservation et vous enverra

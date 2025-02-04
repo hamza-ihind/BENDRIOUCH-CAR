@@ -6,7 +6,6 @@ import { CardWrapper } from "../auth/CardWrapper";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -99,207 +98,206 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center gap-6">
-      <div className="w-full flex justify-between">
-        <div className="flex flex-col gap-4 items-start text-left">
-          <Badge variant={"secondary"} className="w-fit">
-            Location de voitures chez Bendriouch Cars
-          </Badge>
-          <h1 className="text-6xl font-bold">
-            Cherchez votre voiture préférée
-          </h1>
-          <p className="text-left text-gray-500 text-base w-[75%]">
-            Choisissez votre voiture préférée et réservez-la directement en
-            ligne. Remplissez les informations ci-dessous pour commencer votre
-            réservation.
-          </p>
-        </div>
+    <div className="w-full h-[720px] max-md:h-full flex flex-col items-center gap-6 justify-center relative">
+      <Image
+        src="/car-background.webp"
+        alt="Car Background"
+        layout="fill"
+        objectFit="cover"
+        objectPosition="top left"
+        className="z-0"
+      />
+      <div className="w-full flex flex-col items-center text-center z-10">
+        <Badge variant={"secondary"} className="w-fit">
+          Location de voitures chez Bendriouch Cars
+        </Badge>
+        <h1 className="text-6xl font-bold text-white">
+          Cherchez votre voiture préférée
+        </h1>
+        <p className="text-gray-200 text-base w-[75%]">
+          Choisissez votre voiture préférée et réservez-la directement en ligne.
+          Remplissez les informations ci-dessous pour commencer votre
+          réservation.
+        </p>
+      </div>
 
-        {/* Form Section */}
-        <div className="flex justify-end w-full">
-          <CardWrapper
-            headerTitle="Réservation"
-            headerLabel="Réservez votre voiture aujourd'hui"
-            backButtonHref="/cars"
-            backButtonLabel="Voir des voitures ?"
-            className="flex-1 h-fit min-w-[550px]"
-          >
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-6"
-              >
-                <div className="flex gap-4">
-                  <FormField
-                    control={form.control}
-                    name="startDate"
-                    render={({ field }) => (
-                      <FormItem className="w-full flex flex-col">
-                        <FormLabel className="text-base">
-                          Date de départ
-                        </FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant={"outline"}
-                                className={cn(
-                                  "pl-3 text-left font-normal",
-                                  !field.value && "text-muted-foreground"
-                                )}
-                              >
-                                {field.value ? (
-                                  format(field.value, "PPP")
-                                ) : (
-                                  <span>Sélectionnez une date</span>
-                                )}
-                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              selected={field.value}
-                              onSelect={field.onChange}
-                            />
-                          </PopoverContent>
-                        </Popover>
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="endDate"
-                    render={({ field }) => (
-                      <FormItem className="w-full flex flex-col">
-                        <FormLabel className="text-base">
-                          Date de retour
-                        </FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant={"outline"}
-                                className={cn(
-                                  "pl-3 text-left font-normal",
-                                  !field.value && "text-muted-foreground"
-                                )}
-                              >
-                                {field.value ? (
-                                  format(field.value, "PPP")
-                                ) : (
-                                  <span>Sélectionnez une date</span>
-                                )}
-                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              selected={field.value}
-                              onSelect={field.onChange}
-                            />
-                          </PopoverContent>
-                        </Popover>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="flex gap-4">
-                  <FormField
-                    control={form.control}
-                    name="startPlace"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel className="text-xl">
-                          Ville de départ
-                        </FormLabel>
-                        <Select
-                          onValueChange={(value) => field.onChange(value)}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Sélectionnez une ville" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {citiesInMorocco.map((city, index) => (
-                              <SelectItem key={index} value={city}>
-                                {city}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="endPlace"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel className="text-xl">
-                          Ville d'arrivée
-                        </FormLabel>
-                        <Select
-                          onValueChange={(value) => field.onChange(value)}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Sélectionnez une ville" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {citiesInMorocco.map((city, index) => (
-                              <SelectItem key={index} value={city}>
-                                {city}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
+      {/* Form Section */}
+      <div className="w-full flex justify-center z-10">
+        <CardWrapper
+          headerTitle="Réservation"
+          headerLabel="Réservez votre voiture aujourd'hui"
+          backButtonHref="/cars"
+          backButtonLabel="Voir des voitures ?"
+          className="flex-1 h-fit min-w-[550px]"
+        >
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <div className="flex gap-4">
                 <FormField
                   control={form.control}
-                  name="flightNumber"
+                  name="startDate"
                   render={({ field }) => (
-                    <FormItem className="w-full">
+                    <FormItem className="w-full flex flex-col">
                       <FormLabel className="text-base">
-                        Numéro de vol (facultatif)
+                        Date de départ
                       </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isSubmitting}
-                          placeholder="Numéro de vol"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Sélectionnez une date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                          />
+                        </PopoverContent>
+                      </Popover>
                     </FormItem>
                   )}
                 />
 
-                <Button
-                  type="submit"
-                  className="w-full self-end justify-self-end"
-                  disabled={isSubmitting || !isValid}
-                >
-                  Confirmer
-                </Button>
-              </form>
-            </Form>
-          </CardWrapper>
-        </div>
+                <FormField
+                  control={form.control}
+                  name="endDate"
+                  render={({ field }) => (
+                    <FormItem className="w-full flex flex-col">
+                      <FormLabel className="text-base">
+                        Date de retour
+                      </FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Sélectionnez une date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="flex gap-4">
+                <FormField
+                  control={form.control}
+                  name="startPlace"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel className="text-xl">Ville de départ</FormLabel>
+                      <Select
+                        onValueChange={(value) => field.onChange(value)}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Sélectionnez une ville" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {citiesInMorocco.map((city, index) => (
+                            <SelectItem key={index} value={city}>
+                              {city}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="endPlace"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel className="text-xl">Ville d'arrivée</FormLabel>
+                      <Select
+                        onValueChange={(value) => field.onChange(value)}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Sélectionnez une ville" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {citiesInMorocco.map((city, index) => (
+                            <SelectItem key={index} value={city}>
+                              {city}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="flightNumber"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="text-base">
+                      Numéro de vol (facultatif)
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isSubmitting}
+                        placeholder="Numéro de vol"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button
+                type="submit"
+                className="w-full self-end justify-self-end"
+                disabled={isSubmitting || !isValid}
+              >
+                Confirmer
+              </Button>
+            </form>
+          </Form>
+        </CardWrapper>
       </div>
     </div>
   );

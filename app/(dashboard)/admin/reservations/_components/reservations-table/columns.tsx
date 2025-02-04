@@ -10,6 +10,7 @@ import {
   CheckCircle,
   XCircle,
   Trash,
+  Eye,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,12 +21,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 export const columns: ColumnDef<Reservation>[] = [
   {
@@ -177,28 +187,8 @@ export const columns: ColumnDef<Reservation>[] = [
       </Button>
     ),
     cell: ({ row }) => {
-      const [cars, setCars] = useState<Car[]>([]);
-
-      useEffect(() => {
-        const fetchCars = async () => {
-          try {
-            const response = await axios.get("/api/cars");
-            setCars(response.data);
-          } catch (error) {
-            console.error("Error fetching cars:", error);
-          }
-        };
-
-        fetchCars();
-      }, []);
-
       const { carId } = row.original;
-      const car = cars.find((car) => car.id === carId);
-      return (
-        <div className="text-gray-500">
-          {car ? car.name : "No car selected"}
-        </div>
-      );
+      return <div className="text-gray-500">{carId}</div>;
     },
   },
   {
@@ -241,6 +231,10 @@ export const columns: ColumnDef<Reservation>[] = [
     cell: ({ row }) => {
       const { id, status } = row.original;
       const router = useRouter();
+      const [isDialogOpen, setIsDialogOpen] = useState(false);
+      const [reservationDetails, setReservationDetails] =
+        useState<Reservation | null>(null);
+      const [carDetails, setCarDetails] = useState<Car | null>(null);
 
       // Handle Confirm action
       const handleConfirm = async () => {
@@ -285,50 +279,138 @@ export const columns: ColumnDef<Reservation>[] = [
         }
       };
 
+      const handleInspect = async () => {
+        try {
+          const response = await axios.get(
+            `/api/reservations/admin/${id}/inspect`
+          );
+          setReservationDetails(response.data);
+
+          if (response.data.carId) {
+            const carResponse = await axios.get(
+              `/api/cars/${response.data.carId}`
+            );
+            setCarDetails(carResponse.data);
+          }
+
+          setIsDialogOpen(true);
+        } catch (error) {
+          toast.error(
+            "Erreur lors de la récupération des détails de la réservation."
+          );
+        }
+      };
+
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-4 w-8 p-0">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {/* If status is PENDING, show Confirm and Cancel options */}
-            {status === "PENDING" ? (
-              <>
-                <DropdownMenuItem onClick={handleConfirm}>
-                  <CheckCircle className="mr-2" /> Confirmer
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleCancel}>
-                  <XCircle className="mr-2" /> Annuler
-                </DropdownMenuItem>
-              </>
-            ) : status === "CANCELLED" ? (
-              // If status is CANCELLED, allow Confirm, Delete, and Pending options
-              <>
-                <DropdownMenuItem onClick={handleConfirm}>
-                  <CheckCircle className="mr-2" /> Confirmer
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleDelete}>
-                  <Trash className="mr-2" /> Supprimer
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handlePending}>
-                  <RefreshCcw className="mr-2" /> Pas confirmer
-                </DropdownMenuItem>
-              </>
-            ) : status === "CONFIRMED" ? (
-              // If status is CONFIRMED, allow Cancel and Pending options
-              <>
-                <DropdownMenuItem onClick={handleCancel}>
-                  <XCircle className="mr-2" /> Annuler
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handlePending}>
-                  <RefreshCcw className="mr-2" /> Pas confirmer
-                </DropdownMenuItem>
-              </>
-            ) : null}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-4 w-8 p-0">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={handleInspect}>
+                <Eye className="mr-2" /> Inspecter
+              </DropdownMenuItem>
+              {/* If status is PENDING, show Confirm and Cancel options */}
+              {status === "PENDING" ? (
+                <>
+                  <DropdownMenuItem onClick={handleConfirm}>
+                    <CheckCircle className="mr-2" /> Confirmer
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleCancel}>
+                    <XCircle className="mr-2" /> Annuler
+                  </DropdownMenuItem>
+                </>
+              ) : status === "CANCELLED" ? (
+                // If status is CANCELLED, allow Confirm, Delete, and Pending options
+                <>
+                  <DropdownMenuItem onClick={handleConfirm}>
+                    <CheckCircle className="mr-2" /> Confirmer
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleDelete}>
+                    <Trash className="mr-2" /> Supprimer
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handlePending}>
+                    <RefreshCcw className="mr-2" /> Pas confirmer
+                  </DropdownMenuItem>
+                </>
+              ) : status === "CONFIRMED" ? (
+                // If status is CONFIRMED, allow Cancel and Pending options
+                <>
+                  <DropdownMenuItem onClick={handleCancel}>
+                    <XCircle className="mr-2" /> Annuler
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handlePending}>
+                    <RefreshCcw className="mr-2" /> Pas confirmer
+                  </DropdownMenuItem>
+                </>
+              ) : null}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {isDialogOpen && reservationDetails && (
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogContent className="max-w-4xl">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-semibold">
+                    Détails de la Réservation
+                  </DialogTitle>
+                  <DialogDescription>
+                    <div className="mt-4 flex gap-32">
+                      <div className="flex flex-col gap-2">
+                        <p className="text-base text-black flex gap-2">
+                          <p className="font-bold">ID:</p>{" "}
+                          {reservationDetails.id}
+                        </p>
+                        <p className="text-base text-black flex gap-2">
+                          <p className="font-bold">Numéro de vol:</p>{" "}
+                          {reservationDetails.flightNumber}
+                        </p>
+                        <p className="text-base text-black flex gap-2">
+                          <p className="font-bold">Lieu de départ:</p>{" "}
+                          {reservationDetails.startPlace}
+                        </p>
+                        <p className="text-base text-black flex gap-2">
+                          <p className="font-bold">Lieu de retour:</p>{" "}
+                          {reservationDetails.endPlace}
+                        </p>
+                        <p className="text-base text-black flex gap-2">
+                          <p className="font-bold">Status:</p>{" "}
+                          {reservationDetails.status}
+                        </p>
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <p className="text-base text-black flex flex-col gap-2">
+                          <p className="font-bold">La voiture:</p>
+                          <Image
+                            src={carDetails?.imageUrl || ""}
+                            alt="Marque"
+                            width={400}
+                            height={200}
+                            className="rounded-md"
+                          />
+                        </p>
+                        <p className="text-base text-black flex gap-2">
+                          <p className="font-bold">Marque:</p>{" "}
+                          {carDetails?.name || "N/A"}
+                        </p>
+                        <p className="text-base text-black flex gap-2">
+                          <p className="font-bold">Modèle:</p>{" "}
+                          {carDetails?.model || "N/A"}
+                        </p>
+                      </div>
+                    </div>
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                  <Button onClick={() => setIsDialogOpen(false)}>Fermer</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          )}
+        </>
       );
     },
   },

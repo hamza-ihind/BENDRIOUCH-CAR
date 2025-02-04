@@ -67,10 +67,11 @@ const ContactForm = () => {
       <div className="max-w-xl mx-auto">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">
-            Contact Us
+            Contactez-nous
           </h1>
           <p className="mt-1 text-gray-600 dark:text-neutral-400">
-            We'd love to talk about how we can help you.
+            Nous serions ravis de discuter de la façon dont nous pouvons vous
+            aider.
           </p>
         </div>
       </div>
@@ -78,7 +79,7 @@ const ContactForm = () => {
       <div className="mt-12 max-w-lg mx-auto">
         <div className="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-8 dark:border-neutral-700">
           <h2 className="mb-8 text-xl font-semibold text-gray-800 dark:text-neutral-200">
-            Fill in the form
+            Remplissez le formulaire
           </h2>
 
           <Form {...form}>
@@ -89,12 +90,12 @@ const ContactForm = () => {
                   name="firstName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>First Name</FormLabel>
+                      <FormLabel>Prénom</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
                           disabled={isPending}
-                          placeholder="John"
+                          placeholder="Jean"
                         />
                       </FormControl>
                       <FormMessage />
@@ -107,12 +108,12 @@ const ContactForm = () => {
                   name="lastName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Last Name</FormLabel>
+                      <FormLabel>Nom</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
                           disabled={isPending}
-                          placeholder="Doe"
+                          placeholder="Dupont"
                         />
                       </FormControl>
                       <FormMessage />
@@ -130,7 +131,7 @@ const ContactForm = () => {
                         <Input
                           {...field}
                           disabled={isPending}
-                          placeholder="john.doe@example.com"
+                          placeholder="jean.dupont@example.com"
                           type="email"
                         />
                       </FormControl>
@@ -144,7 +145,7 @@ const ContactForm = () => {
                   name="phoneNumber"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Phone Number</FormLabel>
+                      <FormLabel>Numéro de téléphone</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
@@ -163,12 +164,12 @@ const ContactForm = () => {
                   name="details"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Details</FormLabel>
+                      <FormLabel>Détails</FormLabel>
                       <FormControl>
                         <Textarea
                           {...field}
                           disabled={isPending}
-                          placeholder="Please describe your inquiry"
+                          placeholder="Veuillez décrire votre demande"
                           rows={4}
                           className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                         />
@@ -182,7 +183,7 @@ const ContactForm = () => {
               <FormError message={error} />
               <FormSuccess message={success} />
               <Button type="submit" className="w-full" disabled={isPending}>
-                {isPending ? "Sending..." : "Send Inquiry"}
+                {isPending ? "Envoi en cours..." : "Envoyer la demande"}
               </Button>
             </form>
           </Form>

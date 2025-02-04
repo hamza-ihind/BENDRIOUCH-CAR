@@ -26,7 +26,7 @@ const page = () => {
 
   // If not authenticated, redirect to the sign-up page
   if (!isAuthenticated) {
-    router.push("/signup");
+    router.push("/sign-in");
     return null;
   }
 

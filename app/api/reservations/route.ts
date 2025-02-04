@@ -2,6 +2,24 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 
+export async function GET(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const { id } = params;
+
+    const reservation = await db.reservation.findUnique({
+      where: { id },
+    });
+
+    return NextResponse.json(reservation);
+  } catch (error) {
+    console.log("[RESERVATION_GET_ERROR]: ", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const session = await auth();
