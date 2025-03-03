@@ -23,10 +23,10 @@ const Title: FC<TitleProps> = ({
     >
       <IconBadge icon={icon} size={"default"} />
       <div className="h-[100%] w-full flex flex-col items-start justify-center overflow-hidden rounded-xl">
-        <h1 className="text-4xl max-xl:text-4xl max-xl:font-semibold font-bold text-center dark:text-white text-black relative z-20 mb-2">
+        <h1 className="text-4xl max-xl:font-semibold font-bold dark:text-white text-black relative z-20 mb-2">
           {title}
         </h1>
-        <p className="p-text text-left text-gray-600 md:w-[60%]">
+        <p className="p-text text-left text-gray-600 lg:w-[60%]">
           {description}
         </p>
       </div>

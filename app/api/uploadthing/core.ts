@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { isAdmin } from "@/lib/admin";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 
 const f = createUploadthing();
@@ -6,7 +7,7 @@ const f = createUploadthing();
 const handleAuth = async () => {
   const session = await auth();
   const userId = session?.user.id;
-
+  const isAuthorized = isAdmin(userId);
   if (!userId) throw new Error("Unauthorized");
 
   return { userId };

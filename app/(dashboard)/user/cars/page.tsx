@@ -30,7 +30,6 @@ const CarsPage = () => {
   const handleFilter = (criteria: {
     fuelType: string;
     transmission: string;
-    availability: boolean;
     minPrice: number;
     maxPrice: number;
     model: string;
@@ -40,7 +39,6 @@ const CarsPage = () => {
         !criteria.fuelType || car.fuelType === criteria.fuelType;
       const transmissionMatch =
         !criteria.transmission || car.transmission === criteria.transmission;
-      const availabilityMatch = car.availability === criteria.availability;
       const priceMatch =
         (!criteria.minPrice ||
           (car.pricePerDay !== null && car.pricePerDay >= criteria.minPrice)) &&
@@ -51,13 +49,7 @@ const CarsPage = () => {
         (car.model !== null &&
           car.model.toLowerCase().includes(criteria.model.toLowerCase()));
 
-      return (
-        fuelTypeMatch &&
-        transmissionMatch &&
-        availabilityMatch &&
-        priceMatch &&
-        modelMatch
-      );
+      return fuelTypeMatch && transmissionMatch && priceMatch && modelMatch;
     });
 
     setFilteredCars(filtered);
@@ -76,7 +68,6 @@ const CarsPage = () => {
           onFilter={(criteria) =>
             handleFilter({
               ...criteria,
-              availability: criteria.availability ?? false,
             })
           }
         />

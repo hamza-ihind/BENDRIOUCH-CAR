@@ -98,7 +98,7 @@ const Hero: React.FC = () => {
 
   return (
     <div className="w-full h-[720px] max-md:h-full flex flex-col items-center gap-6 justify-center">
-      <div className="w-full flex flex-row items-center justify-between z-10">
+      <div className="w-full flex flex-row items-center justify-between z-10 max-lg:flex-col max-lg:gap-16">
         <div className="flex flex-col items-start text-left">
           <Badge variant={"secondary"} className="w-fit mb-4">
             Location de voitures chez Bendriouch Cars
@@ -114,13 +114,13 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Form Section */}
-        <div className="w-full flex justify-center z-10">
+        <div className="w-full flex justify-end z-10">
           <CardWrapper
             headerTitle="Réservation"
             headerLabel="Réservez votre voiture aujourd'hui"
             backButtonHref="/catalog"
             backButtonLabel="Voir des voitures ?"
-            className="flex-1 h-fit min-w-[550px]"
+            className="h-fit min-w-[450px]"
           >
             <Form {...form}>
               <form
@@ -267,7 +267,7 @@ const Hero: React.FC = () => {
                   />
                 </div>
 
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="flightNumber"
                   render={({ field }) => (
@@ -285,7 +285,7 @@ const Hero: React.FC = () => {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
 
                 <Button
                   type="submit"

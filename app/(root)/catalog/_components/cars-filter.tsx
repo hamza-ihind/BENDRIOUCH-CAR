@@ -10,21 +10,15 @@ interface CarsFilterProps {
   onFilter: (criteria: {
     fuelType: string;
     transmission: string;
-    availability?: boolean;
     minPrice: number;
     maxPrice: number;
     model: string;
   }) => void;
-  hideAvailability?: boolean;
 }
 
-const CarsFilter: React.FC<CarsFilterProps> = ({
-  onFilter,
-  hideAvailability,
-}) => {
+const CarsFilter: React.FC<CarsFilterProps> = ({ onFilter }) => {
   const [fuelType, setFuelType] = useState("");
   const [transmission, setTransmission] = useState("");
-  const [availability, setAvailability] = useState(true);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(0);
   const [model, setModel] = useState("");
@@ -33,7 +27,6 @@ const CarsFilter: React.FC<CarsFilterProps> = ({
     const newCriteria = {
       fuelType,
       transmission,
-      availability,
       minPrice,
       maxPrice,
       model,
@@ -43,75 +36,50 @@ const CarsFilter: React.FC<CarsFilterProps> = ({
   };
 
   return (
-    <div className="h-fit w-[380px] flex flex-col p-4 bg-gray-100 rounded-lg shadow-md">
+    <div className="h-fit w-[380px] max-xl:w-full flex flex-col p-4 bg-gray-100 rounded-lg shadow-md">
       <div className="flex flex-col mb-4">
         <h2 className="text-xl font-bold text-gray-800">Options de Filtrage</h2>
         <p className="text-sm text-gray-600">
           Affinez votre recherche de voiture et enregistrez vos préférences
         </p>
       </div>
-      <div className="mt-4">
-        <h3 className="font-semibold text-gray-700">Type de Carburant</h3>
-        <RadioGroup
-          defaultValue={fuelType}
-          onValueChange={(value) => {
-            setFuelType(value);
-            handleFilterChange("fuelType", value);
-          }}
-          className="flex flex-col mt-2"
-        >
-          {["Diesel", "Essence"].map((type) => (
-            <div key={type} className="flex items-center space-x-2">
-              <RadioGroupItem value={type} id={`fuelType-${type}`} />
-              <Label htmlFor={`fuelType-${type}`}>{type}</Label>
-            </div>
-          ))}
-        </RadioGroup>
-      </div>
-      <div className="mt-4">
-        <h3 className="font-semibold text-gray-700">Transmission</h3>
-        <RadioGroup
-          defaultValue={transmission}
-          onValueChange={(value) => {
-            setTransmission(value);
-            handleFilterChange("transmission", value);
-          }}
-          className="flex flex-col mt-2"
-        >
-          {["Automatic", "Manual"].map((type) => (
-            <div key={type} className="flex items-center space-x-2">
-              <RadioGroupItem value={type} id={`transmission-${type}`} />
-              <Label htmlFor={`transmission-${type}`}>{type}</Label>
-            </div>
-          ))}
-        </RadioGroup>
-      </div>
-      <div className="mt-4">
-        <h3 className="font-semibold text-gray-700">Disponibilité</h3>
-        <RadioGroup
-          defaultValue={String(availability)}
-          onValueChange={(value) => {
-            const boolValue = value === "true";
-            setAvailability(boolValue);
-            handleFilterChange("availability", boolValue);
-          }}
-          className="flex flex-col mt-2"
-        >
-          {[true, false].map((available) => (
-            <div
-              key={String(available)}
-              className="flex items-center space-x-2"
-            >
-              <RadioGroupItem
-                value={String(available)}
-                id={`availability-${available}`}
-              />
-              <Label htmlFor={`availability-${available}`}>
-                {available ? "Disponible" : "Non Disponible"}
-              </Label>
-            </div>
-          ))}
-        </RadioGroup>
+      <div className="flex flex-col space-y-4 max-xl:flex-row max-xl:justify-between">
+        <div className="mt-4">
+          <h3 className="font-semibold text-gray-700">Type de Carburant</h3>
+          <RadioGroup
+            defaultValue={fuelType}
+            onValueChange={(value) => {
+              setFuelType(value);
+              handleFilterChange("fuelType", value);
+            }}
+            className="flex flex-col mt-2"
+          >
+            {["Diesel", "Essence"].map((type) => (
+              <div key={type} className="flex items-center space-x-2">
+                <RadioGroupItem value={type} id={`fuelType-${type}`} />
+                <Label htmlFor={`fuelType-${type}`}>{type}</Label>
+              </div>
+            ))}
+          </RadioGroup>
+        </div>
+        <div className="mt-4">
+          <h3 className="font-semibold text-gray-700">Transmission</h3>
+          <RadioGroup
+            defaultValue={transmission}
+            onValueChange={(value) => {
+              setTransmission(value);
+              handleFilterChange("transmission", value);
+            }}
+            className="flex flex-col mt-2"
+          >
+            {["Automatic", "Manual"].map((type) => (
+              <div key={type} className="flex items-center space-x-2">
+                <RadioGroupItem value={type} id={`transmission-${type}`} />
+                <Label htmlFor={`transmission-${type}`}>{type}</Label>
+              </div>
+            ))}
+          </RadioGroup>
+        </div>
       </div>
       <div className="mt-4">
         <h3 className="font-semibold text-gray-700">Prix Par Jour</h3>
@@ -158,7 +126,6 @@ const CarsFilter: React.FC<CarsFilterProps> = ({
           onFilter({
             fuelType,
             transmission,
-            availability,
             minPrice,
             maxPrice,
             model,

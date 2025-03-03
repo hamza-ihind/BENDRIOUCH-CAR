@@ -12,7 +12,6 @@ import { Separator } from "@/components/ui/separator";
 interface FilterCriteria {
   fuelType: string;
   transmission: string;
-  availability?: boolean;
   minPrice: number;
   maxPrice: number;
   model: string;
@@ -24,11 +23,11 @@ const Page = () => {
   const [filterCriteria, setFilterCriteria] = useState<FilterCriteria>({
     fuelType: "",
     transmission: "",
-    availability: true,
     minPrice: 0,
     maxPrice: 0,
     model: "",
   });
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -48,8 +47,6 @@ const Page = () => {
         const matchesTransmission = filterCriteria.transmission
           ? car.transmission === filterCriteria.transmission
           : true;
-        const matchesAvailability =
-          car.availability === filterCriteria.availability;
         const matchesMinPrice =
           filterCriteria.minPrice !== 0
             ? car.pricePerDay &&
@@ -67,7 +64,6 @@ const Page = () => {
         return (
           matchesFuelType &&
           matchesTransmission &&
-          matchesAvailability &&
           matchesMinPrice &&
           matchesMaxPrice &&
           matchesModel
@@ -90,10 +86,30 @@ const Page = () => {
         icon={Voiture}
       />
 
-      <div className="w-full flex gap-8 my-12">
-        <CarsFilter onFilter={handleFilter} />
-        <Separator orientation="vertical" />
-        <CarsList cars={filteredCars} />
+      <div className="flex flex-col xl:flex-row w-full my-12">
+        {/* Mobile Toggle Button */}
+        <button
+          className="xl:hidden bg-yellow-400 text-black p-2 rounded mb-4"
+          onClick={() => setIsFilterVisible(!isFilterVisible)}
+        >
+          {isFilterVisible ? "Cacher le Filtre" : "Afficher le Filtre"}
+        </button>
+
+        {/* Filters */}
+        <div className="w-full flex max-xl:flex-col">
+          <div
+            className={`${
+              isFilterVisible ? "inline" : "hidden"
+            } xl:block w-full flex`}
+          >
+            <CarsFilter onFilter={handleFilter} />
+          </div>
+
+          {/* Car List */}
+          <div className="w-full max-xl:mt-12">
+            <CarsList cars={filteredCars} />
+          </div>
+        </div>
       </div>
     </div>
   );

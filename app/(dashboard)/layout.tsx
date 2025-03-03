@@ -19,7 +19,7 @@ export default function RootLayout({
         <div className="md:hidden h-[70px] md:pl-72 fixed inset-y-0 w-full z-50">
           <Navbar />
         </div>
-        <main className="md:pl-72">{children}</main>
+        <main className="md:pl-72 max-md:mt-16">{children}</main>
       </ThemeProvider>
     </div>
   );

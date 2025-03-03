@@ -47,7 +47,6 @@ const CarsList = ({ cars }: CarsListProps) => {
           seats={car.seats || 0}
           fuelType={car.fuelType || "N/A"}
           transmission={car.transmission || "N/A"}
-          availability={car.availability}
           imageUrl={car.imageUrl || "/default-image.png"}
           description={car.description || "No description available"}
           onReserve={() => handleReserveCar(car)}

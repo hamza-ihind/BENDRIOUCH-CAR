@@ -10,7 +10,6 @@ interface CarProps {
   model: string;
   pricePerDay: number;
   imageUrl: string;
-  availability: boolean;
   fuelType: string;
   seats: number;
   transmission: string;
@@ -22,7 +21,6 @@ const CarSelection = ({
   name,
   model,
   pricePerDay,
-  availability,
   fuelType,
   seats,
   transmission,
@@ -30,17 +28,8 @@ const CarSelection = ({
   selectedCar,
   onReserve,
 }: CarProps) => {
-  const availabilityText = availability
-    ? "Disponible maintenant"
-    : "Pas disponible";
-
   return (
     <div className="w-full h-fit border border-color p-4 rounded-xl">
-      <div className="w-full flex items-start gap-4">
-        <Badge className="bg-green-200 text-green-800 hover:bg-green-300 text-xs">
-          {availabilityText}
-        </Badge>
-      </div>
       <div className="py-4">
         <Image
           alt="Car image"

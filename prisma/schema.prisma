@@ -102,8 +102,7 @@ model Car {
   model             String? 
   pricePerDay       Float?  
   imageUrl          String?  
-  description       String?  
-  availability      Boolean         @default(true) 
+  description       String?
   fuelType          String?   
   seats             Float?      
   transmission      String?   
@@ -123,7 +122,6 @@ model Reservation {
   status          ReservationStatus @default(PENDING)
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
-  isPublished     Boolean           @default(false)
   userId          String
   carId           String?
   

@@ -11,7 +11,6 @@ interface CarProps {
   model: string;
   pricePerDay: number;
   imageUrl: string;
-  availability: boolean;
   fuelType: string;
   seats: number;
   transmission: string;
@@ -24,7 +23,6 @@ const CarCard = ({
   name,
   model,
   pricePerDay,
-  availability,
   fuelType,
   seats,
   transmission,
@@ -32,19 +30,8 @@ const CarCard = ({
   onReserve,
   description,
 }: CarProps) => {
-  const stringavailable = availability
-    ? "Disponible maintenant"
-    : "Pas disponible";
-
-  const badgeColor = availability
-    ? "bg-green-200 text-green-800 hover:bg-green-300"
-    : "bg-red-200 text-red-800 hover:bg-red-300";
-
   return (
     <div className="w-full h-fit border border-color p-4 rounded-xl">
-      <div className="w-full flex items-start gap-4">
-        <Badge className={`${badgeColor} text-xs`}>{stringavailable}</Badge>
-      </div>
       <div className="py-4">
         <Image
           alt="image"
@@ -88,21 +75,12 @@ const CarCard = ({
           {transmission}
         </div>
       </div>
-      {availability ? (
-        <button
-          onClick={onReserve}
-          className="mt-4 w-full bg-yellow-400 text-black py-2 rounded-lg"
-        >
-          Réserver
-        </button>
-      ) : (
-        <button
-          disabled
-          className="mt-4 w-full bg-gray-300 text-gray-600 py-2 rounded-lg cursor-not-allowed"
-        >
-          Déjà réservé
-        </button>
-      )}
+      <button
+        onClick={onReserve}
+        className="mt-4 w-full bg-yellow-400 text-black py-2 rounded-lg"
+      >
+        Réserver
+      </button>
     </div>
   );
 };

@@ -10,7 +10,6 @@ import { EndPlaceForm } from "./end-place-form";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CarSelection from "@/components/cars/car-selection";
-import CarsFilter from "@/app/(root)/catalog/_components/cars-filter";
 
 interface CarSelectionStepProps {
   cars: Car[];
@@ -28,7 +27,6 @@ const CarSelectionStep = ({
   reservationId,
 }: CarSelectionStepProps) => {
   const [isNextButtonActive, setIsNextButtonActive] = useState(false);
-  const [filteredCars, setFilteredCars] = useState(cars);
 
   useEffect(() => {
     const fetchReservation = async () => {
@@ -69,94 +67,42 @@ const CarSelectionStep = ({
     }
   };
 
-  const handleFilters = (criteria: {
-    fuelType: string;
-    transmission: string;
-    minPrice: number;
-    maxPrice: number;
-    model: string;
-  }) => {
-    let filtered = cars;
-
-    if (criteria.fuelType) {
-      filtered = filtered.filter((car) => car.fuelType === criteria.fuelType);
-    }
-    if (criteria.transmission) {
-      filtered = filtered.filter(
-        (car) => car.transmission === criteria.transmission
-      );
-    }
-    if (criteria.minPrice) {
-      filtered = filtered.filter(
-        (car) => (car.pricePerDay || 0) >= criteria.minPrice
-      );
-    }
-    if (criteria.maxPrice) {
-      filtered = filtered.filter(
-        (car) => (car.pricePerDay || 0) <= criteria.maxPrice
-      );
-    }
-    if (criteria.model) {
-      filtered = filtered.filter((car) =>
-        car.model?.toLowerCase().includes(criteria.model.toLowerCase())
-      );
-    }
-
-    setFilteredCars(filtered);
-  };
-
   return (
-    <div className="flex flex-col gap-8 w-full">
-      {/* Top Section - Forms */}
-      <div className="w-full">
-        <div className="flex w-full gap-8">
-          <FlightNumberForm
-            initialData={reservation}
-            reservationId={reservationId}
-          />
-          <StartDateForm
-            initialData={reservation}
-            reservationId={reservationId}
-          />
-
-          <EndDateForm
-            initialData={reservation}
-            reservationId={reservationId}
-          />
-          <StartPlaceForm
-            initialData={reservation}
-            reservationId={reservationId}
-          />
-          <EndPlaceForm
-            initialData={reservation}
-            reservationId={reservationId}
-          />
-        </div>
+    <div className="flex gap-8 w-full justify-between items-start flex-col md:flex-row">
+      {/* Left Section - Forms */}
+      <div className="flex flex-col gap-8 w-full">
+        <FlightNumberForm
+          initialData={reservation}
+          reservationId={reservationId}
+        />
+        <StartDateForm
+          initialData={reservation}
+          reservationId={reservationId}
+        />
+        <EndDateForm initialData={reservation} reservationId={reservationId} />
+        <StartPlaceForm
+          initialData={reservation}
+          reservationId={reservationId}
+        />
+        <EndPlaceForm initialData={reservation} reservationId={reservationId} />
       </div>
 
-      {/* Bottom Section - Cars and Filters */}
-      <div className="flex gap-8">
-        {/* Left - Car Filter */}
-        <CarsFilter onFilter={handleFilters} hideAvailability={true} />
-
-        {/* Right - Car Grid */}
-        <div className="grid grid-cols-3 gap-8 flex-1">
-          {filteredCars.map((car) => (
-            <CarSelection
-              key={car.id}
-              name={car.name || "Non spécifié"}
-              model={car.model || "Non spécifié"}
-              pricePerDay={car.pricePerDay || 0}
-              availability={car.availability}
-              fuelType={car.fuelType || "Non spécifié"}
-              seats={car.seats || 0}
-              transmission={car.transmission || "Non spécifié"}
-              imageUrl={car.imageUrl || "/placeholder-car.png"}
-              selectedCar={selectedCar}
-              onReserve={() => handleCarClick(car)}
-            />
-          ))}
-        </div>
+      {/* Right Section - Car Selection */}
+      <div className="grid grid-cols-2 gap-8 w-full">
+        {cars.map((car) => (
+          <CarSelection
+            key={car.id}
+            name={car.name || "Non spécifié"}
+            model={car.model || "Non spécifié"}
+            pricePerDay={car.pricePerDay || 0}
+            fuelType={car.fuelType || "Non spécifié"}
+            seats={car.seats || 0}
+            transmission={car.transmission || "Non spécifié"}
+            imageUrl={car.imageUrl || "/placeholder-car.png"}
+            selectedCar={selectedCar}
+            onReserve={() => handleCarClick(car)}
+          />
+        ))}
       </div>
     </div>
   );

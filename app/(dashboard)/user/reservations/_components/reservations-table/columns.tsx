@@ -185,35 +185,6 @@ export const columns: ColumnDef<Reservation>[] = [
     },
   },
   {
-    accessorKey: "isPublished",
-    header: ({ column }) => (
-      <Button
-        className="px-0"
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Publiée?
-        <ChevronsUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
-    cell: ({ row }) => {
-      const isPublished = row.getValue("isPublished");
-      return (
-        <Badge
-          variant="outline"
-          className={cn(
-            "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium",
-            isPublished === false
-              ? "text-red-600 bg-red-300/80" // false color (red)
-              : "text-green-600 bg-green-400/80" // true color (green)
-          )}
-        >
-          {isPublished === false ? "Unpubliée" : "Publiée"}
-        </Badge>
-      );
-    },
-  },
-  {
     id: "actions",
     cell: ({ row }) => {
       const { id, isPublished } = row.original;
@@ -227,31 +198,6 @@ export const columns: ColumnDef<Reservation>[] = [
           router.refresh();
         } catch (error) {
           toast.error("Erreur lors de la suppression de la réservation");
-        }
-      };
-
-      const handleTogglePublish = async () => {
-        try {
-          const response = await axios.patch(
-            `/api/reservations/user/${id}/publish`,
-            {
-              isPublished: !isPublished,
-            }
-          );
-
-          if (response.status === 200) {
-            toast.success(
-              `Réservation ${isPublished ? "unpubliée" : "publiée"} avec succès`
-            );
-            router.refresh();
-          }
-        } catch (error) {
-          console.error("Toggle publish error:", error);
-          toast.error(
-            `Erreur lors de la ${
-              isPublished ? "unpublication" : "publication"
-            } de la réservation`
-          );
         }
       };
 
@@ -273,10 +219,6 @@ export const columns: ColumnDef<Reservation>[] = [
             <DropdownMenuItem onClick={handleDelete}>
               <Trash className="h-4 w-4 mr-2" />
               Supprimer
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleTogglePublish}>
-              <Globe className="h-4 w-4 mr-2" />
-              {isPublished ? "Unpublier" : "Publier"}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
