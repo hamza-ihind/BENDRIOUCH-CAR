@@ -63,35 +63,7 @@ export const columns: ColumnDef<Car>[] = [
       return <div>{formattedPrice}</div>;
     },
   },
-  {
-    accessorKey: "availability",
-    header: ({ column }) => (
-      <Button
-        className="px-0"
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Disponibilité
-        <ChevronsUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
-    cell: ({ row }) => {
-      const isAvailable = row.getValue("availability") || false;
-      return (
-        <Badge
-          variant="outline"
-          className={cn(
-            "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium",
-            isAvailable
-              ? "text-green-400 ring-green-500/20"
-              : "text-red-400 ring-red-500/20"
-          )}
-        >
-          {isAvailable ? "Disponible" : "Pas disponible"}
-        </Badge>
-      );
-    },
-  },
+
   {
     accessorKey: "fuelType",
     header: ({ column }) => (
