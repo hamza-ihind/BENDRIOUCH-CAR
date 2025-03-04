@@ -31,6 +31,7 @@ import { SidebarTrigger } from "../ui/sidebar";
 import { useRouter } from "next/navigation";
 import { isAdmin } from "@/lib/admin";
 import { useSession } from "next-auth/react";
+import { auth } from "@/auth";
 
 interface ComponentItem {
   title: string;
@@ -101,13 +102,12 @@ interface ListItemProps extends React.ComponentPropsWithoutRef<"a"> {
 }
 
 const Navbar: React.FC = () => {
-  const session = useSession();
-  const userId = session.data?.user.id;
+  const { data } = useSession();
   const router = useRouter();
 
   const handleDashboardClick = () => {
-    if (isAdmin(userId)) {
-      router.push("/admin/reservations");
+    if (data?.user.role === "ADMIN") {
+      router.push("/admin/cars");
     } else {
       router.push("/user/reservations");
     }
@@ -153,7 +153,7 @@ const Navbar: React.FC = () => {
         </NavigationMenu>
       </div>
       <NavigationMenu className="flex gap-4">
-        {session.data?.user ? (
+        {data?.user ? (
           <>
             <UserButton />
             <Button variant={"outline"} size="icon" onClick={() => logout()}>

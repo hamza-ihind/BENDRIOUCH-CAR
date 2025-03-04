@@ -27,7 +27,7 @@ const Page = () => {
     maxPrice: 0,
     model: "",
   });
-  const [isFilterVisible, setIsFilterVisible] = useState(false);
+  const [isFilterVisible, setIsFilterVisible] = useState(true);
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -79,36 +79,30 @@ const Page = () => {
   };
 
   return (
-    <div>
+    <div className="py-8">
       <Title
         title="Découvrez Notre Catalogue de Voitures"
         description="Explorez notre vaste sélection de voitures disponibles à la location. Que vous ayez besoin d'une voiture pour un voyage d'affaires, une escapade de week-end ou un déplacement quotidien, nous avons le véhicule parfait pour vous."
         icon={Voiture}
       />
 
-      <div className="flex flex-col xl:flex-row w-full my-12">
-        {/* Mobile Toggle Button */}
+      <div className="flex flex-col lg:flex-row gap-8 mt-12">
+        {/* Filter Toggle Button for Mobile */}
         <button
-          className="xl:hidden bg-yellow-400 text-black p-2 rounded mb-4"
+          className="lg:hidden bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition-colors"
           onClick={() => setIsFilterVisible(!isFilterVisible)}
         >
           {isFilterVisible ? "Cacher le Filtre" : "Afficher le Filtre"}
         </button>
 
-        {/* Filters */}
-        <div className="w-full flex max-xl:flex-col">
-          <div
-            className={`${
-              isFilterVisible ? "inline" : "hidden"
-            } xl:block w-full flex`}
-          >
-            <CarsFilter onFilter={handleFilter} />
-          </div>
-
-          {/* Car List */}
-          <div className="w-full max-xl:mt-12">
-            <CarsList cars={filteredCars} />
-          </div>
+        {/* Filters Section */}
+        <div
+          className={`${
+            isFilterVisible ? "block" : "hidden"
+          } lg:block lg:w-1/4 w-full flex gap-8`}
+        >
+          <CarsFilter onFilter={handleFilter} />
+          <CarsList cars={filteredCars} />
         </div>
       </div>
     </div>

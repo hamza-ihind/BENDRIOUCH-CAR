@@ -17,6 +17,7 @@ import {
 import { FormError } from "@/components/uicomps/form-error";
 import { FormSuccess } from "@/components/uicomps/form-success";
 import { Textarea } from "../ui/textarea";
+import { Mail, MapPin, Phone } from "lucide-react";
 
 // Define the validation schema using Zod
 const ContactSchema = z.object({
@@ -26,6 +27,13 @@ const ContactSchema = z.object({
   phoneNumber: z.string().min(1, "Phone number is required"),
   details: z.string().min(1, "Please provide some details"),
 });
+
+interface ContactInfoItemProps {
+  icon: React.ReactNode;
+  title: string;
+  details: string;
+  link?: string;
+}
 
 type ContactFormData = z.infer<typeof ContactSchema>;
 
@@ -189,8 +197,53 @@ const ContactForm = () => {
           </Form>
         </div>
       </div>
+
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl mx-auto">
+        <ContactInfoItem
+          icon={<Mail className="w-5 h-5" />}
+          title="Email"
+          details="contact@example.com"
+          link="mailto:contact@example.com"
+        />
+        <ContactInfoItem
+          icon={<Phone className="w-5 h-5" />}
+          title="Téléphone"
+          details="+33 1 23 45 67 89"
+          link="tel:+33123456789"
+        />
+        <ContactInfoItem
+          icon={<MapPin className="w-5 h-5" />}
+          title="Adresse"
+          details="123 Avenue des Champs-Élysées, Paris"
+          link="https://maps.google.com/?q=123+Avenue+des+Champs-Élysées,+Paris"
+        />
+      </div>
     </div>
   );
 };
+
+const ContactInfoItem = ({
+  icon,
+  title,
+  details,
+  link,
+}: ContactInfoItemProps) => (
+  <div className="glass-card p-6 rounded-2xl flex flex-col items-center text-center hover-scale">
+    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary mb-4">
+      {icon}
+    </div>
+    <h3 className="font-medium text-lg mb-2">{title}</h3>
+    {link ? (
+      <a
+        href={link}
+        className="text-muted-foreground hover:text-primary transition-colors"
+      >
+        {details}
+      </a>
+    ) : (
+      <p className="text-muted-foreground">{details}</p>
+    )}
+  </div>
+);
 
 export default ContactForm;

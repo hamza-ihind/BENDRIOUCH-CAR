@@ -35,7 +35,7 @@ export default auth((req: any): void | Response | Promise<void | Response> => {
     return NextResponse.redirect(new URL("/sign-in", nextUrl));
   }
 
-  // // Protect admin routes
+  // Protect admin routes
   // if (nextUrl.pathname.startsWith("/admin") && userRole !== "ADMIN") {
   //   return NextResponse.redirect(new URL("/user/reservations", nextUrl));
   // }

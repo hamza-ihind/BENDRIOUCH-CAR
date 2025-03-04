@@ -44,10 +44,10 @@ const Features: React.FC = () => {
   return (
     <div className="w-full my-32">
       <div className="max-w-screen-md mb-8 lg:mb-16">
-        <h2 className="mb-4 text-5xl tracking-tight font-bold text-gray-900 dark:text-white">
+        <h2 className="mb-4 font-semibold text-gray-800 text-4xl lg:text-5xl dark:text-neutral-200">
           Conçu pour les équipes d'affaires comme la vôtre
         </h2>
-        <p className="text-gray-500 sm:text-xl  dark:text-gray-400">
+        <p className="p-text text-left text-gray-600 lg:w-[60%]">
           Chez nous, nous nous concentrons sur des solutions de location de
           voitures flexibles et pratiques pour toutes vos affaires.
         </p>

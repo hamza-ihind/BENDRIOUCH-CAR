@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState, ChangeEvent } from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label"; // En supposant que Label est importé d'un chemin similaire
+import { Label } from "@/components/ui/label";
 
 interface CarsFilterProps {
   onFilter: (criteria: {
@@ -36,23 +36,27 @@ const CarsFilter: React.FC<CarsFilterProps> = ({ onFilter }) => {
   };
 
   return (
-    <div className="h-fit w-[380px] max-xl:w-full flex flex-col p-4 bg-gray-100 rounded-lg shadow-md">
-      <div className="flex flex-col mb-4">
-        <h2 className="text-xl font-bold text-gray-800">Options de Filtrage</h2>
-        <p className="text-sm text-gray-600">
-          Affinez votre recherche de voiture et enregistrez vos préférences
-        </p>
-      </div>
-      <div className="flex flex-col space-y-4 max-xl:flex-row max-xl:justify-between">
-        <div className="mt-4">
-          <h3 className="font-semibold text-gray-700">Type de Carburant</h3>
+    <div className="bg-white p-6 rounded-lg shadow-md">
+      <h2 className="text-xl font-bold text-gray-800 mb-4">
+        Options de Filtrage
+      </h2>
+      <p className="text-sm text-gray-600 mb-6">
+        Affinez votre recherche de voiture et enregistrez vos préférences
+      </p>
+
+      <div className="space-y-6">
+        {/* Fuel Type */}
+        <div>
+          <h3 className="font-semibold text-gray-700 mb-2">
+            Type de Carburant
+          </h3>
           <RadioGroup
             defaultValue={fuelType}
             onValueChange={(value) => {
               setFuelType(value);
               handleFilterChange("fuelType", value);
             }}
-            className="flex flex-col mt-2"
+            className="flex flex-col space-y-2"
           >
             {["Diesel", "Essence"].map((type) => (
               <div key={type} className="flex items-center space-x-2">
@@ -62,15 +66,17 @@ const CarsFilter: React.FC<CarsFilterProps> = ({ onFilter }) => {
             ))}
           </RadioGroup>
         </div>
-        <div className="mt-4">
-          <h3 className="font-semibold text-gray-700">Transmission</h3>
+
+        {/* Transmission */}
+        <div>
+          <h3 className="font-semibold text-gray-700 mb-2">Transmission</h3>
           <RadioGroup
             defaultValue={transmission}
             onValueChange={(value) => {
               setTransmission(value);
               handleFilterChange("transmission", value);
             }}
-            className="flex flex-col mt-2"
+            className="flex flex-col space-y-2"
           >
             {["Automatic", "Manual"].map((type) => (
               <div key={type} className="flex items-center space-x-2">
@@ -80,61 +86,67 @@ const CarsFilter: React.FC<CarsFilterProps> = ({ onFilter }) => {
             ))}
           </RadioGroup>
         </div>
+
+        {/* Price Range */}
+        <div>
+          <h3 className="font-semibold text-gray-700 mb-2">Prix Par Jour</h3>
+          <div className="flex gap-4">
+            <Input
+              type="number"
+              placeholder="Min"
+              value={minPrice}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                setMinPrice(value);
+                handleFilterChange("minPrice", value);
+              }}
+              className="w-full"
+            />
+            <Input
+              type="number"
+              placeholder="Max"
+              value={maxPrice}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                setMaxPrice(value);
+                handleFilterChange("maxPrice", value);
+              }}
+              className="w-full"
+            />
+          </div>
+        </div>
+
+        {/* Model */}
+        <div>
+          <h3 className="font-semibold text-gray-700 mb-2">Modèle (Année)</h3>
+          <Input
+            type="text"
+            placeholder="Rechercher par modèle"
+            value={model}
+            onChange={(e) => {
+              setModel(e.target.value);
+              handleFilterChange("model", e.target.value);
+            }}
+            className="w-full"
+          />
+        </div>
+
+        {/* Apply Filters Button */}
+        <Button
+          onClick={() =>
+            onFilter({
+              fuelType,
+              transmission,
+              minPrice,
+              maxPrice,
+              model,
+            })
+          }
+          className="w-full bg-yellow-400 text-black hover:bg-yellow-500"
+        >
+          Appliquer les Filtres
+        </Button>
       </div>
-      <div className="mt-4">
-        <h3 className="font-semibold text-gray-700">Prix Par Jour</h3>
-        <Input
-          type="number"
-          name="minPrice"
-          placeholder="Min"
-          value={minPrice}
-          onChange={(e) => {
-            const value = Number(e.target.value);
-            setMinPrice(value);
-            handleFilterChange("minPrice", value);
-          }}
-          className="border p-2 w-full mt-2"
-        />
-        <Input
-          type="number"
-          name="maxPrice"
-          placeholder="Max"
-          value={maxPrice}
-          onChange={(e) => {
-            const value = Number(e.target.value);
-            setMaxPrice(value);
-            handleFilterChange("maxPrice", value);
-          }}
-          className="border p-2 w-full mt-2"
-        />
-      </div>
-      <div className="mt-4">
-        <h3 className="font-semibold text-gray-700">Modèle (Année)</h3>
-        <Input
-          type="text"
-          name="model"
-          value={model}
-          onChange={(e) => {
-            setModel(e.target.value);
-            handleFilterChange("model", e.target.value);
-          }}
-          className="border p-2 w-full mt-2"
-        />
-      </div>
-      <Button
-        onClick={() =>
-          onFilter({
-            fuelType,
-            transmission,
-            minPrice,
-            maxPrice,
-            model,
-          })
-        }
-        className="mt-4 bg-yellow-400 text-black p-2 rounded font-light"
-      >
-        Enregistrer les Filtres
-      </Button>
     </div>
   );
 };
