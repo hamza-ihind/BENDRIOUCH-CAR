@@ -36,7 +36,7 @@ const CarsList = ({ cars }: CarsListProps) => {
   };
 
   return (
-    <div className="w-full grid grid-cols-3 max-xl:grid-cols-1 max-2xl:grid-cols-2 gap-6">
+    <div className="w-full grid grid-cols-3 max-md:grid-cols-1 max-xl:grid-cols-2 gap-6">
       {cars.map((car) => (
         <CarCard
           key={car.id}

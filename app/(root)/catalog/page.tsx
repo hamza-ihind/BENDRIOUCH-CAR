@@ -86,7 +86,7 @@ const Page = () => {
         icon={Voiture}
       />
 
-      <div className="flex flex-col lg:flex-row gap-8 mt-12">
+      <div className="flex max-lg:flex-col gap-8 mt-12">
         {/* Filter Toggle Button for Mobile */}
         <button
           className="lg:hidden bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition-colors"
@@ -99,11 +99,11 @@ const Page = () => {
         <div
           className={`${
             isFilterVisible ? "block" : "hidden"
-          } lg:block lg:w-1/4 w-full flex gap-8`}
+          } lg:block lg:w-1/4 w-full flex gap-8 max-lg:flex-col`}
         >
           <CarsFilter onFilter={handleFilter} />
-          <CarsList cars={filteredCars} />
         </div>
+        <CarsList cars={filteredCars} />
       </div>
     </div>
   );
