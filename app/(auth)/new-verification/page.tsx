@@ -3,7 +3,7 @@ import NewVerificationForm from "@/components/auth/NewVerificationForm";
 
 const page = () => {
   return (
-    <div className="page-centered">
+    <div className="h-full w-full flex justify-center items-end mt-32">
       <Suspense>
         <NewVerificationForm />
       </Suspense>

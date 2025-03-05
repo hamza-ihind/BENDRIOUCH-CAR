@@ -18,10 +18,12 @@ import { Car } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
+// Zod schema with validation for non-negative numbers
 const formSchema = z.object({
   seats: z.coerce
     .number()
-    .min(0, { message: "Le nombre des sièges est requis" }),
+    .min(0, { message: "Le nombre de sièges ne peut pas être négatif" })
+    .nonnegative({ message: "Le nombre de sièges ne peut pas être négatif" }),
 });
 
 interface SeatsFormProps {
@@ -69,7 +71,15 @@ export function SeatsForm({ carId, initialData }: SeatsFormProps) {
                     type="number"
                     disabled={isSubmitting}
                     placeholder="9"
+                    min={0} // Ensure the input doesn't accept negative numbers
                     {...field}
+                    onChange={(e) => {
+                      const value = parseInt(e.target.value, 10);
+                      // Ensure the value is not negative
+                      if (value >= 0) {
+                        field.onChange(value);
+                      }
+                    }}
                   />
                 </FormControl>
                 <FormMessage />

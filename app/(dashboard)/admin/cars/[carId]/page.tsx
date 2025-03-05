@@ -24,6 +24,7 @@ import { TransmissionForm } from "./_components/transmission-form";
 import { FuelTypeForm } from "./_components/fueltype-form";
 import { ModelForm } from "./_components/model-form";
 import { SeatsForm } from "./_components/seats-form";
+import { CategoryForm } from "./_components/category-form";
 
 const CarIdPage = async ({ params }: { params: { carId: string } }) => {
   const session = await auth();
@@ -52,6 +53,7 @@ const CarIdPage = async ({ params }: { params: { carId: string } }) => {
     car.seats,
     car.transmission,
     car.pricePerDay,
+    car.category,
   ];
 
   const totalFields = requiredFields.length;
@@ -112,6 +114,10 @@ const CarIdPage = async ({ params }: { params: { carId: string } }) => {
 
             <div className="mt-8 w-full space-x-12 max-2xl:grid-cols-1 max-2xl:space-x-0 max-2xl:space-y-4">
               <TransmissionForm initialData={car} carId={car.id} />
+            </div>
+
+            <div className="mt-8 w-full space-x-12 max-2xl:grid-cols-1 max-2xl:space-x-0 max-2xl:space-y-4">
+              <CategoryForm initialData={car} carId={car.id} />
             </div>
 
             <div className="mt-8 w-full space-x-12 max-2xl:grid-cols-1 max-2xl:space-x-0 max-2xl:space-y-4">

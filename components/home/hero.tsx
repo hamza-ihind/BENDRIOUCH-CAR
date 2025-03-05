@@ -33,7 +33,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, CircleUser, Smile } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
@@ -146,17 +146,11 @@ const Hero: React.FC = () => {
               </div>
 
               <footer className="mt-3">
-                <div className="flex items-center gap-x-4">
-                  <div className="shrink-0">
-                    <img
-                      className="size-8 rounded-full"
-                      src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
-                      alt="Avatar"
-                    />
-                  </div>
+                <div className="flex items-center justify-center gap-x-4">
+                  <CircleUser className="w-10 h-10 text-gray-600" />
                   <div className="grow">
                     <div className="font-semibold text-gray-800 dark:text-neutral-200">
-                      Ali Bendriouch
+                      Mr. T. Bendriouch
                     </div>
                     <div className="text-xs text-gray-500 dark:text-neutral-500">
                       Fondateur | Bendriouchcar

@@ -22,7 +22,7 @@ const NewVerificationForm = () => {
 
     newVerification(token)
       .then((data) => {
-        // setSuccess(data?.success);
+        setSuccess(data?.success);
         setError(data?.error);
       })
       .catch(() => {

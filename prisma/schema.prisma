@@ -105,7 +105,8 @@ model Car {
   description       String?
   fuelType          String?   
   seats             Float?      
-  transmission      String?   
+  transmission      String?
+  category          CarCategory?   
   isPublished       Boolean         @default(false)
   createdAt         DateTime        @default(now())
   reservations      Reservation[]
@@ -137,4 +138,11 @@ enum ReservationStatus {
   PENDING
   CANCELLED
   CONFIRMED
+}
+
+enum CarCategory {
+  CITADINE
+  BERLINE
+  FOUR_BY_FOUR
+  LUXE
 }

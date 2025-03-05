@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Outfit } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 // import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/utils/theme-provider";
 import { auth } from "@/auth";
 import { ToastProvider } from "@/components/providers/toaster-providers";
 
-const inter = Inter({
+const inter = Outfit({
   subsets: ["latin"],
   variable: "--inter",
   display: "swap",

@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/utils/theme-provider";
 import Navbar from "@/components/shared/Navbar";
 import "../globals.css";
-import Footer from "@/components/auth/Footer";
+import Footer from "@/components/shared/Footer";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/shared/sidebar";

@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-
 import { Separator } from "@/components/ui/separator";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -27,14 +26,20 @@ const page = async () => {
   });
 
   return (
-    <div className="w-full z-20 flex flex-col p-12">
+    <div className="w-full z-20 flex flex-col space-y-6">
+      {/* Page Title and Description */}
       <DashboardPageTitle
-        title="Gestion des reservations"
-        description="Ravi de vous revoir! Gérez vos cours et suivez vos performances
-          facilement."
+        title="Gestion des réservations"
+        description="Ravi de vous revoir ! Gérez vos réservations et suivez vos activités facilement."
       />
-      <Separator />
-      <DataTable columns={columns} data={reservations} />
+
+      {/* Separator */}
+      <Separator className="bg-muted-foreground/20" />
+
+      {/* DataTable with Card Background */}
+      <div className="rounded-lg border bg-card p-6 shadow-sm">
+        <DataTable columns={columns} data={reservations} />
+      </div>
     </div>
   );
 };

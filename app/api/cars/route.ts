@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { isAdmin } from "@/lib/admin";
 
 export async function POST(req: Request) {
   const session = await auth();
@@ -28,15 +27,12 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    const session = await auth();
-
-    if (!session?.user) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
     const cars = await db.car.findMany({
       where: {
         isPublished: true,
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
 

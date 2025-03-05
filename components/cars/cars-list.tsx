@@ -13,6 +13,8 @@ interface CarsListProps {
 const CarsList = ({ cars }: CarsListProps) => {
   const router = useRouter();
 
+  console.log("cars", cars);
+
   if (!cars || cars.length === 0) {
     return (
       <div className="flex justify-center items-center h-full">
@@ -46,6 +48,7 @@ const CarsList = ({ cars }: CarsListProps) => {
           pricePerDay={car.pricePerDay || 0}
           seats={car.seats || 0}
           fuelType={car.fuelType || "N/A"}
+          category={car.category || "N/A"}
           transmission={car.transmission || "N/A"}
           imageUrl={car.imageUrl || "/default-image.png"}
           description={car.description || "No description available"}

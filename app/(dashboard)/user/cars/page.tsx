@@ -30,26 +30,17 @@ const CarsPage = () => {
   const handleFilter = (criteria: {
     fuelType: string;
     transmission: string;
-    minPrice: number;
-    maxPrice: number;
-    model: string;
+    category: string;
   }) => {
     const filtered = cars.filter((car) => {
       const fuelTypeMatch =
         !criteria.fuelType || car.fuelType === criteria.fuelType;
       const transmissionMatch =
         !criteria.transmission || car.transmission === criteria.transmission;
-      const priceMatch =
-        (!criteria.minPrice ||
-          (car.pricePerDay !== null && car.pricePerDay >= criteria.minPrice)) &&
-        (!criteria.maxPrice ||
-          (car.pricePerDay !== null && car.pricePerDay <= criteria.maxPrice));
-      const modelMatch =
-        !criteria.model ||
-        (car.model !== null &&
-          car.model.toLowerCase().includes(criteria.model.toLowerCase()));
+      const categoryMatch =
+        !criteria.category || car.category === criteria.category;
 
-      return fuelTypeMatch && transmissionMatch && priceMatch && modelMatch;
+      return fuelTypeMatch && transmissionMatch && categoryMatch;
     });
 
     setFilteredCars(filtered);
