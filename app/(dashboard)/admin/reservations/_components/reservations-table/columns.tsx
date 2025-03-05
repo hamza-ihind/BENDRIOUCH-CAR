@@ -385,7 +385,7 @@ export const columns: ColumnDef<Reservation>[] = [
                         <p className="text-base text-black flex flex-col gap-2">
                           <p className="font-bold">La voiture:</p>
                           <Image
-                            src={carDetails?.imageUrl || ""}
+                            src={carDetails?.imageUrl[0] || ""}
                             alt="Marque"
                             width={400}
                             height={200}

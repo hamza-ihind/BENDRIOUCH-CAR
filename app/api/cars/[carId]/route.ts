@@ -84,7 +84,7 @@ export async function PATCH(
       fuelType,
       seats,
       transmission,
-      carCategory,
+      category,
       isPublished,
     } = values;
 
@@ -95,7 +95,7 @@ export async function PATCH(
       ...(imageUrl && { imageUrl }),
       ...(description && { description }),
       ...(fuelType && { fuelType }),
-      ...(carCategory && { carCategory }),
+      ...(category && { category }),
       ...(seats !== undefined && { seats }),
       ...(transmission && { transmission }),
       ...(isPublished !== undefined && { isPublished }),

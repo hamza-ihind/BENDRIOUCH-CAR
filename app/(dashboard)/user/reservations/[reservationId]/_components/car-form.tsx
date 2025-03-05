@@ -123,7 +123,7 @@ export const CarForm = ({
       {selectedCar && (
         <div className="w-full h-full flex items-start mt-4 mb-4">
           <Image
-            src={selectedCar.imageUrl || ""}
+            src={selectedCar.imageUrl[0] || ""}
             alt={selectedCar.name || ""}
             width={420}
             height={50}

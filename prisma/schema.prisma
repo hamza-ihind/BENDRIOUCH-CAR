@@ -101,7 +101,7 @@ model Car {
   name              String?  
   model             String? 
   pricePerDay       Float?  
-  imageUrl          String?  
+  imageUrl          String[]
   description       String?
   fuelType          String?   
   seats             Float?      

@@ -19,7 +19,7 @@ export const ourFileRouter = {
     .middleware(() => handleAuth())
     .onUploadComplete(() => {}),
 
-  carImage: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
+  carImage: f({ image: { maxFileSize: "4MB", maxFileCount: 5 } })
     .middleware(() => handleAuth())
     .onUploadComplete(({ file }) => {
       return { url: file.url, name: file.name, size: file.size };

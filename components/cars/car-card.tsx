@@ -11,7 +11,7 @@ interface CarProps {
   name: string;
   model: string;
   pricePerDay: number;
-  imageUrl: string;
+  imageUrl: string[];
   fuelType: string;
   category: string;
   seats: number;
@@ -43,7 +43,7 @@ const CarCard = ({
       <div className="py-4">
         <Image
           alt="image"
-          src={imageUrl}
+          src={imageUrl[0]}
           width={720}
           height={720}
           className="w-full h-40 object-cover"

@@ -98,7 +98,7 @@ const CarSelectionStep = ({
             fuelType={car.fuelType || "Non spécifié"}
             seats={car.seats || 0}
             transmission={car.transmission || "Non spécifié"}
-            imageUrl={car.imageUrl || "/placeholder-car.png"}
+            imageUrl={car.imageUrl[0] || "/placeholder-car.png"}
             selectedCar={selectedCar}
             onReserve={() => handleCarClick(car)}
           />

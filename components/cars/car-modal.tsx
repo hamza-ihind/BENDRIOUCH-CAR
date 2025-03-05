@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import Image from "next/image";
-import { Antenna, Armchair, Fuel } from "lucide-react";
+import {
+  Antenna,
+  Armchair,
+  Fuel,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { Badge } from "../ui/badge";
 
 interface CarDetailsModalProps {
@@ -12,7 +18,7 @@ interface CarDetailsModalProps {
     name: string;
     model: string;
     pricePerDay: number;
-    imageUrl: string;
+    imageUrl: string[]; // Changed from imageUrl to imageUrl (array)
     fuelType: string;
     seats: number;
     transmission: string;
@@ -22,6 +28,8 @@ interface CarDetailsModalProps {
 }
 
 const CarModal = ({ isOpen, onClose, car }: CarDetailsModalProps) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0); // State to track the current image index
+
   // Map category to badge color
   const getCategoryBadgeColor = (category: string) => {
     switch (category) {
@@ -38,19 +46,53 @@ const CarModal = ({ isOpen, onClose, car }: CarDetailsModalProps) => {
     }
   };
 
+  // Handle next image
+  const handleNextImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === car.imageUrl.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  // Handle previous image
+  const handlePreviousImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === 0 ? car.imageUrl.length - 1 : prevIndex - 1
+    );
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px]">
         <div className="space-y-4">
-          <div className="relative w-full">
+          {/* Carousel */}
+          <div className="relative w-full aspect-video">
             <Image
-              src={car.imageUrl}
-              alt={car.name}
-              height={1920}
-              width={1920}
-              className="object-fill rounded-lg"
+              src={car.imageUrl[currentImageIndex]}
+              alt={`${car.name} image ${currentImageIndex + 1}`}
+              fill
+              className="object-cover rounded-lg"
             />
+            {/* Previous Button */}
+            {car.imageUrl.length > 1 && (
+              <button
+                onClick={handlePreviousImage}
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+            )}
+            {/* Next Button */}
+            {car.imageUrl.length > 1 && (
+              <button
+                onClick={handleNextImage}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            )}
           </div>
+
+          {/* Car Details */}
           <div className="space-y-2">
             <div className="w-full flex justify-between items-center">
               <h2 className="text-2xl font-semibold">{car.name}</h2>
@@ -66,6 +108,8 @@ const CarModal = ({ isOpen, onClose, car }: CarDetailsModalProps) => {
               {car.description}
             </p>
           </div>
+
+          {/* Additional Car Info */}
           <div className="flex justify-between">
             <div className="flex gap-1 text-black dark:text-white text-sm items-center">
               <Fuel className="h-4 w-4 text-blue-600" />

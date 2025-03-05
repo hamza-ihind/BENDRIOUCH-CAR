@@ -62,10 +62,11 @@ export const PermisForm = ({ currentUser }: { currentUser: any }) => {
       ) : (
         <div className="flex flex-col items-center justify-center border border-color h-60 rounded-md mt-4">
           <FileUpload
-            endpoint="permis"
-            onChange={(url) => {
-              if (url) {
-                handleImageUpload(url.url);
+            endpoint="carImage"
+            onChange={(fileData) => {
+              if (fileData.length > 0) {
+                const newImageUrl = fileData.map((file) => file.url);
+                handleImageUpload(newImageUrl[0]);
               }
             }}
           />

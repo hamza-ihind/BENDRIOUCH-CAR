@@ -128,7 +128,7 @@ const ReservationPDF = ({
       <View style={styles.section}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Img
-            src={selectedCar?.imageUrl || "/placeholder-car.png"}
+            src={selectedCar?.imageUrl[0] || "/placeholder-car.png"}
             style={styles.carImage}
           />
           <View>
@@ -250,7 +250,7 @@ const ConfirmationStep = ({
         <h4 className="text-2xl font-semibold mb-4">Détails de la Voiture</h4>
         <div className="flex items-center mb-4">
           <Image
-            src={selectedCar.imageUrl || "/placeholder-car.png"}
+            src={selectedCar.imageUrl[0] || "/placeholder-car.png"}
             alt={selectedCar.name || "Car Image"}
             className="rounded-lg"
             width={150}
