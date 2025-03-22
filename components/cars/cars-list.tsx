@@ -1,10 +1,8 @@
-"use client";
-
 import React from "react";
 import CarCard from "./car-card";
 import { Car } from "@prisma/client";
-import axios from "axios";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 interface CarsListProps {
   cars: Car[];
@@ -13,9 +11,15 @@ interface CarsListProps {
 const CarsList = ({ cars }: CarsListProps) => {
   const router = useRouter();
 
-  console.log("cars", cars);
+  if (cars === null) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <p className="text-center text-gray-500 text-lg">Loading cars...</p>
+      </div>
+    );
+  }
 
-  if (!cars || cars.length === 0) {
+  if (cars.length === 0) {
     return (
       <div className="flex justify-center items-center h-full">
         <p className="text-center text-gray-500 text-lg">
@@ -39,7 +43,7 @@ const CarsList = ({ cars }: CarsListProps) => {
 
   return (
     <div className="w-full grid grid-cols-3 max-md:grid-cols-1 max-xl:grid-cols-2 gap-6">
-      {cars.map((car) => (
+      {cars.map((car: Car) => (
         <CarCard
           key={car.id}
           id={car.id}

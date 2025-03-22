@@ -38,7 +38,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json(cars);
   } catch (error) {
-    console.log("[CARS_GET]", error);
+    console.error("[CARS_GET]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

@@ -25,6 +25,8 @@ const Page = () => {
   const [isFilterVisible, setIsFilterVisible] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
+  console.log("filteredCars", filteredCars);
+
   useEffect(() => {
     const fetchCars = async () => {
       try {
