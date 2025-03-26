@@ -117,9 +117,9 @@ const Navbar: React.FC = () => {
     <header className="flex h-16 w-full shrink-0 items-center px-48 max-lg:px-8 z-50 backdrop-blur-[50px] fixed justify-between border-b border-solid border-gray-800 ">
       <SidebarTrigger className="xl:hidden" />
 
-      <div className="w-[150px] max-xl:hidden">
+      <div className="w-[70px] max-xl:hidden">
         <Link href="/">
-          <Image height={130} width={130} alt="logo" src="/logoipsum.svg" />
+          <Image height={80} width={80} alt="logo" src="/logo.png" />
         </Link>
       </div>
       <div className="flex w-full justify-start ml-8">
