@@ -3,9 +3,7 @@
 import React, { useState } from "react";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
-import { Separator } from "../ui/separator";
 import { Antenna, Armchair, Fuel } from "lucide-react";
-import { useRouter } from "next/navigation";
 import CarModal from "./car-modal";
 
 interface CarProps {
@@ -41,65 +39,83 @@ const CarCard = ({
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <div className="w-full h-fit border border-color p-4 rounded-xl">
-      <div className="py-4">
+    <div className="group bg-white dark:bg-neutral-900 rounded-2xl shadow-lg border border-gray-100 dark:border-neutral-800 overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] hover:border-yellow-200 dark:hover:border-yellow-600">
+      {/* Image Section */}
+      <div className="relative overflow-hidden">
         <Image
-          alt="image"
+          alt={`${name} ${model}`}
           src={imageUrl[0]}
           width={720}
           height={720}
-          className="w-full h-40 object-cover"
+          className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
         />
-      </div>
-      <div className="w-full flex justify-between">
-        <div className="flex flex-col items-start">
-          <p className="text-black dark:text-white text-xl font-semibold">
-            {name}
-          </p>
-          <p className="text-gray-400 dark:text-white text-sm font-normal">
-            {model}
-          </p>
-        </div>
-        <div className="flex items-end gap-1 text-gray-400 text-sm">
-          <span className="text-black dark:text-white text-base font-semibold">
-            {String(pricePerDay)} €
-          </span>
-          /jour
+        <div className="absolute top-4 right-4">
+          <Badge
+            variant="secondary"
+            className="bg-white/90 dark:bg-neutral-800/90 text-gray-800 dark:text-gray-200 backdrop-blur-sm"
+          >
+            {category === "FOUR_BY_FOUR" ? "4x4" : category.charAt(0) + category.slice(1).toLowerCase()}
+          </Badge>
         </div>
       </div>
-      {/* Limit description to 3 lines */}
-      <p className="mt-2 text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
-        {description}
-      </p>
-      <Separator className="my-4" />
-      <div className="flex justify-between">
-        <div className="flex gap-1 text-black dark:text-white text-sm items-center">
-          <Fuel className="h-4 w-4 text-blue-600" />
-          {fuelType}
+
+      {/* Content Section */}
+      <div className="p-6">
+        <div className="flex justify-between items-start mb-3">
+          <div>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">
+              {name}
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400 text-sm">
+              {model}
+            </p>
+          </div>
+          <div className="text-right">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+              {String(pricePerDay)}€
+            </div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              /jour
+            </div>
+          </div>
         </div>
-        <div className="flex gap-1 text-black dark:text-white text-sm items-center">
-          <Armchair className="h-4 w-4 text-blue-600" />
-          {seats}
+
+        {/* Description */}
+        <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2 leading-relaxed">
+          {description}
+        </p>
+
+        {/* Features */}
+        <div className="flex justify-between items-center mb-6 p-3 bg-gray-50 dark:bg-neutral-800 rounded-lg">
+          <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-sm">
+            <Fuel className="h-4 w-4 text-yellow-500" />
+            <span>{fuelType}</span>
+          </div>
+          <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-sm">
+            <Armchair className="h-4 w-4 text-yellow-500" />
+            <span>{seats} places</span>
+          </div>
+          <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-sm">
+            <Antenna className="h-4 w-4 text-yellow-500" />
+            <span>{transmission === "Automatic" ? "Auto" : "Manuel"}</span>
+          </div>
         </div>
-        <div className="flex gap-1 text-black dark:text-white text-sm items-center">
-          <Antenna className="h-4 w-4 text-blue-600" />
-          {transmission}
+
+        {/* Buttons */}
+        <div className="flex gap-3">
+          <button
+            onClick={onReserve}
+            className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-semibold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105"
+          >
+            Réserver
+          </button>
+          <button
+            onClick={openModal}
+            className="px-4 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors duration-300"
+          >
+            Détails
+          </button>
         </div>
-      </div>
-      {/* Buttons for Reserve and Details */}
-      <div className="mt-4 flex gap-2">
-        <button
-          onClick={onReserve}
-          className="w-1/2 bg-yellow-400 text-black py-2 rounded-lg"
-        >
-          Réserver
-        </button>
-        <button
-          onClick={openModal}
-          className="w-1/2 bg-gray-200 text-black py-2 rounded-lg hover:bg-gray-300"
-        >
-          Voir les détails
-        </button>
       </div>
 
       {/* Modal for full details */}

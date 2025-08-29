@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: "Gantari", sans-serif;
 }
 
 @layer base {
@@ -74,4 +74,55 @@ body {
   .border-color {
     @apply border-gray-200;
   }
+}
+
+@layer components {
+  /* Full-height section configuration */
+  .page-config {
+    @apply min-h-screen w-full flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 py-16 lg:py-20;
+  }
+
+  /* Full-width section that breaks out of container */
+  .full-width-section {
+    @apply w-screen relative;
+    margin-left: calc(-50vw + 50%);
+  }
+
+  /* Enhanced feature cards */
+  .feature-card {
+    @apply bg-white dark:bg-neutral-900 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-neutral-800 transition-all duration-300 hover:shadow-lg hover:scale-105 hover:border-yellow-200 dark:hover:border-yellow-600;
+  }
+
+  /* Enhanced contact form styling */
+  .contact-form {
+    @apply bg-white dark:bg-neutral-900 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-neutral-800;
+  }
+
+  /* Improved button styles */
+  .cta-button {
+    @apply inline-flex items-center gap-x-2 py-3 px-6 bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 font-semibold text-sm text-neutral-800 rounded-full transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2;
+  }
+
+  /* Section spacing utilities */
+  .section-spacing {
+    @apply py-16 lg:py-24;
+  }
+
+  /* Container with max width */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Catalog specific styles */
+  .catalog-container {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Filter card styling */
+  .filter-card {
+    @apply bg-white dark:bg-neutral-900 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-neutral-800 sticky top-8;
+  }
+
+  /* Car card hover effects */
+
 }

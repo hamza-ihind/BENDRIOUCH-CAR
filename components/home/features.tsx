@@ -42,32 +42,36 @@ const features = [
 
 const Features: React.FC = () => {
   return (
-    <div className="w-full my-32">
-      <div className="max-w-screen-md mb-8 lg:mb-16">
-        <h2 className="mb-4 font-semibold text-gray-800 text-4xl lg:text-5xl dark:text-neutral-200">
-          Conçu pour les équipes d'affaires comme la vôtre
-        </h2>
-        <p className="p-text text-left text-gray-600 lg:w-[60%]">
-          Chez nous, nous nous concentrons sur des solutions de location de
-          voitures flexibles et pratiques pour toutes vos affaires.
-        </p>
-      </div>
-      <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 gap-16 md:space-y-0">
-        {features.map((feature, index) => (
-          <div key={index} className="w-full flex flex-col gap-2">
-            <div className="w-fit">
-              <IconBadge icon={feature.icon} size={"default"} />
+    <section className="page-config max-sm:px-8 md:px-12 lg:px-48 full-width-section bg-gray-50 dark:bg-neutral-900">
+        <div className="text-center mb-16">
+          <h2 className="mb-6 font-bold text-gray-900 text-4xl lg:text-5xl xl:text-6xl dark:text-white">
+            Conçu pour les équipes d'affaires comme la{" "}
+            <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+              vôtre
+            </span>
+          </h2>
+          <p className="text-xl text-gray-600 dark:text-neutral-300 max-w-3xl mx-auto leading-relaxed">
+            Chez nous, nous nous concentrons sur des solutions de location de
+            voitures flexibles et pratiques pour toutes vos affaires.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+          {features.map((feature, index) => (
+            <div key={index} className="feature-card group">
+              <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                <feature.icon className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-orange-500 transition-colors duration-300">
+                {feature.title}
+              </h3>
+              <p className="text-gray-600 dark:text-neutral-400 leading-relaxed">
+                {feature.description}
+              </p>
             </div>
-            <h3 className="mt-2 text-2xl font-bold dark:text-white">
-              {feature.title}
-            </h3>
-            <p className="text-gray-500 dark:text-gray-400">
-              {feature.description}
-            </p>
-          </div>
-        ))}
-      </div>
-    </div>
+          ))}
+        </div>
+    </section>
   );
 };
 

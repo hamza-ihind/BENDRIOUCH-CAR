@@ -71,24 +71,29 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="w-full px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-      <div className="max-w-xl mx-auto">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">
-            Contactez-nous
-          </h1>
-          <p className="mt-1 text-gray-600 dark:text-neutral-400">
-            Nous serions ravis de discuter de la façon dont nous pouvons vous
-            aider.
+    <section className="page-config max-sm:px-8 md:px-12 lg:px-48 full-width-section bg-gradient-to-br from-gray-50 via-white to-yellow-50 dark:from-neutral-900 dark:via-neutral-950 dark:to-neutral-800">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 bg-yellow-100 dark:bg-yellow-900/30 px-4 py-2 rounded-full mb-6">
+            <Mail className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
+            <span className="text-yellow-800 dark:text-yellow-300 font-medium">Contactez-nous</span>
+          </div>
+          <h2 className="mb-6 font-bold text-gray-900 text-4xl lg:text-5xl xl:text-6xl dark:text-white">
+            Nous serions ravis de{" "}
+            <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+              vous aider
+            </span>
+          </h2>
+          <p className="text-xl text-gray-600 dark:text-neutral-300 max-w-3xl mx-auto leading-relaxed">
+            Discutons de la façon dont nous pouvons répondre à vos besoins de location de voiture.
           </p>
         </div>
-      </div>
 
-      <div className="mt-12 max-w-lg mx-auto">
-        <div className="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-8 dark:border-neutral-700">
-          <h2 className="mb-8 text-xl font-semibold text-gray-800 dark:text-neutral-200">
-            Remplissez le formulaire
-          </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-start">
+          {/* Contact Form */}
+          <div className="contact-form">
+            <h3 className="mb-8 text-2xl font-bold text-gray-900 dark:text-white">
+              Remplissez le formulaire
+            </h3>
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -195,30 +200,42 @@ const ContactForm = () => {
               </Button>
             </form>
           </Form>
-        </div>
-      </div>
+          </div>
 
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl mx-auto">
-        <ContactInfoItem
-          icon={<Mail className="w-5 h-5" />}
-          title="Email"
-          details="contact@example.com"
-          link="mailto:contact@example.com"
-        />
-        <ContactInfoItem
-          icon={<Phone className="w-5 h-5" />}
-          title="Téléphone"
-          details="+33 1 23 45 67 89"
-          link="tel:+33123456789"
-        />
-        <ContactInfoItem
-          icon={<MapPin className="w-5 h-5" />}
-          title="Adresse"
-          details="123 Avenue des Champs-Élysées, Paris"
-          link="https://maps.google.com/?q=123+Avenue+des+Champs-Élysées,+Paris"
-        />
-      </div>
-    </div>
+          {/* Contact Information */}
+          <div className="space-y-8">
+            <div>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                Autres moyens de nous contacter
+              </h3>
+              <p className="text-gray-600 dark:text-neutral-300 mb-8">
+                Préférez-vous nous contacter directement ? Voici nos coordonnées.
+              </p>
+            </div>
+
+            <div className="space-y-6">
+              <ContactInfoItem
+                icon={<Mail className="w-6 h-6" />}
+                title="Email"
+                details="contact@bendriouchcar.com"
+                link="mailto:contact@bendriouchcar.com"
+              />
+              <ContactInfoItem
+                icon={<Phone className="w-6 h-6" />}
+                title="Téléphone"
+                details="+212 528 12 34 56"
+                link="tel:+212528123456"
+              />
+              <ContactInfoItem
+                icon={<MapPin className="w-6 h-6" />}
+                title="Adresse"
+                details="Avenue Mohammed V, Agadir, Maroc"
+                link="https://maps.google.com/?q=Avenue+Mohammed+V,+Agadir,+Maroc"
+              />
+            </div>
+          </div>
+        </div>
+    </section>
   );
 };
 

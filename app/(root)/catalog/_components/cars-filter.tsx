@@ -37,30 +37,42 @@ const CarsFilter: React.FC<CarsFilterProps> = ({ onFilter }) => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-xl font-bold text-gray-800 mb-4">
-        Options de Filtrage
-      </h2>
-      <p className="text-sm text-gray-600 mb-6">
-        Affinez votre recherche de voiture et enregistrez vos préférences
-      </p>
+    <div className="bg-white dark:bg-neutral-900 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-neutral-800 sticky top-8">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          Filtres
+        </h2>
+        <p className="text-sm text-gray-600 dark:text-gray-400">
+          Affinez votre recherche pour trouver la voiture parfaite
+        </p>
+      </div>
 
-      <div className="space-y-6">
+      <div className="space-y-8">
         {/* Category */}
         <div>
-          <h3 className="font-semibold text-gray-700 mb-2">Catégorie</h3>
+          <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center gap-2">
+            <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+            Catégorie
+          </h3>
           <RadioGroup
             defaultValue={category}
             onValueChange={(value) => {
               setCategory(value);
               handleFilterChange("category", value);
             }}
-            className="flex flex-col space-y-2"
+            className="flex flex-col space-y-3"
           >
             {["CITADINE", "BERLINE", "FOUR_BY_FOUR", "LUXE"].map((type) => (
-              <div key={type} className="flex items-center space-x-2">
-                <RadioGroupItem value={type} id={`category-${type}`} />
-                <Label htmlFor={`category-${type}`}>
+              <div key={type} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
+                <RadioGroupItem
+                  value={type}
+                  id={`category-${type}`}
+                  className="border-gray-300 dark:border-gray-600 text-yellow-400"
+                />
+                <Label
+                  htmlFor={`category-${type}`}
+                  className="text-gray-700 dark:text-gray-300 cursor-pointer flex-1"
+                >
                   {type === "FOUR_BY_FOUR"
                     ? "4x4"
                     : type.charAt(0) + type.slice(1).toLowerCase()}
@@ -72,7 +84,8 @@ const CarsFilter: React.FC<CarsFilterProps> = ({ onFilter }) => {
 
         {/* Fuel Type */}
         <div>
-          <h3 className="font-semibold text-gray-700 mb-2">
+          <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center gap-2">
+            <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
             Type de Carburant
           </h3>
           <RadioGroup
@@ -81,12 +94,21 @@ const CarsFilter: React.FC<CarsFilterProps> = ({ onFilter }) => {
               setFuelType(value);
               handleFilterChange("fuelType", value);
             }}
-            className="flex flex-col space-y-2"
+            className="flex flex-col space-y-3"
           >
             {["Diesel", "Essence"].map((type) => (
-              <div key={type} className="flex items-center space-x-2">
-                <RadioGroupItem value={type} id={`fuelType-${type}`} />
-                <Label htmlFor={`fuelType-${type}`}>{type}</Label>
+              <div key={type} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
+                <RadioGroupItem
+                  value={type}
+                  id={`fuelType-${type}`}
+                  className="border-gray-300 dark:border-gray-600 text-yellow-400"
+                />
+                <Label
+                  htmlFor={`fuelType-${type}`}
+                  className="text-gray-700 dark:text-gray-300 cursor-pointer flex-1"
+                >
+                  {type}
+                </Label>
               </div>
             ))}
           </RadioGroup>
@@ -94,19 +116,31 @@ const CarsFilter: React.FC<CarsFilterProps> = ({ onFilter }) => {
 
         {/* Transmission */}
         <div>
-          <h3 className="font-semibold text-gray-700 mb-2">Transmission</h3>
+          <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center gap-2">
+            <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+            Transmission
+          </h3>
           <RadioGroup
             defaultValue={transmission}
             onValueChange={(value) => {
               setTransmission(value);
               handleFilterChange("transmission", value);
             }}
-            className="flex flex-col space-y-2"
+            className="flex flex-col space-y-3"
           >
             {["Automatic", "Manual"].map((type) => (
-              <div key={type} className="flex items-center space-x-2">
-                <RadioGroupItem value={type} id={`transmission-${type}`} />
-                <Label htmlFor={`transmission-${type}`}>{type}</Label>
+              <div key={type} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
+                <RadioGroupItem
+                  value={type}
+                  id={`transmission-${type}`}
+                  className="border-gray-300 dark:border-gray-600 text-yellow-400"
+                />
+                <Label
+                  htmlFor={`transmission-${type}`}
+                  className="text-gray-700 dark:text-gray-300 cursor-pointer flex-1"
+                >
+                  {type === "Automatic" ? "Automatique" : "Manuelle"}
+                </Label>
               </div>
             ))}
           </RadioGroup>
@@ -115,7 +149,8 @@ const CarsFilter: React.FC<CarsFilterProps> = ({ onFilter }) => {
         {/* Clear Filters Button */}
         <Button
           onClick={clearFilters}
-          className="w-full bg-gray-200 text-black hover:bg-gray-300"
+          variant="outline"
+          className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-neutral-800 hover:border-yellow-400 dark:hover:border-yellow-400 transition-all duration-300"
         >
           Effacer les Filtres
         </Button>

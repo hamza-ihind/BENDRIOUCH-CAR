@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Gantari } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 // import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/utils/theme-provider";
 import { auth } from "@/auth";
 import { ToastProvider } from "@/components/providers/toaster-providers";
 
-const inter = Outfit({
+const gantari = Gantari({
   subsets: ["latin"],
-  variable: "--inter",
+  variable: "--gantari",
   display: "swap",
 });
 
@@ -49,7 +49,7 @@ export default async function RootLayout({
         ></script>
       </head>
       <body
-        className={`min-h-screen bg-background antialiased overflow-x-hidden ${inter.className} ${inter.variable}`}
+        className={`min-h-screen bg-background antialiased overflow-x-hidden ${gantari.className} ${gantari.variable}`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ToastProvider />
