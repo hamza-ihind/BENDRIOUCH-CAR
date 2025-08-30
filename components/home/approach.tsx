@@ -12,10 +12,10 @@ const Approche = () => {
             <span className="text-yellow-800 dark:text-yellow-300 font-medium">Notre Approche</span>
           </div>
           <h2 className="mb-6 font-bold text-gray-900 text-4xl lg:text-5xl xl:text-6xl dark:text-white">
-            Suivez ces étapes simples pour{" "}
+            Suivez ces étapes pour{" "}
             <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-              réserver
-            </span>{" "}
+              réserver{" "}
+            </span>
             votre voiture facilement
           </h2>
         </div>
@@ -62,7 +62,7 @@ const Approche = () => {
               {/* End Icon */}
 
               {/* Right Content */}
-              <div className="flex-1 pb-16">
+              <div className="flex-1 pb-4">
                 <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                   Inscription ou connexion
                 </h4>
@@ -87,7 +87,7 @@ const Approche = () => {
               {/* End Icon */}
 
               {/* Right Content */}
-              <div className="flex-1 pb-16">
+              <div className="flex-1 pb-4">
                 <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                   Commencez une réservation
                 </h4>
@@ -112,7 +112,7 @@ const Approche = () => {
               {/* End Icon */}
 
               {/* Right Content */}
-              <div className="flex-1 pb-16">
+              <div className="flex-1 pb-4">
                 <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                   Choisissez la voiture
                 </h4>
@@ -136,7 +136,7 @@ const Approche = () => {
               {/* End Icon */}
 
               {/* Right Content */}
-              <div className="flex-1 pb-8">
+              <div className="flex-1 pb-4">
                 <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                   Confirmation rapide
                 </h4>
@@ -149,7 +149,7 @@ const Approche = () => {
             </div>
             {/* End Item 4 */}
 
-            <div className="pt-4">
+            <div>
               <button className="cta-button">
                 Commencez votre réservation
               </button>

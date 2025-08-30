@@ -71,7 +71,7 @@ const ContactForm = () => {
   };
 
   return (
-    <section className="page-config max-sm:px-8 md:px-12 lg:px-48 full-width-section bg-gradient-to-br from-gray-50 via-white to-yellow-50 dark:from-neutral-900 dark:via-neutral-950 dark:to-neutral-800">
+    <section id="contact" className="page-config max-sm:px-8 md:px-12 lg:px-48 full-width-section bg-gradient-to-br from-gray-50 via-white to-yellow-50 dark:from-neutral-900 dark:via-neutral-950 dark:to-neutral-800">
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 bg-yellow-100 dark:bg-yellow-900/30 px-4 py-2 rounded-full mb-6">
             <Mail className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />

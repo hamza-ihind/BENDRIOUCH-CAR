@@ -3,11 +3,9 @@ import React, { Suspense } from "react";
 
 const page = () => {
   return (
-    <div className="page-centered">
-      <Suspense>
-        <NewPasswordForm />
-      </Suspense>
-    </div>
+    <Suspense>
+      <NewPasswordForm />
+    </Suspense>
   );
 };
 

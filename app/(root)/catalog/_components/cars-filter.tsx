@@ -60,10 +60,10 @@ const CarsFilter: React.FC<CarsFilterProps> = ({ onFilter }) => {
               setCategory(value);
               handleFilterChange("category", value);
             }}
-            className="flex flex-col space-y-3"
+            className="flex flex-col"
           >
             {["CITADINE", "BERLINE", "FOUR_BY_FOUR", "LUXE"].map((type) => (
-              <div key={type} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
+              <div key={type} className="flex items-center space-x-3 rounded-lg hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
                 <RadioGroupItem
                   value={type}
                   id={`category-${type}`}
@@ -94,10 +94,10 @@ const CarsFilter: React.FC<CarsFilterProps> = ({ onFilter }) => {
               setFuelType(value);
               handleFilterChange("fuelType", value);
             }}
-            className="flex flex-col space-y-3"
+            className="flex flex-col"
           >
             {["Diesel", "Essence"].map((type) => (
-              <div key={type} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
+              <div key={type} className="flex items-center space-x-3 rounded-lg hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
                 <RadioGroupItem
                   value={type}
                   id={`fuelType-${type}`}
@@ -126,10 +126,10 @@ const CarsFilter: React.FC<CarsFilterProps> = ({ onFilter }) => {
               setTransmission(value);
               handleFilterChange("transmission", value);
             }}
-            className="flex flex-col space-y-3"
+            className="flex flex-col"
           >
             {["Automatic", "Manual"].map((type) => (
-              <div key={type} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
+              <div key={type} className="flex items-center space-x-3 rounded-lg hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
                 <RadioGroupItem
                   value={type}
                   id={`transmission-${type}`}

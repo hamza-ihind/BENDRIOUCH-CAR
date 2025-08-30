@@ -158,8 +158,19 @@ const LoginForm = () => {
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
-          <Button type="submit" className="w-full">
-            {showTwoFactor ? "Confirmer" : "Connectez-vous"}
+          <Button
+            type="submit"
+            className="w-full h-12 bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none"
+            disabled={isPending}
+          >
+            {isPending ? (
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
+                Connexion...
+              </div>
+            ) : (
+              showTwoFactor ? "Confirmer" : "Se connecter"
+            )}
           </Button>
         </form>
       </Form>

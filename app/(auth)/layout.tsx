@@ -14,17 +14,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-yellow-50 dark:from-neutral-900 dark:via-neutral-950 dark:to-neutral-800">
       <SidebarProvider defaultOpen={false}>
         <AppSidebar />
-        <div className="w-full flex flex-col justify-between h-[100vh]">
+        <div className="w-full flex flex-col min-h-screen">
           <Navbar />
-          <main className="h-full flex-col justify-between mb-20">
-            <div className="w-full z-20 max-md:px-4 ">{children}</div>
+          <main className="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div className="w-full max-w-md">
+              {children}
+            </div>
           </main>
           <Footer />
         </div>
       </SidebarProvider>
-    </>
+    </div>
   );
 }

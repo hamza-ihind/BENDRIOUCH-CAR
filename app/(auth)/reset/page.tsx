@@ -3,9 +3,7 @@ import React from "react";
 
 const ResetPage = () => {
   return (
-    <div className="w-full h-[100vh] flex justify-evenly items-center">
-      <ResetForm />
-    </div>
+    <ResetForm />
   );
 };
 

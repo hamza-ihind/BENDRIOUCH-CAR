@@ -127,14 +127,17 @@ const Hero: React.FC = () => {
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <button className="cta-button">
+                <a href="/catalog" className="cta-button">
                   <Car className="w-5 h-5" />
                   Réserver maintenant
-                </button>
-                <button className="inline-flex items-center gap-x-2 py-3 px-6 bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 font-semibold text-sm text-gray-800 dark:text-neutral-200 rounded-full hover:bg-gray-50 dark:hover:bg-neutral-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+                </a>
+                <a
+                  href="#contact"
+                  className="inline-flex items-center gap-x-2 py-3 px-6 bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 font-semibold text-sm text-gray-800 dark:text-neutral-200 rounded-full hover:bg-gray-50 dark:hover:bg-neutral-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+                >
                   <Phone className="w-5 h-5" />
                   Nous contacter
-                </button>
+                </a>
               </div>
             </div>
 
@@ -166,13 +169,25 @@ const Hero: React.FC = () => {
             {/* Background decoration */}
             <div className="absolute inset-0 bg-gradient-to-br from-yellow-100 to-orange-100 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-3xl transform rotate-3"></div>
 
-            <CardWrapper
-              headerTitle="Réservez votre voiture facilement"
-              headerLabel="Location de voiture à Agadir - Bendriouchcar"
-              backButtonHref="/catalog"
-              backButtonLabel="Voir les voitures disponibles"
-              className="h-fit min-w-full relative z-10 shadow-2xl"
-            >
+            {/* Custom Reservation Card */}
+            <div className="relative z-10 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-200/50 dark:border-neutral-700/50 overflow-hidden">
+              {/* Header */}
+              <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 border-b border-gray-100 dark:border-neutral-800 p-6">
+                <div className="text-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <Car className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                    Réservez votre voiture facilement
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    Location de voiture à Agadir - Bendriouchcar
+                  </p>
+                </div>
+              </div>
+
+              {/* Form Content */}
+              <div className="p-6">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -341,14 +356,36 @@ const Hero: React.FC = () => {
 
                 <Button
                   type="submit"
-                  className="w-full self-end justify-self-end"
+                  className="w-full h-12 bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50"
                   disabled={isSubmitting || !isValid}
                 >
-                  Confirmer
+                  {isSubmitting ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
+                      Réservation...
+                    </div>
+                  ) : (
+                    "Réserver maintenant"
+                  )}
                 </Button>
               </form>
             </Form>
-          </CardWrapper>
+
+              {/* Footer with link to catalog */}
+              <div className="mt-6 pt-6 border-t border-gray-100 dark:border-neutral-800 text-center">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                  Vous préférez explorer d'abord ?
+                </p>
+                <a
+                  href="/catalog"
+                  className="inline-flex items-center gap-2 text-yellow-600 dark:text-yellow-400 hover:text-orange-500 dark:hover:text-orange-400 font-medium transition-colors duration-300"
+                >
+                  <Car className="w-4 h-4" />
+                  Voir toutes nos voitures
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

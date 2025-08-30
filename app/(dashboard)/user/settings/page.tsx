@@ -8,6 +8,7 @@ import SectionTitle from "./_components/section-title";
 import PasswordForm from "./_components/password-form";
 import { PassportForm } from "./_components/passport-form";
 import { PermisForm } from "./_components/permis-form";
+import { Settings, CheckCircle, AlertCircle } from "lucide-react";
 
 const page = () => {
   const user = useCurrentUser();
@@ -15,74 +16,125 @@ const page = () => {
   const isUserOnboarded = user?.isOnboarded;
 
   return (
-    <div className="w-full z-20 flex flex-col p-16 max-md:px-4 max-md:py-28">
-      <DashboardPageTitle
-        title="Mon Profil"
-        description="Gérez et mettez à jour vos informations personnelles ici."
-      />
+    <div className="w-full space-y-8">
+      {/* Header Section */}
+      <div className="bg-white dark:bg-neutral-900 rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-neutral-800">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center">
+            <Settings className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              Mon Profil
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400">
+              Gérez et mettez à jour vos informations personnelles ici.
+            </p>
+          </div>
+        </div>
 
-      {/* Conditional Notice Section */}
-      <div
-        className={`mt-4 p-4 border rounded-md ${
-          isUserOnboarded
-            ? "bg-green-100 border-green-300 text-green-800"
-            : "bg-yellow-100 border-yellow-300 text-yellow-800"
-        }`}
-      >
-        <h3 className="font-semibold text-lg">
-          {isUserOnboarded
-            ? "Vous êtes onboardé et pouvez maintenant faire une réservation !"
-            : "Complétez vos informations pour réserver une voiture"}
-        </h3>
-        <p>
-          {isUserOnboarded
-            ? "Toutes vos informations sont à jour. Vous êtes prêt à effectuer une réservation de voiture."
-            : "Afin de pouvoir effectuer une réservation, vous devez mettre à jour votre photo, votre permis de conduire, votre passeport et votre mot de passe. Assurez-vous que toutes les informations sont à jour pour valider votre réservation."}
-        </p>
+        {/* Status Notice */}
+        <div
+          className={`p-6 rounded-xl border-2 ${
+            isUserOnboarded
+              ? "bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-green-200 dark:border-green-800"
+              : "bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border-yellow-200 dark:border-yellow-800"
+          }`}
+        >
+          <div className="flex items-start gap-4">
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+              isUserOnboarded
+                ? "bg-green-500"
+                : "bg-yellow-500"
+            }`}>
+              {isUserOnboarded ? (
+                <CheckCircle className="w-5 h-5 text-white" />
+              ) : (
+                <AlertCircle className="w-5 h-5 text-white" />
+              )}
+            </div>
+            <div className="flex-1">
+              <h3 className={`font-bold text-lg mb-2 ${
+                isUserOnboarded
+                  ? "text-green-800 dark:text-green-200"
+                  : "text-yellow-800 dark:text-yellow-200"
+              }`}>
+                {isUserOnboarded
+                  ? "Profil Complet ✨"
+                  : "Complétez votre profil"}
+              </h3>
+              <p className={`leading-relaxed ${
+                isUserOnboarded
+                  ? "text-green-700 dark:text-green-300"
+                  : "text-yellow-700 dark:text-yellow-300"
+              }`}>
+                {isUserOnboarded
+                  ? "Excellent ! Toutes vos informations sont à jour. Vous êtes prêt à effectuer une réservation de voiture."
+                  : "Pour pouvoir effectuer une réservation, veuillez compléter votre photo, permis de conduire, passeport et mot de passe."}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <Separator />
 
       {/* Personal Information Section */}
-      <div className="w-full grid grid-cols-[1fr_3fr] space-x-24 max-2xl:grid-cols-1 max-2xl:space-x-0 max-2xl:space-y-4">
-        <SectionTitle
-          title="Informations personnelles"
-          description="Mettez à jour votre photo et vos informations personnelles"
-        />
-        <PersonalInfoForm currentUser={user} />
+      <div className="bg-white dark:bg-neutral-900 rounded-2xl shadow-lg border border-gray-100 dark:border-neutral-800 overflow-hidden">
+        <div className="p-6 border-b border-gray-100 dark:border-neutral-800">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+            Informations personnelles
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">
+            Mettez à jour votre photo et vos informations personnelles
+          </p>
+        </div>
+        <div className="p-6">
+          <PersonalInfoForm currentUser={user} />
+        </div>
       </div>
-
-      <Separator />
 
       {/* Permis de conduire Section */}
-      <div className="mt-8 w-full grid grid-cols-[1fr_3fr] space-x-24 max-2xl:grid-cols-1 max-2xl:space-x-0 max-2xl:space-y-4">
-        <SectionTitle
-          title="Permis de conduire"
-          description="Mettez à jour votre permis de conduire"
-        />
-        <PermisForm currentUser={user} />
+      <div className="bg-white dark:bg-neutral-900 rounded-2xl shadow-lg border border-gray-100 dark:border-neutral-800 overflow-hidden">
+        <div className="p-6 border-b border-gray-100 dark:border-neutral-800">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+            Permis de conduire
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">
+            Mettez à jour votre permis de conduire
+          </p>
+        </div>
+        <div className="p-6">
+          <PermisForm currentUser={user} />
+        </div>
       </div>
-
-      <Separator />
 
       {/* Passeport Section */}
-      <div className="mt-8 w-full grid grid-cols-[1fr_3fr] space-x-24 max-2xl:grid-cols-1 max-2xl:space-x-0 max-2xl:space-y-4">
-        <SectionTitle
-          title="Passeport"
-          description="Mettez à jour votre passeport"
-        />
-        <PassportForm currentUser={user} />
+      <div className="bg-white dark:bg-neutral-900 rounded-2xl shadow-lg border border-gray-100 dark:border-neutral-800 overflow-hidden">
+        <div className="p-6 border-b border-gray-100 dark:border-neutral-800">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+            Passeport
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">
+            Mettez à jour votre passeport
+          </p>
+        </div>
+        <div className="p-6">
+          <PassportForm currentUser={user} />
+        </div>
       </div>
 
-      <Separator />
-
       {/* Mot de passe Section */}
-      <div className="mt-8 w-full grid grid-cols-[1fr_3fr] space-x-24 max-2xl:grid-cols-1 max-2xl:space-x-0 max-2xl:space-y-4">
-        <SectionTitle
-          title="Mot de passe"
-          description="Veuillez entrer votre mot de passe actuel pour changer votre mot de passe"
-        />
-        <PasswordForm user={user} />
+      <div className="bg-white dark:bg-neutral-900 rounded-2xl shadow-lg border border-gray-100 dark:border-neutral-800 overflow-hidden">
+        <div className="p-6 border-b border-gray-100 dark:border-neutral-800">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+            Mot de passe
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">
+            Veuillez entrer votre mot de passe actuel pour changer votre mot de passe
+          </p>
+        </div>
+        <div className="p-6">
+          <PasswordForm user={user} />
+        </div>
       </div>
     </div>
   );
