@@ -54,11 +54,11 @@ export async function PATCH(req: Request) {
     const { firstName, lastName, phone, image, city, country, birthday } =
       values;
 
+    // Calculer isOnboarded basé sur les champs essentiels (image optionnelle)
     const isOnboarded =
       !!firstName &&
       !!lastName &&
       !!phone &&
-      !!image &&
       !!city &&
       !!country &&
       !!birthday;
